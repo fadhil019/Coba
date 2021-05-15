@@ -1,0 +1,33 @@
+php artisan make:migration create_periode_table --create=periode
+php artisan make:migration create_data_keuangan_pasien_table --create=data_keuangan_pasien
+php artisan make:migration create_daftar_ruang_kelas_table --create=daftar_ruang_kelas
+php artisan make:migration create_dokter_table --create=dokter
+php artisan make:migration create_karyawan_perawat_table --create=karyawan_perawat
+php artisan make:migration create_daftar_kategori_tindakan_table --create=daftar_kategori_tindakan
+php artisan make:migration create_daftar_deskripsi_tindakan_table --create=daftar_deskripsi_tindakan
+php artisan make:migration create_rekap_data_table --create=rekap_data
+
+php artisan make:migration create_data_sementara_table --create=data_sementara
+php artisan make:migration create_data_pasien_table --create=data_pasien
+php artisan make:migration create_data_detail_tindakan_pasien_table --create=data_detail_tindakan_pasien
+php artisan make:migration create_proses_perhitungan_ke_satu_table --create=proses_perhitungan_ke_satu
+php artisan make:migration create_proses_perhitungan_ke_dua_table --create=proses_perhitungan_ke_dua
+php artisan make:migration create_proses_perhitungan_ke_tiga_table --create=proses_perhitungan_ke_tiga
+php artisan make:migration create_proses_perhitungan_ke_empat_table --create=proses_perhitungan_ke_empat
+
+
+
+php artisan make:migration create_karyawan_penunjang_table --create=karyawan_penunjang
+php artisan make:migration create_karyawan_admin_table --create=karyawan_admin
+php artisan make:migration create_upah_jp_perawat_table --create=upah_jp_perawat
+php artisan make:migration create_proses_jp_perawat_table --create=proses_jp_perawat
+php artisan make:migration create_upah_jp_penunjang_table --create=upah_jp_penunjang
+php artisan make:migration create_proses_jp_penunjang_table --create=proses_jp_penunjang
+php artisan make:migration create_upah_jp_admin_table --create=upah_jp_admin
+php artisan make:migration create_proses_jp_admin_table --create=proses_jp_admin
+php artisan make:migration create_point_karyawan_table --create=point_karyawan
+
+php artisan make:migration create_proses_perhitungan_table --create=proses_perhitungan
+php artisan make:migration create_rekap_data_table --create=rekap_data
+php artisan make:migration create_variable_rumus_table --create=variable_rumus
+php artisan make:migration create_variable_rumus_detail_table --create=variable_rumus_detail
