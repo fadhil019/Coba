@@ -31,7 +31,7 @@ Route::resource('data_pasien','DataPasienController');
 Route::resource('data_tindakan_pasien','DataTindakanPasienController');
 Route::resource('rekap_data','RekapDataController');
 Route::resource('variable_rumus','variableRumusController');
-Route::resource('variable_rumus_detail','variableRumusDetailController');
+Route::resource('dasboard','DashboardController');
 
 
 Route::post('import_data_keuangan_pasien','DataKeuanganPasienController@import')->name('data_keuangan_pasien.import');
@@ -91,6 +91,9 @@ Route::get('show_detail_proses_perhitungan_rawat_jalan/{id_periode}/{id_ruangan}
 // Rekap data
 Route::get('periode_rekap_data','RekapDataController@periode_rekap_data');
 Route::get('daftar_rekap_data/{id}','RekapDataController@daftar_rekap_data');
+
+// Dashboard
+Route::get('daftar_dashboard/{id}','DashboardController@daftar_dashboard');
 
 // Rumus
 Route::get('daftar_rumus_kategori/{id}','VariableRumusController@daftar_rumus_kategori');

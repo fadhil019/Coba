@@ -91,12 +91,6 @@
         <p>Daftar deskripsi tindakan</p>
     </a>
 </li>
-<li class="nav-item">
-    <a href="{{ url('periode_rekap_data')}}" class="nav-link">
-    <i class="nav-icon fas fa-times"></i>
-        <p>Rekap data</p>
-    </a>
-</li>
 <li class="nav-item has-treeview menu-close">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user"></i>
@@ -197,15 +191,15 @@
     </ul>
 </li>
 <li class="nav-item">
-    <a href="{{ url('/')}}" class="nav-link">
+    <a href="{{ url('daftar_dashboard/'. date('Y') )}}" class="nav-link">
     <i class="nav-icon fas fa-star"></i>
         <p>Dasboard</p>
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{ url('/')}}" class="nav-link">
-    <i class="nav-icon fas fa-star"></i>
-        <p>Report</p>
+    <a href="{{ url('periode_rekap_data')}}" class="nav-link">
+    <i class="nav-icon fas fa-check"></i>
+        <p>Rekap data</p>
     </a>
 </li>
 <hr>

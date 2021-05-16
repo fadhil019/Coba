@@ -60,11 +60,13 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
-                            <td>No</td>
-                            <td>Nama dokter</td>
-                            <td>Upah jasa pelayanan</td>
-                        </tr>
+                        @for ($i=0; $i < count($rekap_data_dokters); $i++)
+                            <tr>
+                                <td>{{ $i+1 }}</td>
+                                <td>{{ $rekap_data_dokters[$i]['nama_dokter'] }}</td>
+                                <td>{{ $rekap_data_dokters[$i]['upah_jasa'] }}</td>
+                            </tr>
+                        @endfor
                     </tbody> 
                 </table>
             </div>
@@ -99,18 +101,20 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Nama dokter</th>
+                            <th>Nama kategori</th>
                             <th>Bagian</th>
                             <th>Upah jasa pelayanan</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
-                            <td>No</td>
-                            <td>Nama dokter</td>
-                            <td>Bagian</td>
-                            <td>Upah jasa pelayanan</td>
-                        </tr>
+                        @for ($i=0; $i < count($rekap_data_kategori_tindakans); $i++)
+                            <tr>
+                                <td>{{ $i+1 }}</td>
+                                <td>{{ $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan'] }}</td>
+                                <td>{{ $rekap_data_kategori_tindakans[$i]['bagian_kategori_tindakan'] }}</td>
+                                <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] }}</td>
+                            </tr>
+                        @endfor
                     </tbody> 
                 </table>
             </div>

@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User;
 use App\Periode;
-use App\RekapData;
 
-class RekapDataController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -86,25 +84,12 @@ class RekapDataController extends Controller
         //
     }
 
-    public function periode_rekap_data()
+    public function daftar_dashboard($tahun)
     {
         $data_periode = new Periode();
-        $data_periodes = $data_periode->SelectPeriodeDESC();
+        $data_periodes = $data_periode->SelectPeriode();
 
-        return view('rekap_data.periode_rekap_data', compact('data_periodes'));
-    }
-
-    public function daftar_rekap_data($id_periode)
-    {
-        $data_periode = new Periode();
-        $data_periodes = $data_periode->ShowPeriode($id_periode);
-
-        $rekap_data_dokter = new RekapData();
-        $rekap_data_dokters = $rekap_data_dokter->SelectRekapDataDokterPerPeriode($id_periode);
-
-        $rekap_data_kategori_tindakan = new RekapData();
-        $rekap_data_kategori_tindakans = $rekap_data_kategori_tindakan->SelectRekapDataKategoriTindakanPerPeriode($id_periode);
-
-        return view('rekap_data.daftar_rekap_data', compact('data_periodes', 'rekap_data_dokters', 'rekap_data_kategori_tindakans'));
+        $tahun = $tahun;
+        return view('dashboard.index', compact('data_periodes', 'tahun'));
     }
 }

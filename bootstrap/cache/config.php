@@ -177,7 +177,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\framework/cache/data',
+        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -407,7 +407,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\framework/laravel-excel',
+      'local_path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\framework/laravel-excel',
       'remote_disk' => NULL,
       'remote_prefix' => NULL,
       'force_resync_remote' => NULL,
@@ -422,12 +422,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\app',
+        'root' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\app/public',
+        'root' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -473,13 +473,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\logs/laravel.log',
+        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\logs/laravel.log',
+        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -529,7 +529,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\logs/laravel.log',
+        'path' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -552,7 +552,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\resources\\views/vendor/mail',
+        0 => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\resources\\views/vendor/mail',
       ),
     ),
     'log_channel' => NULL,
@@ -631,7 +631,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\framework/sessions',
+    'files' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -651,9 +651,9 @@
   array (
     'paths' => 
     array (
-      0 => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\resources\\views',
+      0 => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\resources\\views',
     ),
-    'compiled' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL\\storage\\framework\\views',
+    'compiled' => 'D:\\PROJECT\\KERJAAN\\TA-FADHIL-NEW\\storage\\framework\\views',
   ),
   'flare' => 
   array (
