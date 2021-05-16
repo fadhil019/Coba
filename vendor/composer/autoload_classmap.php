@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Dashboard' => $baseDir . '/app/Dashboard.php',
     'App\\DataKeuanganPasien' => $baseDir . '/app/DataKeuanganPasien.php',
     'App\\DataPasien' => $baseDir . '/app/DataPasien.php',
     'App\\DataSementara' => $baseDir . '/app/DataSementara.php',
@@ -21,6 +22,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\DashboardController' => $baseDir . '/app/Http/Controllers/DashboardController.php',
     'App\\Http\\Controllers\\DataKeuanganPasienController' => $baseDir . '/app/Http/Controllers/DataKeuanganPasienController.php',
     'App\\Http\\Controllers\\DataPasienController' => $baseDir . '/app/Http/Controllers/DataPasienController.php',
     'App\\Http\\Controllers\\DataSementaraController' => $baseDir . '/app/Http/Controllers/DataSementaraController.php',
@@ -37,6 +39,7 @@ return array(
     'App\\Http\\Controllers\\RekapDataController' => $baseDir . '/app/Http/Controllers/RekapDataController.php',
     'App\\Http\\Controllers\\RuanganController' => $baseDir . '/app/Http/Controllers/RuanganController.php',
     'App\\Http\\Controllers\\VariableRumusController' => $baseDir . '/app/Http/Controllers/VariableRumusController.php',
+    'App\\Http\\Controllers\\VariableRumusDetailController' => $baseDir . '/app/Http/Controllers/VariableRumusDetailController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -64,6 +67,7 @@ return array(
     'App\\Ruangan' => $baseDir . '/app/Ruangan.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\VariableRumus' => $baseDir . '/app/VariableRumus.php',
+    'App\\VariableRumusDetail' => $baseDir . '/app/VariableRumusDetail.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',
     'Carbon\\CarbonImmutable' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonImmutable.php',
     'Carbon\\CarbonInterface' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonInterface.php',

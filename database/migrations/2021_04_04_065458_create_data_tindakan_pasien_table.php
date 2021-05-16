@@ -15,15 +15,20 @@ class CreateDataTindakanPasienTable extends Migration
     {
         Schema::create('data_tindakan_pasien', function (Blueprint $table) {
             $table->bigIncrements('id_data_tindakan_pasien');
-            $table->integer('jp')->nullable();
-            $table->string('nama_dokter_perawat')->nullable();
-            // $table->string('deskripsi_tindakan')->nullable();
+
+            $table->unsignedBigInteger('id_transaksi');
+            $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
+
             
-            $table->unsignedBigInteger('id_data_pasien')->unsigned();
-            $table->foreign('id_data_pasien')->references('id_data_pasien')->on('data_pasien')->onDelete('cascade');
+            $table->string('nama_dokter_perawat')->nullable();
 
             $table->unsignedBigInteger('id_deskripsi_tindakan')->nullable();
             $table->foreign('id_deskripsi_tindakan')->references('id_deskripsi_tindakan')->on('deskripsi_tindakan')->onDelete('cascade');
+
+            $table->integer('jp')->nullable();
+            // $table->string('deskripsi_tindakan')->nullable();
+
+            
             $table->timestamps();
         });
     }

@@ -523,6 +523,7 @@ class ComposerStaticInit3650069ee27d95536bf2464a37f17fac
 
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Dashboard' => __DIR__ . '/../..' . '/app/Dashboard.php',
         'App\\DataKeuanganPasien' => __DIR__ . '/../..' . '/app/DataKeuanganPasien.php',
         'App\\DataPasien' => __DIR__ . '/../..' . '/app/DataPasien.php',
         'App\\DataSementara' => __DIR__ . '/../..' . '/app/DataSementara.php',
@@ -537,6 +538,7 @@ class ComposerStaticInit3650069ee27d95536bf2464a37f17fac
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
         'App\\Http\\Controllers\\DataKeuanganPasienController' => __DIR__ . '/../..' . '/app/Http/Controllers/DataKeuanganPasienController.php',
         'App\\Http\\Controllers\\DataPasienController' => __DIR__ . '/../..' . '/app/Http/Controllers/DataPasienController.php',
         'App\\Http\\Controllers\\DataSementaraController' => __DIR__ . '/../..' . '/app/Http/Controllers/DataSementaraController.php',
@@ -553,6 +555,7 @@ class ComposerStaticInit3650069ee27d95536bf2464a37f17fac
         'App\\Http\\Controllers\\RekapDataController' => __DIR__ . '/../..' . '/app/Http/Controllers/RekapDataController.php',
         'App\\Http\\Controllers\\RuanganController' => __DIR__ . '/../..' . '/app/Http/Controllers/RuanganController.php',
         'App\\Http\\Controllers\\VariableRumusController' => __DIR__ . '/../..' . '/app/Http/Controllers/VariableRumusController.php',
+        'App\\Http\\Controllers\\VariableRumusDetailController' => __DIR__ . '/../..' . '/app/Http/Controllers/VariableRumusDetailController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -580,6 +583,7 @@ class ComposerStaticInit3650069ee27d95536bf2464a37f17fac
         'App\\Ruangan' => __DIR__ . '/../..' . '/app/Ruangan.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\VariableRumus' => __DIR__ . '/../..' . '/app/VariableRumus.php',
+        'App\\VariableRumusDetail' => __DIR__ . '/../..' . '/app/VariableRumusDetail.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonImmutable.php',
         'Carbon\\CarbonInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterface.php',

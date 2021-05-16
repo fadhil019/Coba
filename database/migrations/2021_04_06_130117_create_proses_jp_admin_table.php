@@ -15,6 +15,7 @@ class CreateProsesJpAdminTable extends Migration
     {
         Schema::create('proses_jp_admin', function (Blueprint $table) {
             $table->bigIncrements('id_proses_jp_admin');
+            $table->enum('kategori_variabel',['Admin rekam medis', 'Admin umum', 'Struktural'])->nullable();
             $table->double('iku')->nullable();
             $table->double('iki')->nullable();
             $table->double('pm')->nullable();
