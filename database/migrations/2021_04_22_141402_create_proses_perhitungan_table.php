@@ -22,6 +22,9 @@ class CreateProsesPerhitunganTable extends Migration
             $table->unsignedBigInteger('id_data_pasien');
             $table->foreign('id_data_pasien')->references('id_data_pasien')->on('data_pasien')->onDelete('cascade');
 
+            $table->unsignedBigInteger('id_transaksi');
+            $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
+
             $table->unsignedBigInteger('id_kategori_tindakan')->nullable();
             $table->foreign('id_kategori_tindakan')->references('id_kategori_tindakan')->on('kategori_tindakan')->onDelete('cascade');
 

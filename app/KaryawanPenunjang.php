@@ -22,7 +22,6 @@ class KaryawanPenunjang extends Model
         ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', '=', 'karyawan_penunjang.bagian')
         ->orderby('karyawan_penunjang.id_karyawan_penunjang', 'ASC')
         ->get();
-        // dd($data_karyawan_penunjang);
         return $data_karyawan_penunjang;
     }
 
@@ -76,7 +75,6 @@ class KaryawanPenunjang extends Model
         ->where('periode.id_periode', '=', $id_periode)
         ->orderby('karyawan_penunjang.id_karyawan_penunjang', 'ASC')
         ->get();
-        // dd($data_karyawan_penunjang);
         return $data_karyawan_penunjang;
     }
 

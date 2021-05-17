@@ -18,7 +18,6 @@ class CreateDataTindakanPasienTable extends Migration
 
             $table->unsignedBigInteger('id_transaksi');
             $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
-
             
             $table->string('nama_dokter_perawat')->nullable();
 
@@ -26,8 +25,6 @@ class CreateDataTindakanPasienTable extends Migration
             $table->foreign('id_deskripsi_tindakan')->references('id_deskripsi_tindakan')->on('deskripsi_tindakan')->onDelete('cascade');
 
             $table->integer('jp')->nullable();
-            // $table->string('deskripsi_tindakan')->nullable();
-
             
             $table->timestamps();
         });

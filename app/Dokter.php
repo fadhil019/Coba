@@ -27,7 +27,7 @@ class Dokter extends Model
             $data_dokter = $data_dokter->where('bagian', 'Spesialis');
         }
         $data_dokter = $data_dokter->orderby('dokter.id_dokter', 'ASC')->get();
-        // dd($data_dokter);
+        
         return $data_dokter;
     }
 

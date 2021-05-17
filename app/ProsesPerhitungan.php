@@ -17,7 +17,7 @@ class ProsesPerhitungan extends Model
     protected $primaryKey = "id_proses_perhitungan";
 
     // GIZI PASIEN
-    public function ShowGiziPasien($id_pasien) {
+    public function ShowGiziPasien($id_transaksi) {
         try {
             $data_kategori_gizi = DB::table('kategori_tindakan')
             ->where('nama', '=', 'GIZI')
@@ -25,7 +25,7 @@ class ProsesPerhitungan extends Model
             if(isset($data_kategori_gizi))
             {
                 $data_gizi_pasien = DB::table('proses_perhitungan')
-                ->where('id_data_pasien', '=', $id_pasien)
+                ->where('id_transaksi', '=', $id_transaksi)
                 ->where('id_kategori_tindakan', '=', $data_kategori_gizi->id_kategori_tindakan)
                 ->where('proses', '=', 'Ke 1')
                 ->first();
@@ -44,7 +44,7 @@ class ProsesPerhitungan extends Model
             if(isset($data_kategori_gizi))
             {
                 $data_gizi_pasien = DB::table('proses_perhitungan')
-                ->where('id_data_pasien', '=', $request->id_data_pasien)
+                ->where('id_transaksi', '=', $request->id_transaksi)
                 ->where('id_kategori_tindakan', '=', $data_kategori_gizi->id_kategori_tindakan)
                 ->where('proses', '=', 'Ke 1')
                 ->first();
@@ -62,6 +62,7 @@ class ProsesPerhitungan extends Model
                     $this->proses = 'Ke 1';
                     $this->jumlah_jp = $request->jumlah_jp;
                     $this->id_data_pasien = $request->id_data_pasien;
+                    $this->id_transaksi = $request->id_transaksi;
                     $this->id_ruangan = $request->id_ruangan;
                     $this->id_kategori_tindakan = $data_kategori_gizi->id_kategori_tindakan;
                     $this->created_at = now();
@@ -76,10 +77,10 @@ class ProsesPerhitungan extends Model
     }
 
     // ADM PASIEN
-    public function ShowAdmPasien($id_pasien) {
+    public function ShowAdmPasien($id_transaksi) {
         try {
             $data_adm_pasien = DB::table('proses_perhitungan')
-            ->where('id_data_pasien', '=', $id_pasien)
+            ->where('id_transaksi', '=', $id_transaksi)
             ->where('ket_kategori', '=', 'ADM')
             ->where('proses', '=', 'Ke 1')
             ->first();
@@ -93,7 +94,7 @@ class ProsesPerhitungan extends Model
     public function CreateAdmPasien(Request $request) {
         try {
             $data_adm_pasien = DB::table('proses_perhitungan')
-            ->where('id_data_pasien', '=', $request->id_data_pasien)
+            ->where('id_transaksi', '=', $request->id_transaksi)
             ->where('ket_kategori', '=', 'ADM')
             ->where('proses', '=', 'Ke 1')
             ->first();
@@ -111,6 +112,7 @@ class ProsesPerhitungan extends Model
                 $this->proses = 'Ke 1';
                 $this->jumlah_jp = $request->jumlah_jp;
                 $this->id_data_pasien = $request->id_data_pasien;
+                $this->id_transaksi = $request->id_transaksi;
                 $this->id_ruangan = $request->id_ruangan;
                 $this->created_at = now();
                 $this->updated_at = now();
@@ -124,11 +126,11 @@ class ProsesPerhitungan extends Model
     }
 
     // VISITE PASIEN
-    public function ShowVisitePasien($id_pasien) {
+    public function ShowVisitePasien($id_transaksi) {
         try {
             $data_visite_pasien = DB::table('proses_perhitungan')
             ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
-            ->where('id_data_pasien', '=', $id_pasien)
+            ->where('id_transaksi', '=', $id_transaksi)
             ->where('ket_kategori', '=', 'VISITE')
             ->where('proses', '=', 'Ke 1')
             ->get();
@@ -145,6 +147,7 @@ class ProsesPerhitungan extends Model
                 $this->proses = 'Ke 1';
                 $this->jumlah_jp = $request->jumlah_jp;
                 $this->id_data_pasien = $request->id_data_pasien;
+                $this->id_transaksi = $request->id_transaksi;
                 $this->id_dokter = $request->id_dokter;
                 $this->id_ruangan = $request->id_ruangan;
                 $this->created_at = now();
@@ -186,12 +189,12 @@ class ProsesPerhitungan extends Model
         $data_pasiens = $data_pasien->SelectDataPasienRawatInap($id_periode, $id_ruangan);
         $hasil = [];
         foreach($data_pasiens as $row) {
-
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'ADM')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -201,9 +204,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'GIZI')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -213,9 +217,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT IGD')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -225,9 +230,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT ICCU')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -237,9 +243,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT RPP')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -249,9 +256,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'KATEGORI TINDAKAN')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -261,9 +269,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'DOKTER')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -273,9 +282,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'VISITE')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -291,9 +301,10 @@ class ProsesPerhitungan extends Model
         $hasil = [];
         $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'ADM')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -303,9 +314,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'GIZI')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -315,9 +327,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT IGD')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -327,9 +340,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT ICCU')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -339,9 +353,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT RPP')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -351,10 +366,11 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', '=', 'proses_perhitungan.id_kategori_tindakan')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'KATEGORI TINDAKAN')
             ->get();
             $tmp_ke_1 = 0;
@@ -392,10 +408,11 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'DOKTER')
             ->get();
             // $tmp_dokter = 0;
@@ -440,10 +457,11 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'VISITE')
             ->get();
             $tmp_visite_ke_1 = 0;
@@ -497,9 +515,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'ADM')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -509,9 +528,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'TINDAKAN')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -521,9 +541,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'KATEGORI TINDAKAN')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -533,9 +554,10 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $row->id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'DOKTER')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -551,9 +573,10 @@ class ProsesPerhitungan extends Model
         $hasil = [];
         $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'ADM')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -563,9 +586,10 @@ class ProsesPerhitungan extends Model
             
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'TINDAKAN')
             ->get();
             foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
@@ -575,10 +599,11 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', '=', 'proses_perhitungan.id_kategori_tindakan')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'KATEGORI TINDAKAN')
             ->get();
             $tmp_ke_1 = 0;
@@ -611,10 +636,11 @@ class ProsesPerhitungan extends Model
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
             ->where('data_pasien.id_data_pasien', '=', $id_data_pasien)
             ->where('proses_perhitungan.id_ruangan', '=', $id_ruangan)
-            ->where('data_pasien.id_periode', '=', $id_periode)
+            ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'DOKTER')
             ->get();
 

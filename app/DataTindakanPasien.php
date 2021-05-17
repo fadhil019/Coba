@@ -17,13 +17,14 @@ class DataTindakanPasien extends Model
     protected $table = "data_tindakan_pasien";
     protected $primaryKey = "id_data_tindakan_pasien";
 
-    public function SelectDataTindakanPasien($id){
+    public function SelectDataTindakanPasien($id_transaksi){
         $data_data_tindakan_pasien = DB::table('data_tindakan_pasien')
-        ->select('*', 'data_tindakan_pasien.jp as jp', 'data_tindakan_pasien.nama_dokter_perawat as nama_dokter_perawat')
-        ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'data_tindakan_pasien.id_data_pasien')
+        ->join('transaksi', 'transaksi.id_transaksi', '=', 'data_tindakan_pasien.id_transaksi')
+        ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'transaksi.id_data_pasien')
         ->join('deskripsi_tindakan', 'deskripsi_tindakan.id_deskripsi_tindakan', '=', 'data_tindakan_pasien.id_deskripsi_tindakan')
         ->leftjoin('kategori_tindakan', 'deskripsi_tindakan.id_kategori_tindakan', '=', 'kategori_tindakan.id_kategori_tindakan')
-        ->where('data_tindakan_pasien.id_data_pasien', '=', $id)
+        ->where('data_tindakan_pasien.id_transaksi', '=', $id_transaksi)
+        ->select('*', 'data_tindakan_pasien.jp as jp', 'data_tindakan_pasien.nama_dokter_perawat as nama_dokter_perawat')
         ->orderby('data_tindakan_pasien.id_data_tindakan_pasien', 'ASC')
         ->get();
         // dd($data_data_tindakan_pasien);
@@ -34,7 +35,7 @@ class DataTindakanPasien extends Model
         try {
             $this->jp = $request->jp;
             $this->nama_dokter_perawat = $request->nama_dokter_perawat;
-            $this->id_data_pasien = $request->id_data_pasien;
+            $this->id_transaksi = $request->id_transaksi;
             $this->id_deskripsi_tindakan = $request->id_deskripsi_tindakan;
             $this->created_at = now();
             $this->updated_at = now();

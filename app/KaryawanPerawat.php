@@ -88,7 +88,6 @@ class KaryawanPerawat extends Model
         ->where('periode.id_periode', '=', $id_periode)
         ->orderby('karyawan_perawat.id_karyawan_perawat', 'ASC')
         ->get();
-        // dd($data_karyawan_perawat);
         return $data_karyawan_perawat;
     }
 

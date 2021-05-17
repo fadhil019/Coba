@@ -29,6 +29,7 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
     public function collection(Collection $collection)
     {
         $id_data_pasien = 0;
+    	$id_transaksi = 0;
         foreach($collection as $row)
         {
         	$user_kasir = $row[1];
@@ -44,6 +45,15 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
         	$deskripsi_tindakan = $row[11];
         	$qty = $row[12];
         	$jp = $row[13];
+
+        	$pasien = DB::table('data_pasien')->where('nama_pasien', $nama_pasien)->first();
+			if($pasien == null) {
+				$pasien = new Dokter();
+				$pasien->nama_pasien = $nama_pasien;
+				$pasien->penjamin = $penjamin;
+				$pasien->save();
+			}
+        	$id_data_pasien = $pasien->id_data_pasien;
 
 			if (strpos($nama_dokter_perawat, "dr") !== false) {
 				$bagian = "";
@@ -77,25 +87,30 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
 			}
 
         	if($row[0] != "") {
-	        	$data_pasien = new DataPasien();
-	        	$data_pasien->no_sep = $no_sep;
-	        	$data_pasien->user_kasir = $user_kasir;
-	        	$data_pasien->tgl_masuk = $tgl_masuk;
-	        	$data_pasien->tgl_keluar = $tgl_keluar;
-	        	$data_pasien->no_rm = $no_rm;
-	        	$data_pasien->nama_pasien = $nama_pasien;
-	        	$data_pasien->penjamin = $penjamin;
-	        	$data_pasien->reg_type = $reg_type;
-	        	$data_pasien->nama_dokter_perawat = $nama_dokter_perawat;
-	        	$data_pasien->kategori_ruangan = $ruangan;
-	        	$data_pasien->deskripsi_tindakan = $deskripsi_tindakan;
-	        	$data_pasien->jp = $jp;
-	        	$data_pasien->id_users = Auth::user()->id_users;
-	        	$data_pasien->id_periode = session('id_periode');
-	        	$data_pasien->id_ruangan = session('id_ruangan');
-	        	$data_pasien->save();
+        		$transaksi = new Transaksi();
+				$transaksi->id_data_pasien = $id_data_pasien;
+				$transaksi->no_sep = $no_sep;
+				$transaksi->reg_type = $reg_type;
+	        	$transaksi->id_users = Auth::user()->id_users;
+	        	$transaksi->id_periode = session('id_periode');
+	        	$transaksi->id_ruangan = session('id_ruangan');
+				$transaksi->save();
 
-	        	$id_data_pasien = $data_pasien->id_data_pasien;
+				$id_transaksi = $transaksi->id_transaksi;
+
+				$data_deskripsi_tindakan = DeskripsiTindakan::where('deskripsi_tindakan', '=', $deskripsi_tindakan)->first();
+    			if($data_deskripsi_tindakan == null) {
+    				$data_deskripsi_tindakan = new DeskripsiTindakan();
+    				$data_deskripsi_tindakan->deskripsi_tindakan = $deskripsi_tindakan;
+    				$data_deskripsi_tindakan->save();
+    			} 
+
+    			$data_tindakan_pasien = new DataTindakanPasien();
+    			$data_tindakan_pasien->jp = $jp;
+        		$data_tindakan_pasien->nama_dokter_perawat = $nama_dokter_perawat;
+        		$data_tindakan_pasien->id_transaksi = $id_transaksi;
+        		$data_tindakan_pasien->id_deskripsi_tindakan = $data_deskripsi_tindakan->id_deskripsi_tindakan;
+        		$data_tindakan_pasien->save();
         	} else {
         		if($jp !== 0) {
         			$data_deskripsi_tindakan = DeskripsiTindakan::where('deskripsi_tindakan', '=', $deskripsi_tindakan)->first();
@@ -108,7 +123,7 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
         			$data_tindakan_pasien = new DataTindakanPasien();
         			$data_tindakan_pasien->jp = $jp;
 	        		$data_tindakan_pasien->nama_dokter_perawat = $nama_dokter_perawat;
-	        		$data_tindakan_pasien->id_data_pasien = $id_data_pasien;
+	        		$data_tindakan_pasien->id_transaksi = $id_transaksi;
 	        		$data_tindakan_pasien->id_deskripsi_tindakan = $data_deskripsi_tindakan->id_deskripsi_tindakan;
 	        		$data_tindakan_pasien->save();
         		}
