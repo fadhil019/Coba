@@ -80,14 +80,14 @@
                                             <span aria-hidden="true">&times;</span></button>
                                         </div>
                                         <div class="modal-body">
-                                        <form method="POST" action="{{ route('data_pasien.update', $data_pasien_rawat_inaps[0]->id_data_pasien)}}" enctype="multipart/form-data">
+                                        <form method="POST" action="{{ route('data_pasien.update', $data_pasien_rawat_inaps[0]->id_transaksi)}}" enctype="multipart/form-data">
                                             @csrf
                                             {{ method_field('PUT') }}
                                             <div class="form-group">
                                                 <label for="Nama">Nama dokter DPJP</label>
-                                                <select class="form-control" name="id_dpjp">
+                                                <select class="form-control" name="id_dokter_dpjp">
                                                     @foreach($data_dokters as $data_dokter)
-                                                        <option value="{{ $data_dokter->id_dokter }}" @if($data_pasien_rawat_inaps[0]->id_dpjp == $data_dokter->id_dokter) selected @endif>{{ $data_dokter->nama_dokter }}</option>
+                                                        <option value="{{ $data_dokter->id_dokter }}" @if($data_pasien_rawat_inaps[0]->id_dokter_dpjp == $data_dokter->id_dokter) selected @endif>{{ $data_dokter->nama_dokter }}</option>
                                                     @endforeach
                                                 </select>                                
                                             </div>
@@ -164,7 +164,7 @@
                                     <div class="modal-body">
                                     <form method="POST" action="{{ url('buat_data_gizi_pasien')}}" enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" name="id_data_pasien" value="{{ $data_pasien_rawat_inaps[0]->id_data_pasien }}">
+                                        <input type="text" name="id_transaksi" value="{{ $data_pasien_rawat_inaps[0]->id_transaksi }}">
                                         <div class="form-group">
                                             <label for="Name">Jp</label><br>
                                             <input type="number" class="form-control" name="jumlah_jp" autofocus required>

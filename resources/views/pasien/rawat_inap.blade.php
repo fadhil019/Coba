@@ -87,12 +87,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Tanggal masuk</th>
-                            <th>Tanggal keluar</th>
-                            {{-- <th>Klinik</th> --}}
-                            {{-- <th>Ruangan</th> --}}
-                            {{-- <th>Nama dokter</th> --}}
-                            <th>Deskripsi</th>
+                            <th>Penjamin</th>
                             <th>DPJP</th>
                             <th>Tindakan</th>
                         </tr>
@@ -101,12 +96,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Tanggal masuk</th>
-                            <th>Tanggal keluar</th>
-                            {{-- <th>Klinik</th> --}}
-                            {{-- <th>Ruangan</th> --}}
-                            {{-- <th>Nama dokter</th> --}}
-                            <th>Deskripsi</th>
+                            <th>Penjamin</th>
                             <th>DPJP</th>
                             <th>Tindakan</th>
                         </tr>
@@ -116,12 +106,7 @@
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $data_pasien_rawat_inap->nama_pasien }}</td>
-                                <td>{{ $data_pasien_rawat_inap->tgl_masuk }}</td>
-                                <td>{{ $data_pasien_rawat_inap->tgl_keluar }}</td>
-                                {{-- <td>{{ $data_pasien_rawat_inap->reg_type }}</td> --}}
-                                {{-- <td>{{ $data_pasien_rawat_inap->kategori_ruangan }}</td> --}}
-                                {{-- <td>{{ $data_pasien_rawat_inap->nama_dokter_perawat }}</td> --}}
-                                <td>{{ $data_pasien_rawat_inap->deskripsi_tindakan }}</td>
+                                <td>{{ $data_pasien_rawat_inap->penjamin }}</td>
                                 <td>
                                     @if($data_pasien_rawat_inap->nama_dokter == "")
                                         

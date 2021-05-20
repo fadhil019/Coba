@@ -211,616 +211,689 @@ class ProsesPerhitunganController extends Controller
     }
 
     public function proses_perhitungan_rawat_inap($id_periode, $id_ruangan) {
-        $data_kategori_tindakan = new KategoriTindakan();
-        $data_kategori_tindakans = $data_kategori_tindakan->SelectKategoriTindakan();
+        try {
+            $data_kategori_tindakan = new KategoriTindakan();
+            $data_kategori_tindakans = $data_kategori_tindakan->SelectKategoriTindakan();
 
-        $data_dokter = new Dokter();
-        $data_dokters = $data_dokter->SelectDokter();
+            $data_dokter = new Dokter();
+            $data_dokters = $data_dokter->SelectDokter();
 
-        $data_pasien = new DataPasien();
-        $data_pasiens = $data_pasien->SelectDataPasienRawatInap($id_periode, $id_ruangan);
+            $data_pasien = new DataPasien();
+            $data_pasiens = $data_pasien->SelectDataPasienRawatInap($id_periode, $id_ruangan);
 
-        $hasil = [];
+            $hasil = [];
 
-        $proses_perhitungan = new ProsesPerhitungan;
+            $proses_perhitungan = new ProsesPerhitungan;
 
-        foreach($data_pasiens as $row) {
-            $biaya_adm = $proses_perhitungan->ShowAdmPasien($row->id_data_pasien);
-            if($biaya_adm == null) {
-                $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] = 0;
-            } else {
-                $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] = $biaya_adm->jumlah_jp;
-            }
-            $hasil[$row->id_data_pasien]['Ke 1']['total'] = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'];
-
-            $data_tindakan_pasien = new DataTindakanPasien();
-            $data_tindakan_pasiens = $data_tindakan_pasien->SelectDataTindakanPasien($row->id_data_pasien);
-
-            foreach ($data_tindakan_pasiens as $row_dtp) {
-                $karyawan_perawats = DB::table('karyawan_perawat')
-                    ->join('ruangan', 'karyawan_perawat.id_ruangan', '=', 'ruangan.id_ruangan')
-                    ->where('karyawan_perawat.nama', '=', $row_dtp->nama_dokter_perawat)
-                    ->where('ruangan.kategori_ruangan', '=', 'IGD')
-                    ->first();
-
-                if($karyawan_perawats != null) {
-                    // perawat igd
-                    if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'])) {
-                        $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] = $row_dtp->jp;
-                        $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
-                    } else {
-                        $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] += $row_dtp->jp;
-                        $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
-                    }
+            foreach($data_pasiens as $row) {
+                $biaya_adm = $proses_perhitungan->ShowAdmPasien($row->id_data_pasien);
+                if($biaya_adm == null) {
+                    $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] = 0;
                 } else {
-                    $karyawan_perawats = DB::table('karyawan_perawat')
-                        ->join('ruangan', 'karyawan_perawat.id_ruangan', '=', 'ruangan.id_ruangan')
-                        ->where('karyawan_perawat.nama', '=', $row_dtp->nama_dokter_perawat)
-                        ->where('ruangan.nama_ruangan', '=', 'ICCU')
-                        ->first();
+                    $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] = $biaya_adm->jumlah_jp;
+                }
+                $hasil[$row->id_data_pasien]['Ke 1']['total'] = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'];
 
-                    if($karyawan_perawats != null) {
-                        // perawat iccu
-                        if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'])) {
-                            $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] = $row_dtp->jp;
-                            $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                $data_tindakan_pasien = new DataTindakanPasien();
+                $data_tindakan_pasiens = $data_tindakan_pasien->SelectDataTindakanPasien($row->id_data_pasien);
+
+                foreach ($data_tindakan_pasiens as $row_dtp) {
+                    if($row_dtp->deskripsi_tindakan == "Administrasi Pasien IGD") {
+                        $dokter = DB::table('dokter')->where('nama_dokter', '=', $row_dtp->nama_dokter_perawat)->first();
+
+                        $biaya_dokter = 0;
+                        if($row_dtp->deskripsi_tindakan == "Administrasi Pasien IGD") {
+                            $biaya_dokter = 40000;
                         } else {
-                            $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] += $row_dtp->jp;
-                            $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                            $biaya_dokter = 0;
                         }
+
+                        $hasil[$row->id_data_pasien]['Ke 1']['dokter'][$dokter->id_dokter] = $biaya_dokter;
+                        $hasil[$row->id_data_pasien]['Ke 1']['total'] += $hasil[$row->id_data_pasien]['Ke 1']['dokter'][$dokter->id_dokter];
                     } else {
                         $karyawan_perawats = DB::table('karyawan_perawat')
                             ->join('ruangan', 'karyawan_perawat.id_ruangan', '=', 'ruangan.id_ruangan')
                             ->where('karyawan_perawat.nama', '=', $row_dtp->nama_dokter_perawat)
-                            ->where('ruangan.kategori_ruangan', '=', 'RPP')
+                            ->where('ruangan.kategori_ruangan', '=', 'IGD')
                             ->first();
 
                         if($karyawan_perawats != null) {
-                            // perawat rpp
-                            if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'])) {
-                                $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] = $row_dtp->jp;
+                            // perawat igd
+                            if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'])) {
+                                $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] = $row_dtp->jp;
                                 $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
                             } else {
-                                $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] += $row_dtp->jp;
+                                $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] += $row_dtp->jp;
                                 $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
                             }
                         } else {
-                            // kategori tindakan lainnya
-                            $hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'][$row_dtp->id_kategori_tindakan] = $row_dtp->jp;
+                            $karyawan_perawats = DB::table('karyawan_perawat')
+                                ->join('ruangan', 'karyawan_perawat.id_ruangan', '=', 'ruangan.id_ruangan')
+                                ->where('karyawan_perawat.nama', '=', $row_dtp->nama_dokter_perawat)
+                                ->where('ruangan.nama_ruangan', '=', 'ICCU')
+                                ->first();
 
-                            if(!isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row_dtp->id_kategori_tindakan])) {
-                                $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row_dtp->id_kategori_tindakan] = $row_dtp->jp;
-                                $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                            if($karyawan_perawats != null) {
+                                // perawat iccu
+                                if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'])) {
+                                    $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] = $row_dtp->jp;
+                                    $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                                } else {
+                                    $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] += $row_dtp->jp;
+                                    $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                                }
                             } else {
-                                $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row_dtp->id_kategori_tindakan] += $row_dtp->jp;
-                                $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
-                            }    
+                                $karyawan_perawats = DB::table('karyawan_perawat')
+                                    ->join('ruangan', 'karyawan_perawat.id_ruangan', '=', 'ruangan.id_ruangan')
+                                    ->where('karyawan_perawat.nama', '=', $row_dtp->nama_dokter_perawat)
+                                    ->where('ruangan.kategori_ruangan', '=', 'RPP')
+                                    ->first();
+
+                                if($karyawan_perawats != null) {
+                                    // perawat rpp
+                                    if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'])) {
+                                        $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] = $row_dtp->jp;
+                                        $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                                    } else {
+                                        $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] += $row_dtp->jp;
+                                        $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                                    }
+                                } else {
+                                    // kategori tindakan lainnya
+                                    $hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'][$row_dtp->id_kategori_tindakan] = $row_dtp->jp;
+
+                                    if(!isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row_dtp->id_kategori_tindakan])) {
+                                        $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row_dtp->id_kategori_tindakan] = $row_dtp->jp;
+                                        $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                                    } else {
+                                        $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row_dtp->id_kategori_tindakan] += $row_dtp->jp;
+                                        $hasil[$row->id_data_pasien]['Ke 1']['total'] += $row_dtp->jp;
+                                    }    
+                                }
+                            } 
                         }
-                    } 
+                    }
                 }
-            }
 
-            if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'])) {
-                $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] = 0;
-            }
+                if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'])) {
+                    $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] = 0;
+                }
 
-            if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'])) {
-                $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] = 0;
-            }
+                if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'])) {
+                    $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] = 0;
+                }
 
-            if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'])) {
-                $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] = 0;
-            }
+                if(!isset($hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'])) {
+                    $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] = 0;
+                }
 
-            $biaya_gizi = $proses_perhitungan->ShowGiziPasien($row->id_data_pasien);
-            if($biaya_gizi == null) {
-                $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] = 0;
-            } else {
-                $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] = $biaya_gizi->jumlah_jp;
-            }
-            $hasil[$row->id_data_pasien]['Ke 1']['total'] += $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'];
+                $biaya_gizi = $proses_perhitungan->ShowGiziPasien($row->id_data_pasien);
+                if($biaya_gizi == null) {
+                    $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] = 0;
+                } else {
+                    $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] = $biaya_gizi->jumlah_jp;
+                }
+                $hasil[$row->id_data_pasien]['Ke 1']['total'] += $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'];
 
-            $dokter = DB::table('dokter')->where('nama_dokter', '=', $row->nama_dokter_perawat)->first();
+                $data_visite_pasien = DB::table('proses_perhitungan')
+                ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
+                ->where('id_data_pasien', '=', $row->id_data_pasien)
+                ->where('ket_kategori', '=', 'VISITE')
+                ->where('proses', '=', 'Ke 1')
+                ->get();
 
-            $biaya_dokter = 0;
-            if($row->deskripsi_tindakan == "Administrasi Pasien IGD") {
-                $biaya_dokter = 40000;
-            } else {
-                $biaya_dokter = 0;
-            }
-
-            $hasil[$row->id_data_pasien]['Ke 1']['dokter'][$dokter->id_dokter] = $biaya_dokter;
-            $hasil[$row->id_data_pasien]['Ke 1']['total'] += $hasil[$row->id_data_pasien]['Ke 1']['dokter'][$dokter->id_dokter];
-
-            $data_visite_pasien = DB::table('proses_perhitungan')
-            ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
-            ->where('id_data_pasien', '=', $row->id_data_pasien)
-            ->where('ket_kategori', '=', 'VISITE')
-            ->where('proses', '=', 'Ke 1')
-            ->get();
-
-            foreach($data_visite_pasien as $row_visite) {
-                $hasil[$row->id_data_pasien]['Ke 1']['visite'][$row_visite->id_dokter] = $row_visite->jumlah_jp;
-                $hasil[$row->id_data_pasien]['Ke 1']['total'] += $hasil[$row->id_data_pasien]['Ke 1']['visite'][$row_visite->id_dokter];
-            }
-            
-            // proses ke 1
-            $tmp_total_ke_1 = 0;
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'ADM';
-            $proses_perhitungan->proses = 'Ke 1';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'GIZI';
-            $proses_perhitungan->proses = 'Ke 1';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
-            $proses_perhitungan->proses = 'Ke 1';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
-            $proses_perhitungan->proses = 'Ke 1';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
-            $proses_perhitungan->proses = 'Ke 1';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            foreach($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                foreach($data_visite_pasien as $row_visite) {
+                    $hasil[$row->id_data_pasien]['Ke 1']['visite'][$row_visite->id_dokter] = $row_visite->jumlah_jp;
+                    $hasil[$row->id_data_pasien]['Ke 1']['total'] += $hasil[$row->id_data_pasien]['Ke 1']['visite'][$row_visite->id_dokter];
+                }
+                
+                // proses ke 1
+                $tmp_total_ke_1 = 0;
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
+                $proses_perhitungan->ket_kategori = 'ADM';
                 $proses_perhitungan->proses = 'Ke 1';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
                 $proses_perhitungan->save();
-            }
-            
-            foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
+
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
+                $proses_perhitungan->ket_kategori = 'GIZI';
                 $proses_perhitungan->proses = 'Ke 1';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)];
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
                 $proses_perhitungan->save();
-            }
 
-            if(isset($hasil[$row->id_data_pasien]['Ke 1']['visite'])) {
-                foreach($hasil[$row->id_data_pasien]['Ke 1']['visite'] as $hasil_1 => $val) {
-                    $proses_perhitungan = new ProsesPerhitungan();
-                    $proses_perhitungan->ket_kategori = 'VISITE';
-                    $proses_perhitungan->proses = 'Ke 1';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['visite'][ucfirst($hasil_1)];
-                    $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                    $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                    $proses_perhitungan->id_ruangan = $id_ruangan;
-                    $proses_perhitungan->created_at = now();
-                    $proses_perhitungan->updated_at = now();
-                    $proses_perhitungan->save();
-                }
-            }
-
-            // proses ke 2
-            $tmp_total_ke_2 = 0;
-            $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'] = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'ADM';
-            $proses_perhitungan->proses = 'Ke 2';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'] = $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'GIZI';
-            $proses_perhitungan->proses = 'Ke 2';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'] = $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
-            $proses_perhitungan->proses = 'Ke 2';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'] = $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
-            $proses_perhitungan->proses = 'Ke 2';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'] = $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
-            $proses_perhitungan->proses = 'Ke 2';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            foreach($hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-                $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-            }
-
-            foreach($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-                $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
+                $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
+                $proses_perhitungan->proses = 'Ke 1';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
+                $proses_perhitungan->proses = 'Ke 1';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
+                $proses_perhitungan->proses = 'Ke 1';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                if(isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
+                        $proses_perhitungan->proses = 'Ke 1';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        if(ucfirst($hasil_1) != null && ucfirst($hasil_1) != "")
+                        {
+                            $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
+                        }
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+                
+                if(isset($hasil[$row->id_data_pasien]['Ke 1']['dokter'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'DOKTER';
+                        $proses_perhitungan->proses = 'Ke 1';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+
+                if(isset($hasil[$row->id_data_pasien]['Ke 1']['visite'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 1']['visite'] as $hasil_1 => $val) {
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'VISITE';
+                        $proses_perhitungan->proses = 'Ke 1';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['visite'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+
+                // proses ke 2
+                $tmp_total_ke_2 = 0;
+                if($hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] == 0 || $hasil[$row->id_data_pasien]['Ke 1']['total'] == 0 )
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'] = 0;
+                $tmp_total_ke_2 += 0;
+                }
+                else
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'] = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                    $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                }
+                
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'ADM';
                 $proses_perhitungan->proses = 'Ke 2';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
                 $proses_perhitungan->save();
-            }
-            
-            foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-                $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+
+                if($hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] == 0 || $hasil[$row->id_data_pasien]['Ke 1']['total'] == 0 )
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'] = 0;
+                    $tmp_total_ke_2 += 0;
+                }
+                else
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'] = $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                    $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                }
+                
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
+                $proses_perhitungan->ket_kategori = 'GIZI';
                 $proses_perhitungan->proses = 'Ke 2';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)];
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
                 $proses_perhitungan->save();
-            }
 
-            if(isset($hasil[$row->id_data_pasien]['Ke 1']['visite'])) {
-                foreach($hasil[$row->id_data_pasien]['Ke 1']['visite'] as $hasil_1 => $val) {
-                    $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-                    $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                if($hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] == 0 || $hasil[$row->id_data_pasien]['Ke 1']['total'] == 0 )
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'] = 0;
+                    $tmp_total_ke_2 += 0;
+                }
+                else
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'] = $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                    $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                }
+                
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
+                $proses_perhitungan->proses = 'Ke 2';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                if($hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] == 0 || $hasil[$row->id_data_pasien]['Ke 1']['total'] == 0 )
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'] = 0;
+                    $tmp_total_ke_2 += 0;
+                }
+                else
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'] = $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                    $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                }
+                
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
+                $proses_perhitungan->proses = 'Ke 2';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                if($hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] == 0 || $hasil[$row->id_data_pasien]['Ke 1']['total'] == 0 )
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'] = 0;
+                    $tmp_total_ke_2 += 0;
+                }
+                else
+                {
+                    $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'] = $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                    $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                }
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
+                $proses_perhitungan->proses = 'Ke 2';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                // foreach($hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'] as $hasil_1 => $val) {
+                //     $hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                //     $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['detail_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                // }
+
+                if(isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                        $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                        $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
+                        $proses_perhitungan->proses = 'Ke 2';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        if(ucfirst($hasil_1) != null && ucfirst($hasil_1) != "")
+                        {
+                            $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
+                        }
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+ 
+                if(isset($hasil[$row->id_data_pasien]['Ke 1']['dokter'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
+                        $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                        $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'DOKTER';
+                        $proses_perhitungan->proses = 'Ke 2';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+
+                if(isset($hasil[$row->id_data_pasien]['Ke 1']['visite'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 1']['visite'] as $hasil_1 => $val) {
+                        $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                        $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'VISITE';
+                        $proses_perhitungan->proses = 'Ke 2';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+                $hasil[$row->id_data_pasien]['Ke 2']['total'] = $tmp_total_ke_2;
+
+                // proses ke 3
+                $data_value_keuangan = DB::table('data_keuangan_pasien')
+                ->where('no_sep_keuangan_pasien', '=', $row->no_sep)
+                ->first();
+                $tmp_total_ke_3 = 0;
+                $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'] = $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'] * $data_value_keuangan->nominal_uang;
+                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'] * $data_value_keuangan->nominal_uang;
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'ADM';
+                $proses_perhitungan->proses = 'Ke 3';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                $hasil[$row->id_data_pasien]['Ke 3']['gizi']['gizi'] = $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'] * $data_value_keuangan->nominal_uang;
+                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'] * $data_value_keuangan->nominal_uang;
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'GIZI';
+                $proses_perhitungan->proses = 'Ke 3';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['gizi']['gizi'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                $hasil[$row->id_data_pasien]['Ke 3']['perawat_igd'] = $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'] * $data_value_keuangan->nominal_uang;
+                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'] * $data_value_keuangan->nominal_uang;
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
+                $proses_perhitungan->proses = 'Ke 3';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_igd'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                $hasil[$row->id_data_pasien]['Ke 3']['perawat_iccu'] = $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'] * $data_value_keuangan->nominal_uang;
+                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'] * $data_value_keuangan->nominal_uang;
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
+                $proses_perhitungan->proses = 'Ke 3';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_iccu'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                $hasil[$row->id_data_pasien]['Ke 3']['perawat_rpp'] = $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'] * $data_value_keuangan->nominal_uang;
+                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'] * $data_value_keuangan->nominal_uang;
+                $proses_perhitungan = new ProsesPerhitungan();
+                $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
+                $proses_perhitungan->proses = 'Ke 3';
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_rpp'];
+                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_ruangan = $id_ruangan;
+                $proses_perhitungan->created_at = now();
+                $proses_perhitungan->updated_at = now();
+                $proses_perhitungan->save();
+
+                // foreach($hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'] as $hasil_1 => $val) {
+                //     $hasil[$row->id_data_pasien]['Ke 3']['detail_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                //     $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                // }
+
+                if(isset($hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                        $hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                        $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
+                        $proses_perhitungan->proses = 'Ke 3';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        if(ucfirst($hasil_1) != null && ucfirst($hasil_1) != "")
+                        {
+                            $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
+                        }
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+                
+                if(isset($hasil[$row->id_data_pasien]['Ke 2']['dokter'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 2']['dokter'] as $hasil_1 => $val) {
+                        $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                        $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                        $proses_perhitungan = new ProsesPerhitungan();
+                        $proses_perhitungan->ket_kategori = 'DOKTER';
+                        $proses_perhitungan->proses = 'Ke 3';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
+                    }
+                }
+
+                if(isset($hasil[$row->id_data_pasien]['Ke 1']['visite'])) {
+                    foreach($hasil[$row->id_data_pasien]['Ke 2']['visite'] as $hasil_1 => $val) {
+                        $hasil[$row->id_data_pasien]['Ke 3']['visite'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                        $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
+                    }
                     $proses_perhitungan = new ProsesPerhitungan();
-                    $proses_perhitungan->ket_kategori = 'VISITE';
-                    $proses_perhitungan->proses = 'Ke 2';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)];
-                    $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                    $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                    $proses_perhitungan->id_ruangan = $id_ruangan;
-                    $proses_perhitungan->created_at = now();
-                    $proses_perhitungan->updated_at = now();
-                    $proses_perhitungan->save();
+                        $proses_perhitungan->ket_kategori = 'VISITE';
+                        $proses_perhitungan->proses = 'Ke 3';
+                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['visite'][ucfirst($hasil_1)];
+                        $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                        $proses_perhitungan->id_ruangan = $id_ruangan;
+                        $proses_perhitungan->created_at = now();
+                        $proses_perhitungan->updated_at = now();
+                        $proses_perhitungan->save();
                 }
-            }
-            $hasil[$row->id_data_pasien]['Ke 2']['total'] = $tmp_total_ke_2;
+                $hasil[$row->id_data_pasien]['Ke 3']['total'] = $tmp_total_ke_3;
 
-            // proses ke 3
-            $data_value_keuangan = DB::table('data_keuangan_pasien')
-            ->where('no_sep_keuangan_pasien', '=', $row->no_sep)
-            ->first();
-            $tmp_total_ke_3 = 0;
-            $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'] = $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'] * $data_value_keuangan->nominal_uang;
-            $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'] * $data_value_keuangan->nominal_uang;
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'ADM';
-            $proses_perhitungan->proses = 'Ke 3';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
+                // list variable rumus 
+                // $list_variable['ADM'] = "adm|adm";
+                // $list_variable['GIZI'] = "gizi|gizi";
+                // $list_variable['PERAWAT IGD'] = "perawat_igd";
+                // $list_variable['PERAWAT ICCU'] = "perawat_iccu";
+                // $list_variable['PERAWAT RPP'] = "perawat_rpp";
+                // foreach($hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                //     $data_kategori_tindakan = new KategoriTindakan();
+                //     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
 
-            $hasil[$row->id_data_pasien]['Ke 3']['gizi']['gizi'] = $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'] * $data_value_keuangan->nominal_uang;
-            $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'] * $data_value_keuangan->nominal_uang;
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'GIZI';
-            $proses_perhitungan->proses = 'Ke 3';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['gizi']['gizi'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
+                //     $list_variable[$data_kategori_tindakans->nama] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
+                // }
+                
+                // foreach($hasil[$row->id_data_pasien]['Ke 3']['dokter'] as $hasil_1 => $val) {
+                //     $list_variable["DOKTER IGD"] = "dokter|" . $hasil_1;
+                // }
+                
+                // if(isset($hasil[$row->id_data_pasien]['Ke 3']['visite'])) {
+                //     foreach($hasil[$row->id_data_pasien]['Ke 3']['visite'] as $hasil_1 => $val) {
+                //         $list_variable["DOKTER VISITE"] = "visite|" . $hasil_1;
+                //     }
+                // }
 
-            $hasil[$row->id_data_pasien]['Ke 3']['perawat_igd'] = $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'] * $data_value_keuangan->nominal_uang;
-            $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'] * $data_value_keuangan->nominal_uang;
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
-            $proses_perhitungan->proses = 'Ke 3';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_igd'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
+                // // proses ke 4
+                // $data_value_keuangan = DB::table('data_keuangan_pasien')
+                // ->where('no_sep_keuangan_pasien', '=', $row->no_sep)
+                // ->first();
+                // $tmp_total_ke_4 = 0;
 
-            $hasil[$row->id_data_pasien]['Ke 3']['perawat_iccu'] = $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'] * $data_value_keuangan->nominal_uang;
-            $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'] * $data_value_keuangan->nominal_uang;
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
-            $proses_perhitungan->proses = 'Ke 3';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_iccu'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
+                // $hasil[$row->id_data_pasien]['Ke 4']['adm']['adm'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "ADM");
+                // $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'];
+                
+                // $proses_perhitungan = new ProsesPerhitungan();
+                // $proses_perhitungan->ket_kategori = 'ADM';
+                // $proses_perhitungan->proses = 'Ke 4';
+                // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['adm']['adm'];
+                // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                // $proses_perhitungan->id_ruangan = $id_ruangan;
+                // $proses_perhitungan->created_at = now();
+                // $proses_perhitungan->updated_at = now();
+                // $proses_perhitungan->save();
 
-            $hasil[$row->id_data_pasien]['Ke 3']['perawat_rpp'] = $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'] * $data_value_keuangan->nominal_uang;
-            $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'] * $data_value_keuangan->nominal_uang;
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
-            $proses_perhitungan->proses = 'Ke 3';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_rpp'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
+                // $hasil[$row->id_data_pasien]['Ke 4']['gizi']['gizi'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "GIZI");
+                // $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 3']['gizi']['gizi'];
+                // $proses_perhitungan = new ProsesPerhitungan();
+                // $proses_perhitungan->ket_kategori = 'GIZI';
+                // $proses_perhitungan->proses = 'Ke 4';
+                // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['gizi']['gizi'];
+                // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                // $proses_perhitungan->id_ruangan = $id_ruangan;
+                // $proses_perhitungan->created_at = now();
+                // $proses_perhitungan->updated_at = now();
+                // $proses_perhitungan->save();
 
-            foreach($hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 3']['detail_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['detail_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-            }
+                // $hasil[$row->id_data_pasien]['Ke 4']['perawat_igd'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "PERAWAT IGD");
+                // $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 3']['perawat_igd'];
+                // $proses_perhitungan = new ProsesPerhitungan();
+                // $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
+                // $proses_perhitungan->proses = 'Ke 4';
+                // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_igd'];
+                // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                // $proses_perhitungan->id_ruangan = $id_ruangan;
+                // $proses_perhitungan->created_at = now();
+                // $proses_perhitungan->updated_at = now();
+                // $proses_perhitungan->save();
 
-            foreach($hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
-                $proses_perhitungan->proses = 'Ke 3';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
-            }
-            
-            foreach($hasil[$row->id_data_pasien]['Ke 2']['dokter'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
-                $proses_perhitungan->proses = 'Ke 3';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
-            }
+                // $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "PERAWAT ICCU");
+                // $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'];
+                // $proses_perhitungan = new ProsesPerhitungan();
+                // $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
+                // $proses_perhitungan->proses = 'Ke 4';
+                // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'];
+                // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                // $proses_perhitungan->id_ruangan = $id_ruangan;
+                // $proses_perhitungan->created_at = now();
+                // $proses_perhitungan->updated_at = now();
+                // $proses_perhitungan->save();
 
-            if(isset($hasil[$row->id_data_pasien]['Ke 1']['visite'])) {
-                foreach($hasil[$row->id_data_pasien]['Ke 2']['visite'] as $hasil_1 => $val) {
-                    $hasil[$row->id_data_pasien]['Ke 3']['visite'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-                    $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)] * $data_value_keuangan->nominal_uang;
-                }
-                $proses_perhitungan = new ProsesPerhitungan();
-                    $proses_perhitungan->ket_kategori = 'VISITE';
-                    $proses_perhitungan->proses = 'Ke 3';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['visite'][ucfirst($hasil_1)];
-                    $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                    $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                    $proses_perhitungan->id_ruangan = $id_ruangan;
-                    $proses_perhitungan->created_at = now();
-                    $proses_perhitungan->updated_at = now();
-                    $proses_perhitungan->save();
-            }
-            $hasil[$row->id_data_pasien]['Ke 3']['total'] = $tmp_total_ke_3;
+                // $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "PERAWAT RPP");
+                // $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'];
+                // $proses_perhitungan = new ProsesPerhitungan();
+                // $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
+                // $proses_perhitungan->proses = 'Ke 4';
+                // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'];
+                // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                // $proses_perhitungan->id_ruangan = $id_ruangan;
+                // $proses_perhitungan->created_at = now();
+                // $proses_perhitungan->updated_at = now();
+                // $proses_perhitungan->save();
 
-            // list variable rumus 
-            $list_variable['ADM'] = "adm|adm";
-            $list_variable['GIZI'] = "gizi|gizi";
-            $list_variable['PERAWAT IGD'] = "perawat_igd";
-            $list_variable['PERAWAT ICCU'] = "perawat_iccu";
-            $list_variable['PERAWAT RPP'] = "perawat_rpp";
-            foreach($hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
-                $data_kategori_tindakan = new KategoriTindakan();
-                $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
+                // foreach($hasil[$row->id_data_pasien]['Ke 3']['detail_kategori_tindakan'] as $hasil_1 => $val) {
+                //     $data_kategori_tindakan = new KategoriTindakan();
+                //     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
 
-                $list_variable[$data_kategori_tindakans->nama] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
-            }
-            
-            foreach($hasil[$row->id_data_pasien]['Ke 3']['dokter'] as $hasil_1 => $val) {
-                $list_variable["DOKTER IGD"] = "dokter|" . $hasil_1;
-            }
-            
-            if(isset($hasil[$row->id_data_pasien]['Ke 3']['visite'])) {
-                foreach($hasil[$row->id_data_pasien]['Ke 3']['visite'] as $hasil_1 => $val) {
-                    $list_variable["DOKTER VISITE"] = "visite|" . $hasil_1;
-                }
-            }
+                //     $hasil[$row->id_data_pasien]['Ke 4']['detail_kategori_tindakan'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, $data_kategori_tindakans->nama);
+                //     $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['detail_kategori_tindakan'][ucfirst($hasil_1)];
+                // }
 
-            // proses ke 4
-            $data_value_keuangan = DB::table('data_keuangan_pasien')
-            ->where('no_sep_keuangan_pasien', '=', $row->no_sep)
-            ->first();
-            $tmp_total_ke_4 = 0;
+                // foreach($hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                //     $data_kategori_tindakan = new KategoriTindakan();
+                //     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
 
-            $hasil[$row->id_data_pasien]['Ke 4']['adm']['adm'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "ADM");
-            $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'];
-            
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'ADM';
-            $proses_perhitungan->proses = 'Ke 4';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['adm']['adm'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
+                //     $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, $data_kategori_tindakans->nama);
+                //     $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                //     $proses_perhitungan = new ProsesPerhitungan();
+                //     $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
+                //     $proses_perhitungan->proses = 'Ke 4';
+                //     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                //     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                //     $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
+                //     $proses_perhitungan->id_ruangan = $id_ruangan;
+                //     $proses_perhitungan->created_at = now();
+                //     $proses_perhitungan->updated_at = now();
+                //     $proses_perhitungan->save();
+                // }
+                
+                // foreach($hasil[$row->id_data_pasien]['Ke 3']['dokter'] as $hasil_1 => $val) {
+                //     $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "DOKTER IGD");
+                //     $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
+                //     $proses_perhitungan = new ProsesPerhitungan();
+                //     $proses_perhitungan->ket_kategori = 'DOKTER';
+                //     $proses_perhitungan->proses = 'Ke 4';
+                //     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
+                //     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                //     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                //     $proses_perhitungan->id_ruangan = $id_ruangan;
+                //     $proses_perhitungan->created_at = now();
+                //     $proses_perhitungan->updated_at = now();
+                //     $proses_perhitungan->save();
+                // }
 
-            $hasil[$row->id_data_pasien]['Ke 4']['gizi']['gizi'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "GIZI");
-            $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 3']['gizi']['gizi'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'GIZI';
-            $proses_perhitungan->proses = 'Ke 4';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['gizi']['gizi'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $hasil[$row->id_data_pasien]['Ke 4']['perawat_igd'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "PERAWAT IGD");
-            $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 3']['perawat_igd'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT IGD';
-            $proses_perhitungan->proses = 'Ke 4';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_igd'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "PERAWAT ICCU");
-            $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT ICCU';
-            $proses_perhitungan->proses = 'Ke 4';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "PERAWAT RPP");
-            $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'];
-            $proses_perhitungan = new ProsesPerhitungan();
-            $proses_perhitungan->ket_kategori = 'PERAWAT RPP';
-            $proses_perhitungan->proses = 'Ke 4';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'];
-            $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-            $proses_perhitungan->id_ruangan = $id_ruangan;
-            $proses_perhitungan->created_at = now();
-            $proses_perhitungan->updated_at = now();
-            $proses_perhitungan->save();
-
-            foreach($hasil[$row->id_data_pasien]['Ke 3']['detail_kategori_tindakan'] as $hasil_1 => $val) {
-                $data_kategori_tindakan = new KategoriTindakan();
-                $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
-
-                $hasil[$row->id_data_pasien]['Ke 4']['detail_kategori_tindakan'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, $data_kategori_tindakans->nama);
-                $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['detail_kategori_tindakan'][ucfirst($hasil_1)];
-            }
-
-            foreach($hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
-                $data_kategori_tindakan = new KategoriTindakan();
-                $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
-
-                $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, $data_kategori_tindakans->nama);
-                $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
-                $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
+                // if(isset($hasil[$row->id_data_pasien]['Ke 2']['visite'])) {
+                //     foreach($hasil[$row->id_data_pasien]['Ke 3']['visite'] as $hasil_1 => $val) {
+                //         $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "DOKTER VISITE");
+                //         $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)];
+                //     }
+                //     $proses_perhitungan = new ProsesPerhitungan();
+                //     $proses_perhitungan->ket_kategori = 'VISITE';
+                //     $proses_perhitungan->proses = 'Ke 4';
+                //     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)];
+                //     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                //     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                //     $proses_perhitungan->id_ruangan = $id_ruangan;
+                //     $proses_perhitungan->created_at = now();
+                //     $proses_perhitungan->updated_at = now();
+                //     $proses_perhitungan->save();
+                // }
+                // $hasil[$row->id_data_pasien]['Ke 4']['total'] = $tmp_total_ke_4;
             }
             
-            foreach($hasil[$row->id_data_pasien]['Ke 3']['dokter'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "DOKTER IGD");
-                $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
-                $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
-            }
+            return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');   
 
-            if(isset($hasil[$row->id_data_pasien]['Ke 2']['visite'])) {
-                foreach($hasil[$row->id_data_pasien]['Ke 3']['visite'] as $hasil_1 => $val) {
-                    $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "DOKTER VISITE");
-                    $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)];
-                }
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'VISITE';
-                $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
-            }
-            $hasil[$row->id_data_pasien]['Ke 4']['total'] = $tmp_total_ke_4;
+            
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-        
-        return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');
     }
 
     public function hitung_rumus($hasil, $list_variable, $variable_kategori) {
@@ -840,16 +913,23 @@ class ProsesPerhitunganController extends Controller
                 } else {
                     $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
                 }
+                break;
             } else {
                 // tidak ada
                 if($variable_kategori == "DOKTER IGD" || $variable_kategori == "DOKTER VISITE") {
                     $index = explode("|", $value);
+                    // if(count($index) == 1) {
+                    //     dd($variable_kategori);                        
+                    //     dd($list_variable);
+                    //     dd($value);
+                    // }
                     $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                    break;
                 }
             }
         }
 
-        $hasil_perhitungan = eval('return ' . $rumus . ';');
+        $hasil_perhitungan = 111111;
         // $hasil_perhitungan = eval('return (' . $rumus . ');');
 
         return $hasil_perhitungan;

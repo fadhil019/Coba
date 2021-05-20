@@ -17,7 +17,7 @@ class ProsesPerhitungan extends Model
     protected $primaryKey = "id_proses_perhitungan";
 
     // GIZI PASIEN
-    public function ShowGiziPasien($id_transaksi) {
+    public function ShowGiziPasien($id_data_pasien) {
         try {
             $data_kategori_gizi = DB::table('kategori_tindakan')
             ->where('nama', '=', 'GIZI')
@@ -25,11 +25,13 @@ class ProsesPerhitungan extends Model
             if(isset($data_kategori_gizi))
             {
                 $data_gizi_pasien = DB::table('proses_perhitungan')
-                ->where('id_transaksi', '=', $id_transaksi)
+                // ->where('id_transaksi', '=', $id_transaksi)
+                ->where('id_data_pasien', '=', $id_data_pasien)
                 ->where('id_kategori_tindakan', '=', $data_kategori_gizi->id_kategori_tindakan)
                 ->where('proses', '=', 'Ke 1')
                 ->first();
             }
+            // dd($data_gizi_pasien);
             return $data_gizi_pasien;
         } catch (Exception $e) {
             return $e->getMessage();
@@ -44,7 +46,8 @@ class ProsesPerhitungan extends Model
             if(isset($data_kategori_gizi))
             {
                 $data_gizi_pasien = DB::table('proses_perhitungan')
-                ->where('id_transaksi', '=', $request->id_transaksi)
+                // ->where('id_transaksi', '=', $request->id_transaksi)
+                ->where('id_data_pasien', '=', $request->id_data_pasien)
                 ->where('id_kategori_tindakan', '=', $data_kategori_gizi->id_kategori_tindakan)
                 ->where('proses', '=', 'Ke 1')
                 ->first();
@@ -77,10 +80,11 @@ class ProsesPerhitungan extends Model
     }
 
     // ADM PASIEN
-    public function ShowAdmPasien($id_transaksi) {
+    public function ShowAdmPasien($id_data_pasien) {
         try {
             $data_adm_pasien = DB::table('proses_perhitungan')
-            ->where('id_transaksi', '=', $id_transaksi)
+            // ->where('id_transaksi', '=', $id_transaksi)
+            ->where('id_data_pasien', '=', $id_data_pasien)
             ->where('ket_kategori', '=', 'ADM')
             ->where('proses', '=', 'Ke 1')
             ->first();
@@ -94,7 +98,8 @@ class ProsesPerhitungan extends Model
     public function CreateAdmPasien(Request $request) {
         try {
             $data_adm_pasien = DB::table('proses_perhitungan')
-            ->where('id_transaksi', '=', $request->id_transaksi)
+            // ->where('id_transaksi', '=', $request->id_transaksi)
+            ->where('id_data_pasien', '=', $request->id_data_pasien)
             ->where('ket_kategori', '=', 'ADM')
             ->where('proses', '=', 'Ke 1')
             ->first();
@@ -126,11 +131,12 @@ class ProsesPerhitungan extends Model
     }
 
     // VISITE PASIEN
-    public function ShowVisitePasien($id_transaksi) {
+    public function ShowVisitePasien($id_data_pasien) {
         try {
             $data_visite_pasien = DB::table('proses_perhitungan')
             ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
-            ->where('id_transaksi', '=', $id_transaksi)
+            // ->where('id_transaksi', '=', $id_transaksi)
+            ->where('id_data_pasien', '=', $id_data_pasien)
             ->where('ket_kategori', '=', 'VISITE')
             ->where('proses', '=', 'Ke 1')
             ->get();

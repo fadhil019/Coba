@@ -28,7 +28,7 @@
                         <tr>
                             <th style="background-color: white;">No</th>
                             <th style="background-color: white;">Pasien</th>
-                            @if($data_pasiens[0]->id_dpjp != null)
+                            @if($data_pasiens[0]->id_dokter_dpjp != null)
                                 <th style="background-color: white;">DPJP</th>
                             @endif
                             <th style="background-color: red;">ADM</th>
@@ -53,7 +53,7 @@
                         <tr>
                             <th style="background-color: white;">No</th>
                             <th style="background-color: white;">Pasien</th>
-                            @if($data_pasiens[0]->id_dpjp != null)
+                            @if($data_pasiens[0]->id_dokter_dpjp != null)
                                 <th style="background-color: white;">DPJP</th>
                             @endif
                             <th style="background-color: red;">ADM</th>
@@ -84,7 +84,7 @@
                                     {{ $row_data_pasiens->nama_pasien }}
                                 </td>
                                 <td>
-                                    @if($row_data_pasiens->id_dpjp != null)
+                                    @if($row_data_pasiens->id_dokter_dpjp != null)
                                         {{ $row_data_pasiens->nama_dokter }}
                                     @endif
                                 </td>

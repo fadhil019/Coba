@@ -18,30 +18,47 @@ class DataPasien extends Model
 
     public function SelectDataPasienRawatInap($id_periode, $id_ruangan){
         $data_data_pasien = DB::table('data_pasien')
-        ->join('transaksi', 'data_pasien.id_data_pasien', '=', 'transaksi.id_data_pasien')
-        ->leftjoin('dokter', 'transaksi.id_dokter_dpjp', '=', 'dokter.id_dokter')
-        ->where('reg_type', '=', 'Rawat Inap')
-        ->where('id_periode', '=', $id_periode)
-        ->where('data_pasien.id_ruangan', '=', $id_ruangan)
+        ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
+        ->leftjoin('dokter', 'dokter.id_dokter', '=', 'transaksi.id_dokter_dpjp')
+        ->where('transaksi.reg_type', '=', 'Rawat Inap')
+        ->where('transaksi.id_periode', '=', $id_periode)
+        ->where('transaksi.id_ruangan', '=', $id_ruangan)
         ->orderby('data_pasien.id_data_pasien', 'ASC')
         ->get();
+        // dd($data_data_pasien);
         return $data_data_pasien;
     }
 
     public function SelectDataPasienRawatJalan($id_periode, $id_ruangan){
         $data_data_pasien = DB::table('data_pasien')
-        ->join('transaksi', 'data_pasien.id_data_pasien', '=', 'transaksi.id_data_pasien')
-        ->where('reg_type', '=', 'Rawat Jalan')
-        ->where('id_periode', '=', $id_periode)
-        ->where('data_pasien.id_ruangan', '=', $id_ruangan)
+        ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
+        ->where('transaksi.reg_type', '=', 'Rawat Jalan')
+        ->where('transaksi.id_periode', '=', $id_periode)
+        ->where('transaksi.id_ruangan', '=', $id_ruangan)
         ->orderby('data_pasien.id_data_pasien', 'ASC')
         ->get();
+        foreach($data_data_pasien as $row){
+            $nama_dokter = DB::table('data_tindakan_pasien')
+            ->where('id_transaksi', '=', $row->id_transaksi)
+            ->orderby('data_tindakan_pasien.id_data_tindakan_pasien', 'ASC')
+            ->first();
+            if(isset($nama_dokter))
+            {
+                $row->nama_dokter_perawat = $nama_dokter->nama_dokter_perawat;
+            }
+            else
+            {
+                $row->nama_dokter_perawat = '-';
+            }
+            
+        }
+        // dd($data_data_pasien);
         return $data_data_pasien;
     }
 
     public function ShowDataPasien($id){
         $data_data_pasien = DB::table('data_pasien')
-        ->join('transaksi', 'data_pasien.id_data_pasien', '=', 'transaksi.id_data_pasien')
+        ->join('transaksi', 'transaksi.id_transaksi', '=', 'data_pasien.id_data_pasien')
         ->where('data_pasien.id_data_pasien', '=', $id)
         ->orderby('data_pasien.id_data_pasien', 'ASC')
         ->get();
@@ -50,26 +67,11 @@ class DataPasien extends Model
 
     public function ShowTindakanDataPasien($id){
         $data_data_pasien = DB::table('data_pasien')
-        ->join('transaksi', 'data_pasien.id_data_pasien', '=', 'transaksi.id_data_pasien')
-        ->leftjoin('dokter', 'transaksi.id_dokter_dpjp', '=', 'dokter.id_dokter')
+        ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
+        ->leftjoin('dokter', 'dokter.id_dokter', '=', 'transaksi.id_dokter_dpjp')
         ->where('data_pasien.id_data_pasien', '=', $id)
         ->orderby('data_pasien.id_data_pasien', 'ASC')
         ->get();
         return $data_data_pasien;
     }
-
-    // PINDAH KE MODEL TRANSAKSI
-
-    // public function UpdateDataPasienDPJP(Request $request, $id) {
-    //     try {
-    //         $data_pasien = DataPasien::find($id);
-    //         $data_pasien->id_dpjp = $request->id_dpjp;
-    //         $data_pasien->updated_at = now();
-    //         $data_pasien->save();
-
-    //         return 'success';
-    //     } catch (Exception $e) {
-    //         return $e->getMessage();
-    //     }
-    // }
 }

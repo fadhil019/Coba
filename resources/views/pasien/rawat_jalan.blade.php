@@ -22,12 +22,15 @@
                     <h1>Data pasien rawat jalan <br>ruangan " {{ $show_ruangans->nama_ruangan }} " periode " {{ $show_periodes->bulan }} - {{ $show_periodes->tahun }} "</h1>
                 </div>
                 <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="mr-2"><a href="{{ url('proses_perhitungan_rawat_jalan/' . $show_periodes->id_periode . '/' . $show_ruangans->id_ruangan) }}" class="btn btn-primary"><i class="fas fa-sync-alt" aria-hidden="true"></i> Proses</a></li>
-                    </ol>
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="mr-2"><a href="#" data-toggle="modal" data-target="#import_data" class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> Import Data Pasien</a></li>
-                    </ol>
+                    @if(count($data_pasien_rawat_jalans) > 0)
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="mr-2"><a href="{{ url('proses_perhitungan_rawat_jalan/' . $show_periodes->id_periode . '/' . $show_ruangans->id_ruangan) }}" class="btn btn-primary"><i class="fas fa-sync-alt" aria-hidden="true"></i> Proses</a></li>
+                        </ol>
+                    @else
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="mr-2"><a href="#" data-toggle="modal" data-target="#import_data" class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> Import Data Pasien</a></li>
+                        </ol>
+                    @endif
                 </div>
                 <div class="modal fade" id="import_data">
                     <div class="modal-dialog">
@@ -75,10 +78,6 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Tanggal masuk</th>
-                            <th>Tanggal keluar</th>
-                            {{-- <th>Klinik</th> --}}
-                            {{-- <th>Ruangan</th> --}}
                             <th>Nama dokter</th>
                             <th>Tindakan</th>
                         </tr>
@@ -87,10 +86,6 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Tanggal masuk</th>
-                            <th>Tanggal keluar</th>
-                            {{-- <th>Klinik</th> --}}
-                            {{-- <th>Ruangan</th> --}}
                             <th>Nama dokter</th>
                             <th>Tindakan</th>
                         </tr>
@@ -100,10 +95,6 @@
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $data_pasien_rawat_jalan->nama_pasien }}</td>
-                                <td>{{ $data_pasien_rawat_jalan->tgl_masuk }}</td>
-                                <td>{{ $data_pasien_rawat_jalan->tgl_keluar }}</td>
-                                {{-- <td>{{ $data_pasien_rawat_jalan->reg_type }}</td> --}}
-                                {{-- <td>{{ $data_pasien_rawat_jalan->kategori_ruangan }}</td> --}}
                                 <td>{{ $data_pasien_rawat_jalan->nama_dokter_perawat }}</td>
                                 <td>
                                     <a href="{{ url('data_pasien_rawat_jalan_detail_tindakan/'.$data_pasien_rawat_jalan->id_data_pasien)}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>

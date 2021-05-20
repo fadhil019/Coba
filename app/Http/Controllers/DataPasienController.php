@@ -11,6 +11,7 @@ use App\DeskripsiTindakan;
 use App\Dokter;
 use App\Ruangan;
 use App\ProsesPerhitungan;
+use App\Transaksi;
 
 use App\Imports\ImportDataPasien;
 use App\Imports\ImportDataPasienRawatJalan;
@@ -142,7 +143,7 @@ class DataPasienController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update_data_pasien_dpjp = new DataPasien();
+        $update_data_pasien_dpjp = new Transaksi();
         $update_data_pasien_dpjps = $update_data_pasien_dpjp->UpdateDataPasienDPJP($request, $id);
         if($update_data_pasien_dpjps == 'success')
         {

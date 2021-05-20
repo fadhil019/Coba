@@ -9,6 +9,7 @@ use App\DataTindakanPasien;
 use App\DeskripsiTindakan;
 use App\Dokter;
 use App\KaryawanPerawat;
+use App\Transaksi;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -48,7 +49,7 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
 
         	$pasien = DB::table('data_pasien')->where('nama_pasien', $nama_pasien)->first();
 			if($pasien == null) {
-				$pasien = new Dokter();
+				$pasien = new DataPasien();
 				$pasien->nama_pasien = $nama_pasien;
 				$pasien->penjamin = $penjamin;
 				$pasien->save();
