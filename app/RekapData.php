@@ -24,7 +24,8 @@ class RekapData extends Model
         foreach($data_dokter as $row){
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
-            ->where('data_pasien.id_periode', '=', $id)
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
             ->where('proses_perhitungan.id_dokter', '=', $row->id_dokter)
             ->get();
             $hasil[$i]['id_dokter'] = $row->id_dokter;
@@ -50,7 +51,8 @@ class RekapData extends Model
         foreach($data_kategori_tindakan as $row){
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
-            ->where('data_pasien.id_periode', '=', $id)
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
             ->where('proses_perhitungan.id_kategori_tindakan', '=', $row->id_kategori_tindakan)
             ->get();
             $hasil[$i]['id_kategori_tindakan'] = $row->id_kategori_tindakan;

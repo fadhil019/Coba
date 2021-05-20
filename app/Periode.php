@@ -22,6 +22,14 @@ class Periode extends Model
         return $data_periode;
     }
 
+    public function SelectTahunPeriode(){
+        $data_periode = DB::table('periode')
+        ->join('users', 'users.id_users', '=', 'periode.id_users')
+        ->groupBy('periode.tahun')
+        ->get();
+        return $data_periode;
+    }
+
     public function ShowPeriode($id){
         $data_periode = DB::table('periode')
         ->where('id_periode', '=', $id)

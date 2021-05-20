@@ -208,7 +208,7 @@ class DataPasienController extends Controller
 
             $hasi = new ProsesPerhitungan();
             $hasil = $hasi->ShowProsesPerhitunganRawatInap($id_periode, $id_ruangan);
-            // dd($show_periodes);
+            // dd($hasil);
             return view('pasien.rawat_inap', compact('data_periodes', 'data_pasien_rawat_inaps', 'data_dokters', 'data_ruangans', 'show_ruangans', 'show_periodes', 'hasil'));
         }
 

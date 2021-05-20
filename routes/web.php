@@ -94,6 +94,7 @@ Route::get('daftar_rekap_data/{id}','RekapDataController@daftar_rekap_data');
 
 // Dashboard
 Route::get('daftar_dashboard/{id}','DashboardController@daftar_dashboard');
+Route::post('dashboard_pilih_tahun','DashboardController@dashboard_pilih_tahun');
 
 // Rumus
 Route::get('daftar_rumus_kategori/{id}','VariableRumusController@daftar_rumus_kategori');
