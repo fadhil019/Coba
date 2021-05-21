@@ -69,7 +69,12 @@
                                     {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['adm']['adm'] }}
                                 </td>
                                 <td>
-                                    {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_tindakan'] }}
+                                    @if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_tindakan']))
+                                        {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_tindakan'] }}
+                                    @else
+                                        -
+                                    @endif
+                                    
                                 </td>
                                 @foreach($data_kategori_tindakans as $row)
                                 <td>

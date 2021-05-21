@@ -382,6 +382,7 @@ class ProsesPerhitungan extends Model
             $tmp_ke_1 = 0;
             $tmp_ke_2 = 0;
             $tmp_ke_3 = 0;
+            $tmp_ke_4 = 0;
             for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
                 if($data_proses_perhitungan[$i]->proses == 'Ke 1') {
                     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['hasil_kategori_tindakan'][$tmp_ke_1]['nama_kategori'] = $data_proses_perhitungan[$i]->nama;
@@ -406,11 +407,15 @@ class ProsesPerhitungan extends Model
                     $tmp_ke_3++;
                 }
             }
+            for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
+                if($data_proses_perhitungan[$i]->proses == 'Ke 4') {
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['hasil_kategori_tindakan'][$tmp_ke_4]['nama_kategori'] = $data_proses_perhitungan[$i]->nama;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['hasil_kategori_tindakan'][$tmp_ke_4]['jumlah_jp'] = $data_proses_perhitungan[$i]->jumlah_jp;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
+                    $tmp_ke_4++;
+                }
+            }
             
-            
-            // foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
-                
-            // }  
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
@@ -421,16 +426,10 @@ class ProsesPerhitungan extends Model
             ->where('transaksi.id_periode', '=', $id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'DOKTER')
             ->get();
-            // $tmp_dokter = 0;
-            // for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
-            //     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
-            //     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter]['jumlah_jp'] = $data_proses_perhitungan[$i]->jumlah_jp;
-            //     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
-            //     $tmp_dokter++;
-            // }
             $tmp_dokter_ke_1 = 0;
             $tmp_dokter_ke_2 = 0;
             $tmp_dokter_ke_3 = 0;
+            $tmp_dokter_ke_4 = 0;
             for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
                 if($data_proses_perhitungan[$i]->proses == 'Ke 1') {
                     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter_ke_1]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
@@ -455,11 +454,14 @@ class ProsesPerhitungan extends Model
                     $tmp_dokter_ke_3++;
                 }
             }
-            // foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
-            //     $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['dokter']['nama_dokter'] = $row_data_proses_perhitungan->nama_dokter;
-            //     $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['dokter']['jumlah_jp'] = $row_data_proses_perhitungan->jumlah_jp;
-            //     $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['total'] = $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['total'] + $row_data_proses_perhitungan->jumlah_jp;
-            // }  
+            for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
+                if($data_proses_perhitungan[$i]->proses == 'Ke 4') {
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter_ke_4]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter_ke_4]['jumlah_jp'] = $data_proses_perhitungan[$i]->jumlah_jp;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
+                    $tmp_dokter_ke_4++;
+                }
+            } 
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
@@ -473,6 +475,7 @@ class ProsesPerhitungan extends Model
             $tmp_visite_ke_1 = 0;
             $tmp_visite_ke_2 = 0;
             $tmp_visite_ke_3 = 0;
+            $tmp_visite_ke_4 = 0;
             for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
                 if($data_proses_perhitungan[$i]->proses == 'Ke 1') {
                     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['visite'][$tmp_visite_ke_1]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
@@ -497,18 +500,14 @@ class ProsesPerhitungan extends Model
                     $tmp_visite_ke_3++;
                 }
             }
-            // $tmp_visite = 0;
-            // for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
-            //     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['visite'][$tmp_visite]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
-            //     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['visite'][$tmp_visite]['jumlah_jp'] = $data_proses_perhitungan[$i]->jumlah_jp;
-            //     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
-            //     $tmp_visite++;
-            // }
-            // foreach($data_proses_perhitungan as $row_data_proses_perhitungan) {
-            //     $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['visite']['nama_dokter'] = $row_data_proses_perhitungan->nama_dokter;
-            //     $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['visite']['jumlah_jp'] = $row_data_proses_perhitungan->jumlah_jp;
-            //     $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['total'] = $hasil[$id_data_pasien][$row_data_proses_perhitungan->proses]['total'] + $row_data_proses_perhitungan->jumlah_jp;
-            // }  
+            for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
+                if($data_proses_perhitungan[$i]->proses == 'Ke 4') {
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['visite'][$tmp_visite_ke_4]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['visite'][$tmp_visite_ke_4]['jumlah_jp'] = $data_proses_perhitungan[$i]->jumlah_jp;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
+                    $tmp_visite_ke_4++;
+                }
+            }
             // dd($hasil);
         return $hasil;
     }
@@ -615,6 +614,7 @@ class ProsesPerhitungan extends Model
             $tmp_ke_1 = 0;
             $tmp_ke_2 = 0;
             $tmp_ke_3 = 0;
+            $tmp_ke_4 = 0;
             for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
                 if($data_proses_perhitungan[$i]->proses == 'Ke 1') {
                     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['hasil_kategori_tindakan'][$tmp_ke_1]['nama_kategori'] = $data_proses_perhitungan[$i]->nama;
@@ -639,6 +639,14 @@ class ProsesPerhitungan extends Model
                     $tmp_ke_3++;
                 }
             }
+            for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
+                if($data_proses_perhitungan[$i]->proses == 'Ke 4') {
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['hasil_kategori_tindakan'][$tmp_ke_4]['nama_kategori'] = $data_proses_perhitungan[$i]->nama;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['hasil_kategori_tindakan'][$tmp_ke_4]['jumlah_jp'] = $data_proses_perhitungan[$i]->jumlah_jp;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
+                    $tmp_ke_4++;
+                }
+            }
 
             $data_proses_perhitungan = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
@@ -653,6 +661,7 @@ class ProsesPerhitungan extends Model
             $tmp_dokter_ke_1 = 0;
             $tmp_dokter_ke_2 = 0;
             $tmp_dokter_ke_3 = 0;
+            $tmp_dokter_ke_4 = 0;
             for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
                 if($data_proses_perhitungan[$i]->proses == 'Ke 1') {
                     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter_ke_1]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
@@ -676,9 +685,17 @@ class ProsesPerhitungan extends Model
                     $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
                     $tmp_dokter_ke_3++;
                 }
+            }
+            for ($i=0; $i < count($data_proses_perhitungan); $i++) { 
+                if($data_proses_perhitungan[$i]->proses == 'Ke 4') {
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter_ke_4]['nama_dokter'] = $data_proses_perhitungan[$i]->nama_dokter;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['dokter'][$tmp_dokter_ke_4]['jumlah_jp'] = $data_proses_perhitungan[$i]->jumlah_jp;
+                    $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] = $hasil[$id_data_pasien][$data_proses_perhitungan[$i]->proses]['total'] + $data_proses_perhitungan[$i]->jumlah_jp;
+                    $tmp_dokter_ke_4++;
+                }
             } 
 
-            // dd($hasil);
+        // dd($hasil);
         return $hasil;
     }
 }

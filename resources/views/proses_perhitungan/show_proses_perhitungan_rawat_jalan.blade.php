@@ -232,10 +232,9 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="dataTable4" class="table table-bordered table-striped">
+                <table id="dataTable" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>No</th>
                                 <th>Keterangan</th>
                                 <th>Nama</th>
                                 <th>Jumlah</th>
@@ -243,15 +242,39 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="3">Total</th>
-                                <th>0</th>
+                                <th colspan="2">Total</th>
+                                <th>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['total'] }}</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             <tr>
-                                <td>
-                                </td>
+                                <td>ADM</td>
+                                <td>ADM</td>
+                                <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['adm']['adm'] }}</td>
                             </tr>
+                            @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_tindakan']))
+                                <tr>
+                                    <td>TINDAKAN</td>
+                                    <td>TINDAKAN</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_tindakan'] }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan']))
+                                @for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan']); $i++)
+                                    <tr>
+                                        <td>KATEGORI TINDAKAN</td>
+                                        <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][$i]['nama_kategori'] }}</td>
+                                        <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
+                                    </tr>
+                                @endfor
+                            @endif
+                            @for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['dokter']); $i++)
+                                <tr>
+                                    <td>DOKTER</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['dokter'][$i]['nama_dokter'] }}</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['dokter'][$i]['jumlah_jp'] }}</td>
+                                </tr>
+                            @endfor
                         </tbody> 
                     </table>
                 </div>

@@ -1067,21 +1067,22 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
             }
             
-            if(!isset($hasil[$row->id_data_pasien]['Ke 1']['dokter'])) {
+            if(isset($hasil[$row->id_data_pasien]['Ke 1']['dokter'])) {
                 // dd($row->id_data_pasien);
+                foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
+                    $proses_perhitungan = new ProsesPerhitungan();
+                    $proses_perhitungan->ket_kategori = 'DOKTER';
+                    $proses_perhitungan->proses = 'Ke 1';
+                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                    $proses_perhitungan->id_ruangan = $id_ruangan;
+                    $proses_perhitungan->created_at = now();
+                    $proses_perhitungan->updated_at = now();
+                    $proses_perhitungan->save();
+                }
             }
-            foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
-                $proses_perhitungan->proses = 'Ke 1';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
-            }
+            
 
             if(isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'])) {
                 foreach($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
@@ -1126,19 +1127,21 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
             }
             
-            foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-                $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
-                $proses_perhitungan->proses = 'Ke 2';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
+            if(isset($hasil[$row->id_data_pasien]['Ke 1']['dokter'])) {
+                foreach($hasil[$row->id_data_pasien]['Ke 1']['dokter'] as $hasil_1 => $val) {
+                    $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                    $tmp_total_ke_2 += $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)] / $hasil[$row->id_data_pasien]['Ke 1']['total'];
+                    $proses_perhitungan = new ProsesPerhitungan();
+                    $proses_perhitungan->ket_kategori = 'DOKTER';
+                    $proses_perhitungan->proses = 'Ke 2';
+                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                    $proses_perhitungan->id_ruangan = $id_ruangan;
+                    $proses_perhitungan->created_at = now();
+                    $proses_perhitungan->updated_at = now();
+                    $proses_perhitungan->save();
+                }
             }
 
             if(isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'])) {
@@ -1200,21 +1203,23 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
             }
             
-            foreach($hasil[$row->id_data_pasien]['Ke 2']['dokter'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan_nominal_uang;
-                $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan_nominal_uang;
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
-                $proses_perhitungan->proses = 'Ke 3';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
+            if(isset($hasil[$row->id_data_pasien]['Ke 2']['dokter'])) {
+                foreach($hasil[$row->id_data_pasien]['Ke 2']['dokter'] as $hasil_1 => $val) {
+                    $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan_nominal_uang;
+                    $tmp_total_ke_3 += $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)] * $data_value_keuangan_nominal_uang;
+                    $proses_perhitungan = new ProsesPerhitungan();
+                    $proses_perhitungan->ket_kategori = 'DOKTER';
+                    $proses_perhitungan->proses = 'Ke 3';
+                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                    $proses_perhitungan->id_ruangan = $id_ruangan;
+                    $proses_perhitungan->created_at = now();
+                    $proses_perhitungan->updated_at = now();
+                    $proses_perhitungan->save();
+                }
             }
-
+        
             if(isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'])) {
                 foreach($hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
                     $hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)] * $data_value_keuangan_nominal_uang;
@@ -1268,7 +1273,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->updated_at = now();
             $proses_perhitungan->save();
 
-            if(isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_tindakan'])) {
+            if(isset($hasil[$row->id_data_pasien]['Ke 3']['hasil_tindakan'])) {
                 $hasil[$row->id_data_pasien]['Ke 4']['hasil_tindakan'] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "HASIL TINDAKAN");
                 $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['hasil_tindakan'];
                 $proses_perhitungan = new ProsesPerhitungan();
@@ -1282,22 +1287,25 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
             }
             
-            foreach($hasil[$row->id_data_pasien]['Ke 3']['dokter'] as $hasil_1 => $val) {
-                $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "DOKTER");
-                $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'DOKTER';
-                $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_dokter = ucfirst($hasil_1);
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
+            if(isset($hasil[$row->id_data_pasien]['Ke 3']['dokter'])) {
+                foreach($hasil[$row->id_data_pasien]['Ke 3']['dokter'] as $hasil_1 => $val) {
+                    $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_data_pasien]['Ke 3'], $list_variable, "DOKTER");
+                    $tmp_total_ke_4 += $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan = new ProsesPerhitungan();
+                    $proses_perhitungan->ket_kategori = 'DOKTER';
+                    $proses_perhitungan->proses = 'Ke 4';
+                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_dokter = ucfirst($hasil_1);
+                    $proses_perhitungan->id_ruangan = $id_ruangan;
+                    $proses_perhitungan->created_at = now();
+                    $proses_perhitungan->updated_at = now();
+                    $proses_perhitungan->save();
+                }
             }
+            
 
-            if(isset($hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'])) {
+            if(isset($hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'])) {
                 foreach($hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
                     $data_kategori_tindakan = new KategoriTindakan();
                     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
@@ -1467,7 +1475,7 @@ class ProsesPerhitunganController extends Controller
 
         $hasi = new ProsesPerhitungan();
         $hasil = $hasi->ShowProsesPerhitunganRawatJalan($id_periode, $id_ruangan); 
-
+        
         $data_pasien = new DataPasien();
         $data_pasiens = $data_pasien->SelectDataPasienRawatJalan($id_periode, $id_ruangan);
         
@@ -1479,7 +1487,7 @@ class ProsesPerhitunganController extends Controller
 
     public function show_detail_proses_perhitungan_rawat_jalan($id_periode, $id_ruangan, $id_data_pasien) {
         $hasi = new ProsesPerhitungan();
-        $hasil = $hasi->ShowDetailProsesPerhitunganRawatInap($id_periode, $id_ruangan, $id_data_pasien); 
+        $hasil = $hasi->ShowDetailProsesPerhitunganRawatJalan($id_periode, $id_ruangan, $id_data_pasien); 
 
         $data_pasien = new DataPasien();
         $data_pasiens = $data_pasien->ShowTindakanDataPasien($id_data_pasien);

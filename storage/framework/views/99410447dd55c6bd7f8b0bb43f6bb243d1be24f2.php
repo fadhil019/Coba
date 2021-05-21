@@ -93,7 +93,7 @@
       labels  : ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Okteober', 'November', 'Desember'],
       datasets: [
         {
-          label               : 'Digital Goods',
+          label               : 'Dokter',
           backgroundColor     : 'rgba(60,141,188,0.9)',
           borderColor         : 'rgba(60,141,188,0.8)',
           pointRadius          : false,
@@ -101,6 +101,51 @@
           pointStrokeColor    : 'rgba(60,141,188,1)',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [
+                <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
+                    <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
+                <?php endfor; ?>
+          ]
+        },
+        {
+          label               : 'Perawat',
+          backgroundColor     : 'rgba(252, 186, 3,0.9)',
+          borderColor         : 'rgba(252, 186, 3,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(252, 186, 3,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(252, 186, 3,1)',
+          data                : [
+                <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
+                    <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
+                <?php endfor; ?>
+          ]
+        },
+        {
+          label               : 'Admin',
+          backgroundColor     : 'rgba(8, 252, 0,0.9)',
+          borderColor         : 'rgba(8, 252, 0,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(8, 252, 0,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(8, 252, 0,1)',
+          data                : [
+                <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
+                    <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
+                <?php endfor; ?>
+          ]
+        },
+        {
+          label               : 'Penunjang',
+          backgroundColor     : 'rgba(252, 0, 0,0.9)',
+          borderColor         : 'rgba(252, 0, 0,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(252, 0, 0,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(252, 0, 0,1)',
           data                : [
                 <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
                     <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
@@ -127,9 +172,14 @@
     var barChartCanvas = $('#barChart').get(0).getContext('2d')
     var barChartData = jQuery.extend(true, {}, dataTampung)
     // var temp0 = dataTampung.datasets[0]
-    var temp1 = dataTampung.datasets[0]
-    barChartData.datasets[0] = temp1
-    // barChartData.datasets[1] = temp0
+    var temp_dokter = dataTampung.datasets[0]
+    var temp_perawat = dataTampung.datasets[1]
+    var temp_admin = dataTampung.datasets[2]
+    var temp_penunjang = dataTampung.datasets[3]
+    barChartData.datasets[0] = temp_dokter
+    barChartData.datasets[1] = temp_perawat
+    barChartData.datasets[2] = temp_admin
+    barChartData.datasets[3] = temp_penunjang
 
     var barChartOptions = {
       responsive              : true,
