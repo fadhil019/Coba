@@ -25,6 +25,9 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="mr-2"><a href="{{ url('generate_data_karyawan_penunjang/'.$data_periodes->id_periode) }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Generate</a></li>
                     </ol>
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="mr-2"><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-plus" aria-hidden="true"></i> Proses perhitungan upah</a></li>
+                    </ol>
                 </div>
             </div>
         </div>
