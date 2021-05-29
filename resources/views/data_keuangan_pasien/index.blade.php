@@ -114,7 +114,7 @@
         <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable" class="table table-bordered table-striped">
+                <table id="dataTable10" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -220,6 +220,13 @@
                         @endforeach
                     </tbody> 
                 </table>
+                <div class="row no-print">
+                    <div class="col-12">
+                        <div class="float-right mt-4">
+                            {{ $data_keuangan_pasiens->links() }}
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /.card-body -->
         </div>

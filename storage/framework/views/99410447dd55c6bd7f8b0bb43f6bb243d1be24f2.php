@@ -1,4 +1,24 @@
 <?php $__env->startSection('content'); ?>
+<?php
+  function tanggal_indo($tanggal, $cetak_hari = false)
+  {
+      $bulan = array (1 =>   'Januari',
+                  'Februari',
+                  'Maret',
+                  'April',
+                  'Mei',
+                  'Juni',
+                  'Juli',
+                  'Agustus',
+                  'September',
+                  'Oktober',
+                  'November',
+                  'Desember'
+              );
+      $tgl_indo = $bulan[$tanggal];
+      return $tgl_indo;
+  }
+?>
 <!-- Content Header (Page header) -->
 <section class="content-header mb-n3">
     <?php if(\Session::has('alert-success')): ?>
@@ -63,11 +83,80 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <div class="row pt-2 mb-2">
+                        <div class="col-sm-6">
+                            <h3>Data pendapatan " <?php echo e($tahun); ?> "</h3>
+                        </div>
+                    </div>
+                </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="chart">
                         <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+
+    <!-- RATA -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row pt-2 mb-2">
+                        <div class="col-sm-6">
+                            <h3>Data rata -rata pendapatan " <?php echo e($tahun); ?> "</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <p>
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata dokter yaitu " Rp. <?php echo e($data_dashboards['rata_rata_dokter']); ?> "
+                    </p>
+                    <p>
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata admin yaitu " Rp. <?php echo e($data_dashboards['rata_rata_admin']); ?> "
+                    </p>
+                    <p>
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata penunjang yaitu " Rp. <?php echo e($data_dashboards['rata_rata_penunjang']); ?> "
+                    </p>
+                    <p>
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata perawat yaitu " Rp. <?php echo e($data_dashboards['rata_rata_perawat']); ?> "
+                    </p>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PENDAPATAN TERBESAR -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row pt-2 mb-2">
+                        <div class="col-sm-6">
+                            <h3>Data pendapatan terbesar " <?php echo e($tahun); ?> "</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <p>
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan dokter terbesar yaitu pada bulan " <?php echo e(tanggal_indo($data_dashboards['terbesar_dokter'])); ?> "
+                    </p>
+                    <p>
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan admin terbesar yaitu pada bulan " <?php echo e(tanggal_indo($data_dashboards['terbesar_admin'])); ?> "
+                    </p>
+                    <p>
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan penunjang terbesar yaitu pada bulan " <?php echo e(tanggal_indo($data_dashboards['terbesar_penunjang'])); ?> "
+                    </p>
+                    <p>
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan perawat terbesar yaitu pada bulan " <?php echo e(tanggal_indo($data_dashboards['terbesar_perawat'])); ?> "
+                    </p>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -102,8 +191,8 @@
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(60,141,188,1)',
           data                : [
-                <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
-                    <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
+                <?php for($i = 0; $i < count($data_dashboards['dokter']); $i++): ?>
+                    <?php echo e($data_dashboards['dokter'][$i]); ?> ,
                 <?php endfor; ?>
           ]
         },
@@ -117,8 +206,8 @@
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(252, 186, 3,1)',
           data                : [
-                <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
-                    <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
+                <?php for($i = 0; $i < count($data_dashboards['perawat']); $i++): ?>
+                    <?php echo e($data_dashboards['perawat'][$i]); ?> ,
                 <?php endfor; ?>
           ]
         },
@@ -132,8 +221,8 @@
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(8, 252, 0,1)',
           data                : [
-                <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
-                    <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
+                <?php for($i = 0; $i < count($data_dashboards['admin']); $i++): ?>
+                    <?php echo e($data_dashboards['admin'][$i]); ?> ,
                 <?php endfor; ?>
           ]
         },
@@ -147,8 +236,8 @@
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(252, 0, 0,1)',
           data                : [
-                <?php for($i = 0; $i < count($data_dashboards); $i++): ?>
-                    <?php echo e($data_dashboards[$i]['total_pendapatan']); ?> ,
+                <?php for($i = 0; $i < count($data_dashboards['penunjang']); $i++): ?>
+                    <?php echo e($data_dashboards['penunjang'][$i]); ?> ,
                 <?php endfor; ?>
           ]
         },

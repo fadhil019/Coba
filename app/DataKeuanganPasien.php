@@ -21,7 +21,7 @@ class DataKeuanganPasien extends Model
         $data_keuangan_pasien = DB::table('data_keuangan_pasien')
         ->join('periode', 'periode.id_periode', '=', 'data_keuangan_pasien.id_periode')
         ->orderby('data_keuangan_pasien.id_data_keuangan_pasien', 'ASC')
-        ->get();
+        ->paginate(10);
         return $data_keuangan_pasien;
     }
 

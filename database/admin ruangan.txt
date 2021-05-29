@@ -1,0 +1,18 @@
+data input pasien rawat inap
+- data yang JPnya "0" ndak usah dimasukkan
+- import rawat inap itu per pax
+- ndak bisa nambah - nambah data apapun pada saat lihat data pasien rawat inap
+- jika ada kesalahan nama data minta koleftif data untuk membenahi data yang salah
+
+
+" excel itu cuma ada di dana keuangan, pasien rawat jalan dan inap
+
+- runtutan 
+= tambah periode
+= tambah dana keuangan
+= admin ruangan baru bisa menambahkan data rawat inap
+= kolektif juga mulai bisa menmabah data rawat jalan
+== isi data dari rwat jalan dan inap kolomnya sama cuma isinya yang berbeda
+filter data
+- pada baris pertama, jika JP 0 ndak usah dihapus, selanjutnya.. jika JP 0 dihapus saja..
+- samakan nomer SEP dan periode dari dana keuangan pasien, jika belum ada maka data pasien ndak usah dimasukkan
