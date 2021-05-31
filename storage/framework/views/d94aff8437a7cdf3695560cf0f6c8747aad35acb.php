@@ -96,19 +96,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="2">Total</th>
-                            <th><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['total']); ?></th>
+                            <th><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['total']); ?></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>ADM</td>
                             <td>ADM</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['adm']['adm']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['adm']['adm']); ?></td>
                         </tr>
                         <tr>
                             <td>GIZI</td>
                             <td>GIZI</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['gizi']['gizi']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['gizi']['gizi']); ?></td>
                         </tr>
 
                         <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -119,8 +119,8 @@
                                 <?php
                                     $index = 'perawat_' . $ruangan->kategori_ruangan;
                                 ?>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1'][$index])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1'][$index]); ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index]); ?>
 
                                 <?php else: ?>
                                     -
@@ -129,26 +129,26 @@
                         </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['hasil_kategori_tindakan']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['dokter']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter']); $i++): ?>
                             <tr>
                                 <td>DOKTER</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['dokter'][$i]['nama_dokter']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['dokter'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['nama_dokter']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['visite'])): ?>
-                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['visite']); $i++): ?>
+                        <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite'])): ?>
+                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite']); $i++): ?>
                                 <tr>
                                     <td>VISITE</td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['visite'][$i]['nama_dokter']); ?></td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['visite'][$i]['jumlah_jp']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite'][$i]['nama_dokter']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite'][$i]['jumlah_jp']); ?></td>
                                 </tr>
                             <?php endfor; ?>
                         <?php else: ?>
@@ -192,19 +192,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="2">Total</th>
-                            <th><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['total']); ?></th>
+                            <th><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['total']); ?></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>ADM</td>
                             <td>ADM</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['adm']['adm']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['adm']['adm']); ?></td>
                         </tr>
                         <tr>
                             <td>GIZI</td>
                             <td>GIZI</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['gizi']['gizi']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['gizi']['gizi']); ?></td>
                         </tr>
 
                         <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -215,8 +215,8 @@
                                 <?php
                                     $index = 'perawat_' . $ruangan->kategori_ruangan;
                                 ?>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2'][$index])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2'][$index]); ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2'][$index]); ?>
 
                                 <?php else: ?>
                                     -
@@ -225,26 +225,26 @@
                         </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['hasil_kategori_tindakan']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['dokter']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter']); $i++): ?>
                             <tr>
                                 <td>DOKTER</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['dokter'][$i]['nama_dokter']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['dokter'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter'][$i]['nama_dokter']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['visite'])): ?>
-                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['visite']); $i++): ?>
+                        <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['visite'])): ?>
+                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['visite']); $i++): ?>
                                 <tr>
                                     <td>VISITE</td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['visite'][$i]['nama_dokter']); ?></td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['visite'][$i]['jumlah_jp']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['visite'][$i]['nama_dokter']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['visite'][$i]['jumlah_jp']); ?></td>
                                 </tr>
                             <?php endfor; ?>
                         <?php else: ?>
@@ -288,19 +288,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="2">Total</th>
-                            <th><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['total']); ?></th>
+                            <th><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['total']); ?></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>ADM</td>
                             <td>ADM</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['adm']['adm']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['adm']['adm']); ?></td>
                         </tr>
                         <tr>
                             <td>GIZI</td>
                             <td>GIZI</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['gizi']['gizi']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['gizi']['gizi']); ?></td>
                         </tr>
 
                         <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -311,8 +311,8 @@
                                 <?php
                                     $index = 'perawat_' . $ruangan->kategori_ruangan;
                                 ?>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3'][$index])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3'][$index]); ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index]); ?>
 
                                 <?php else: ?>
                                     -
@@ -321,26 +321,26 @@
                         </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['hasil_kategori_tindakan']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['dokter']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter']); $i++): ?>
                             <tr>
                                 <td>DOKTER</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['dokter'][$i]['nama_dokter']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['dokter'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['nama_dokter']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['visite'])): ?>
-                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['visite']); $i++): ?>
+                        <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite'])): ?>
+                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite']); $i++): ?>
                                 <tr>
                                     <td>VISITE</td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['visite'][$i]['nama_dokter']); ?></td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['visite'][$i]['jumlah_jp']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite'][$i]['nama_dokter']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite'][$i]['jumlah_jp']); ?></td>
                                 </tr>
                             <?php endfor; ?>
                         <?php else: ?>
@@ -384,19 +384,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="2">Total</th>
-                            <th><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['total']); ?></th>
+                            <th><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['total']); ?></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>ADM</td>
                             <td>ADM</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['adm']['adm']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['adm']['adm']); ?></td>
                         </tr>
                         <tr>
                             <td>GIZI</td>
                             <td>GIZI</td>
-                            <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['gizi']['gizi']); ?></td>
+                            <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['gizi']['gizi']); ?></td>
                         </tr>
                         
                         <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -407,8 +407,8 @@
                                 <?php
                                     $index = 'perawat_' . $ruangan->kategori_ruangan;
                                 ?>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4'][$index])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4'][$index]); ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index]); ?>
 
                                 <?php else: ?>
                                     -
@@ -417,26 +417,26 @@
                         </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$i]['nama_kategori']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['dokter']); $i++): ?>
+                        <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter']); $i++): ?>
                             <tr>
                                 <td>DOKTER</td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['dokter'][$i]['nama_dokter']); ?></td>
-                                <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['dokter'][$i]['jumlah_jp']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['nama_dokter']); ?></td>
+                                <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['jumlah_jp']); ?></td>
                             </tr>
                         <?php endfor; ?>
-                        <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['visite'])): ?>
-                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['visite']); $i++): ?>
+                        <?php if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite'])): ?>
+                            <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite']); $i++): ?>
                                 <tr>
                                     <td>VISITE</td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['visite'][$i]['nama_dokter']); ?></td>
-                                    <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['visite'][$i]['jumlah_jp']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite'][$i]['nama_dokter']); ?></td>
+                                    <td><?php echo e($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite'][$i]['jumlah_jp']); ?></td>
                                 </tr>
                             <?php endfor; ?>
                         <?php else: ?>
