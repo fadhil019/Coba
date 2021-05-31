@@ -349,6 +349,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 1';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -359,6 +360,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 1';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['gizi']['gizi'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -369,6 +371,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 1';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_igd'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -379,6 +382,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 1';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_iccu'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -389,6 +393,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 1';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['perawat_rpp'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -401,6 +406,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 1';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         if(ucfirst($hasil_1) != null && ucfirst($hasil_1) != "")
                         {
                             $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -419,6 +425,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 1';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -434,6 +441,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 1';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['visite'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -460,6 +468,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 2';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -481,6 +490,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 2';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['gizi']['gizi'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -502,6 +512,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 2';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_igd'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -523,6 +534,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 2';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_iccu'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -543,6 +555,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 2';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['perawat_rpp'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -562,6 +575,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 2';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         if(ucfirst($hasil_1) != null && ucfirst($hasil_1) != "")
                         {
                             $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -582,6 +596,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 2';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -599,6 +614,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 2';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['visite'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -620,6 +636,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 3';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -632,6 +649,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 3';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['gizi']['gizi'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -644,6 +662,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 3';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_igd'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -656,6 +675,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 3';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_iccu'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -668,6 +688,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 3';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['perawat_rpp'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -687,6 +708,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 3';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         if(ucfirst($hasil_1) != null && ucfirst($hasil_1) != "")
                         {
                             $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -707,6 +729,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 3';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -725,6 +748,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 3';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['visite'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -774,6 +798,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 4';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['adm']['adm'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -786,6 +811,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 4';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['gizi']['gizi'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -798,6 +824,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 4';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_igd'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -810,6 +837,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 4';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -822,6 +850,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 4';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -847,6 +876,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 4';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -864,6 +894,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 4';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -882,6 +913,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 4';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -980,7 +1012,6 @@ class ProsesPerhitunganController extends Controller
         $data_dokters = $data_dokter->SelectDokter();
 
         // 
-
         $data_pasien = new DataPasien();
         $data_pasiens = $data_pasien->SelectDataPasienRawatJalan($id_periode, $id_ruangan);
 
@@ -1050,6 +1081,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->proses = 'Ke 1';
             $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['adm']['adm'];
             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+            $proses_perhitungan->id_transaksi = $row->id_transaksi;
             $proses_perhitungan->id_ruangan = $id_ruangan;
             $proses_perhitungan->created_at = now();
             $proses_perhitungan->updated_at = now();
@@ -1061,6 +1093,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 1';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['hasil_tindakan'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -1075,6 +1108,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 1';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['dokter'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -1091,6 +1125,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 1';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -1108,6 +1143,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->proses = 'Ke 2';
             $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['adm']['adm'];
             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+            $proses_perhitungan->id_transaksi = $row->id_transaksi;
             $proses_perhitungan->id_ruangan = $id_ruangan;
             $proses_perhitungan->created_at = now();
             $proses_perhitungan->updated_at = now();
@@ -1121,6 +1157,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 2';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['hasil_tindakan'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -1136,6 +1173,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 2';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['dokter'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -1153,6 +1191,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 2';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -1184,6 +1223,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->proses = 'Ke 3';
             $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['adm']['adm'];
             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+            $proses_perhitungan->id_transaksi = $row->id_transaksi;
             $proses_perhitungan->id_ruangan = $id_ruangan;
             $proses_perhitungan->created_at = now();
             $proses_perhitungan->updated_at = now();
@@ -1197,6 +1237,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 3';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['hasil_tindakan'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -1212,6 +1253,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 3';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['dokter'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -1229,6 +1271,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 3';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -1268,6 +1311,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->proses = 'Ke 4';
             $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['adm']['adm'];
             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+            $proses_perhitungan->id_transaksi = $row->id_transaksi;
             $proses_perhitungan->id_ruangan = $id_ruangan;
             $proses_perhitungan->created_at = now();
             $proses_perhitungan->updated_at = now();
@@ -1281,6 +1325,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->proses = 'Ke 4';
                 $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['hasil_tindakan'];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
                 $proses_perhitungan->created_at = now();
                 $proses_perhitungan->updated_at = now();
@@ -1296,6 +1341,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->proses = 'Ke 4';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                    $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
                     $proses_perhitungan->id_ruangan = $id_ruangan;
                     $proses_perhitungan->created_at = now();
@@ -1318,6 +1364,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->proses = 'Ke 4';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                        $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
                         $proses_perhitungan->id_ruangan = $id_ruangan;
                         $proses_perhitungan->created_at = now();
@@ -1346,6 +1393,7 @@ class ProsesPerhitunganController extends Controller
         // $proses_perhitungan->proses = 'Ke 4';
         // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['adm']['adm'];
         // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         // $proses_perhitungan->id_ruangan = $id_ruangan;
         // $proses_perhitungan->created_at = now();
         // $proses_perhitungan->updated_at = now();
@@ -1358,6 +1406,7 @@ class ProsesPerhitunganController extends Controller
         // $proses_perhitungan->proses = 'Ke 4';
         // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['gizi']['gizi'];
         // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         // $proses_perhitungan->id_ruangan = $id_ruangan;
         // $proses_perhitungan->created_at = now();
         // $proses_perhitungan->updated_at = now();
@@ -1370,6 +1419,7 @@ class ProsesPerhitunganController extends Controller
         // $proses_perhitungan->proses = 'Ke 4';
         // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_igd'];
         // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         // $proses_perhitungan->id_ruangan = $id_ruangan;
         // $proses_perhitungan->created_at = now();
         // $proses_perhitungan->updated_at = now();
@@ -1382,6 +1432,7 @@ class ProsesPerhitunganController extends Controller
         // $proses_perhitungan->proses = 'Ke 4';
         // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_iccu'];
         // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         // $proses_perhitungan->id_ruangan = $id_ruangan;
         // $proses_perhitungan->created_at = now();
         // $proses_perhitungan->updated_at = now();
@@ -1394,6 +1445,7 @@ class ProsesPerhitunganController extends Controller
         // $proses_perhitungan->proses = 'Ke 4';
         // $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['perawat_rpp'];
         // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         // $proses_perhitungan->id_ruangan = $id_ruangan;
         // $proses_perhitungan->created_at = now();
         // $proses_perhitungan->updated_at = now();
@@ -1419,6 +1471,7 @@ class ProsesPerhitunganController extends Controller
         //         $proses_perhitungan->proses = 'Ke 4';
         //         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
         //         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         //         $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
         //         $proses_perhitungan->id_ruangan = $id_ruangan;
         //         $proses_perhitungan->created_at = now();
@@ -1436,6 +1489,7 @@ class ProsesPerhitunganController extends Controller
         //         $proses_perhitungan->proses = 'Ke 4';
         //         $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['dokter'][ucfirst($hasil_1)];
         //         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         //         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
         //         $proses_perhitungan->id_ruangan = $id_ruangan;
         //         $proses_perhitungan->created_at = now();
@@ -1454,6 +1508,7 @@ class ProsesPerhitunganController extends Controller
         //     $proses_perhitungan->proses = 'Ke 4';
         //     $proses_perhitungan->jumlah_jp = $hasil[$row->id_data_pasien]['Ke 4']['visite'][ucfirst($hasil_1)];
         //     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+        $proses_perhitungan->id_transaksi = $row->id_transaksi;
         //     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
         //     $proses_perhitungan->id_ruangan = $id_ruangan;
         //     $proses_perhitungan->created_at = now();

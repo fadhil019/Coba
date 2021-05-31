@@ -698,4 +698,5 @@ class ProsesPerhitungan extends Model
         // dd($hasil);
         return $hasil;
     }
+    
 }

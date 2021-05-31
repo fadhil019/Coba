@@ -1,4 +1,3 @@
-<!-- <li class="nav-header">NEW</li> -->
 <li class="nav-item">
     <a href="{{ route('periode.index')}}" class="nav-link">
     <i class="nav-icon fas fa-check"></i>
@@ -14,7 +13,7 @@
 <li class="nav-item">
     <a href="{{ route('variable_rumus.index')}}" class="nav-link">
     <i class="nav-icon fas fa-check"></i>
-        <p>Rumus - rumus GJ</p>
+        <p>Rumus - rumus</p>
     </a>
 </li>
 <li class="nav-item has-treeview menu-close">
@@ -36,7 +35,7 @@
     <ul class="nav nav-treeview">
         <li class="nav-item">
             <a href="{{ url('periode_p_pasien_rawat_jalan')}}" class="nav-link">
-            <i class="nav-icon fas fa-times"></i>
+            <i class="nav-icon far fa-circle"></i>
                 <p>Perhitungan</p>
             </a>
         </li>
@@ -61,7 +60,7 @@
     <ul class="nav nav-treeview">
         <li class="nav-item">
             <a href="{{ url('periode_p_pasien_rawat_inap')}}" class="nav-link">
-            <i class="nav-icon fas fa-circle"></i>
+            <i class="nav-icon far fa-circle"></i>
                 <p>Perhitungan</p>
             </a>
         </li>
@@ -192,7 +191,7 @@
 </li>
 <li class="nav-item">
     <a href="{{ url('daftar_dashboard/'. date('Y') )}}" class="nav-link">
-    <i class="nav-icon fas fa-star"></i>
+    <i class="nav-icon fas fa-check"></i>
         <p>Dasboard</p>
     </a>
 </li>

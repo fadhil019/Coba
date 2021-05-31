@@ -123,6 +123,100 @@
         </div>
         <!-- /.col -->
     </div>
+
+    <div class="row">
+        <div class="col-12">
+        <input type="hidden" value="<?php echo e($no = 1); ?>">
+        <div class="card">
+            <div class="card-header">
+                <div class="row pt-2 mb-2">
+                    <div class="col-sm-6">
+                        <h4>Daftar ruangan</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="dataTable3" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama kategori</th>
+                            <th>Bagian</th>
+                            <th>Upah jasa pelayanan</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama kategori</th>
+                            <th>Bagian</th>
+                            <th>Upah jasa pelayanan</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <?php for($i=0; $i < count($rekap_data_ruangans); $i++): ?>
+                            <tr>
+                                <td><?php echo e($i+1); ?></td>
+                                <td><?php echo e($rekap_data_ruangans[$i]['nama_ruangan']); ?></td>
+                                <td><?php echo e($rekap_data_ruangans[$i]['bagian']); ?></td>
+                                <td><?php echo e($rekap_data_ruangans[$i]['upah_jasa']); ?></td>
+                            </tr>
+                        <?php endfor; ?>
+                    </tbody> 
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+        <input type="hidden" value="<?php echo e($no = 1); ?>">
+        <div class="card">
+            <div class="card-header">
+                <div class="row pt-2 mb-2">
+                    <div class="col-sm-6">
+                        <h4>Daftar admin remunerasi</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="dataTable4" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama kategori</th>
+                            <th>Bagian</th>
+                            <th>Upah jasa pelayanan</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama kategori</th>
+                            <th>Bagian</th>
+                            <th>Upah jasa pelayanan</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><?php echo e($rekap_data_admin_remus['nama_kategori']); ?></td>
+                            <td><?php echo e($rekap_data_admin_remus['bagian']); ?></td>
+                            <td><?php echo e($rekap_data_admin_remus['upah_jasa']); ?></td>
+                        </tr>
+                    </tbody> 
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        </div>
+        <!-- /.col -->
+    </div>
     <!-- /.row -->
 </section>
 <!-- /.content -->

@@ -26,8 +26,35 @@
                         <li class="mr-2"><a href="{{ url('generate_data_karyawan_penunjang/'.$data_periodes->id_periode) }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Generate</a></li>
                     </ol>
                     <ol class="breadcrumb float-sm-right">
-                        <li class="mr-2"><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-plus" aria-hidden="true"></i> Proses perhitungan upah</a></li>
+                        <li class="mr-2"><a href="#" data-toggle="modal" data-target="#create_data" class="btn btn-warning"><i class="fa fa-plus" aria-hidden="true"></i> Proses perhitungan upah</a></li>
                     </ol>
+                </div>
+                <div class="modal fade" id="create_data">
+                    <div class="modal-dialog">
+                        <div class="modal-content  bg-warning">
+                            <div class="modal-header">
+                            <h4 class="modal-title">Proses perhitungan upah karyawan penunjang</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{{ url('/') }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                            <label for="Name">Apakah anda yakin ingin memproses perhitungan upah karyawan penunjang periode ({{ $data_periodes->bulan }} - {{ $data_periodes->tahun }}) ?</label>
+                                        </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            {{ __('Proses') }}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark pull-right" data-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

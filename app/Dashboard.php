@@ -32,23 +32,32 @@ class Dashboard extends Model
                 ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
                 ->where('proses_perhitungan.id_dokter', '=', $row_dokter->id_dokter)
                 ->where('transaksi.id_periode', '=', $row->id_periode)
+                ->where('proses_perhitungan.proses', '=', 'Ke 4')
                 ->get();
-                
                 foreach($data_proses_perhitungan as $row_perhitungan){
                     $tmp_total_pendapatan_dokter += $row_perhitungan->jumlah_jp;
-                }
-                
+                }  
             }
 
             // ADMIN
+            $data_keuangan_pasien = DB::table('data_keuangan_pasien')
+            ->select('nominal_uang')
+            ->join('periode', 'periode.id_periode', '=', 'data_keuangan_pasien.id_periode')
+            ->where('data_keuangan_pasien.id_periode', '=', $row->id_periode)
+            ->orderby('data_keuangan_pasien.id_data_keuangan_pasien', 'ASC')
+            ->get();
+            $tmp_nominal_uang = 0;
+            foreach($data_keuangan_pasien as $row_data_keuangan){
+                $tmp_nominal_uang += $row_data_keuangan->nominal_uang;
+            }
             $tmp_total_pendapatan_admin = 0;
             $data_proses_perhitungan_admin_adm = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
             ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
-            ->where('proses_perhitungan.ket_kategori', '=', 'GIZI')
+            ->where('proses_perhitungan.ket_kategori', '=', 'ADM')
             ->where('transaksi.id_periode', '=', $row->id_periode)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
-            
             foreach($data_proses_perhitungan_admin_adm as $row_perhitungan_admin_adm){
                 $tmp_total_pendapatan_admin += $row_perhitungan_admin_adm->jumlah_jp;
             }
@@ -64,6 +73,7 @@ class Dashboard extends Model
                 ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
                 ->where('proses_perhitungan.id_kategori_tindakan', '=', $row_kategori_tindakan->id_kategori_tindakan)
                 ->where('transaksi.id_periode', '=', $row->id_periode)
+                ->where('proses_perhitungan.proses', '=', 'Ke 4')
                 ->get();
                 
                 foreach($data_proses_perhitungan_penunjang as $row_perhitungan_kategori_tindakan){
@@ -76,8 +86,8 @@ class Dashboard extends Model
             ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('proses_perhitungan.ket_kategori', '=', 'GIZI')
             ->where('transaksi.id_periode', '=', $row->id_periode)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
-            
             foreach($data_proses_perhitungan_penunjang_gizi as $row_perhitungan_kat_gizi){
                 $tmp_total_pendapatan_penunjang += $row_perhitungan_kat_gizi->jumlah_jp;
             }
@@ -89,37 +99,41 @@ class Dashboard extends Model
             ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('transaksi.id_periode', '=', $row->id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT RPP')
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
-            
             foreach($data_proses_perhitungan_perawat_rpp as $row_perhitungan_perawat_rpp){
                 $tmp_total_pendapatan_perawat += $row_perhitungan_perawat_rpp->jumlah_jp;
             }
+
             $data_proses_perhitungan_perawat_iccu = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
             ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('transaksi.id_periode', '=', $row->id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT ICCU')
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
-            
             foreach($data_proses_perhitungan_perawat_iccu as $row_perhitungan_perawat_iccu){
                 $tmp_total_pendapatan_perawat += $row_perhitungan_perawat_iccu->jumlah_jp;
             }
+
             $data_proses_perhitungan_perawat_igd = DB::table('proses_perhitungan')
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
             ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
             ->where('transaksi.id_periode', '=', $row->id_periode)
             ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT IGD')
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
-            
             foreach($data_proses_perhitungan_perawat_igd as $row_perhitungan_perawat_igd){
                 $tmp_total_pendapatan_perawat += $row_perhitungan_perawat_igd->jumlah_jp;
             }
+
             $hasil['dokter'][$i] = $tmp_total_pendapatan_dokter;
-            $hasil['admin'][$i] = $tmp_total_pendapatan_admin;
+            $hasil['admin'][$i] = $tmp_total_pendapatan_admin + ($tmp_nominal_uang * 0.05) + ($tmp_nominal_uang * 0.1) + ($tmp_nominal_uang * 0.15);
             $hasil['penunjang'][$i] = $tmp_total_pendapatan_penunjang;
             $hasil['perawat'][$i] = $tmp_total_pendapatan_perawat;
             $i++;
         }
+
         $sum_dokter = array_sum($hasil['dokter']);
         $rata_rata_dokter = $sum_dokter / 12;
 
@@ -132,6 +146,7 @@ class Dashboard extends Model
         $sum_perawat = array_sum($hasil['perawat']);
         $rata_rata_perawat = $sum_perawat / 12;
 
+        
         $hasil['rata_rata_dokter'] = $rata_rata_dokter;
         $hasil['rata_rata_admin'] = $rata_rata_admin;
         $hasil['rata_rata_penunjang'] = $rata_rata_penunjang;
@@ -144,17 +159,5 @@ class Dashboard extends Model
         
         // dd($hasil);
         return $hasil;
-        // $data_proses_perhitungan = DB::table('proses_perhitungan')
-            // ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
-            // ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
-            // ->where('transaksi.id_periode', '=', $row->id_periode)
-            // ->get();
-            // // $hasil[$i]['bulan'] = $row->bulan;
-            // $tmp_total_pendapatan = 0;
-            // foreach($data_proses_perhitungan as $row_perhitungan){
-            //     $tmp_total_pendapatan += $row_perhitungan->jumlah_jp;
-            // }
-            // $hasil[$i]['total_pendapatan'] = $tmp_total_pendapatan;
-            // $i++;
     }
 }
