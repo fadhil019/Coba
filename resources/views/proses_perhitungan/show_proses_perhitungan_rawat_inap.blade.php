@@ -109,39 +109,24 @@
                             <td>GIZI</td>
                             <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['gizi']['gizi'] }}</td>
                         </tr>
+
+                        @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
                             <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_igd']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_igd'] }}
+                                @php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                @endphp
+                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1'][$index]))
+                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 1'][$index] }}
                                 @else
                                     -
                                 @endif
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_iccu']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_iccu'] }}
-                                @else
-                                    -
-                                @endif
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_rpp']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_rpp'] }}
-                                @else
-                                    -
-                                @endif
-                            </td> 
-                        </tr>
+                        @endforeach
+
                         @for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['hasil_kategori_tindakan']); $i++)
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
@@ -219,39 +204,24 @@
                             <td>GIZI</td>
                             <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['gizi']['gizi'] }}</td>
                         </tr>
+
+                        @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
                             <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_igd']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_igd'] }}
+                                @php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                @endphp
+                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2'][$index]))
+                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 2'][$index] }}
                                 @else
                                     -
                                 @endif
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_iccu']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_iccu'] }}
-                                @else
-                                    -
-                                @endif
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_rpp']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_rpp'] }}
-                                @else
-                                    -
-                                @endif
-                            </td> 
-                        </tr>
+                        @endforeach
+
                         @for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['hasil_kategori_tindakan']); $i++)
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
@@ -329,39 +299,24 @@
                             <td>GIZI</td>
                             <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['gizi']['gizi'] }}</td>
                         </tr>
+
+                        @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
                             <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_igd']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_igd'] }}
+                                @php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                @endphp
+                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3'][$index]))
+                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 3'][$index] }}
                                 @else
                                     -
                                 @endif
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_iccu']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_iccu'] }}
-                                @else
-                                    -
-                                @endif
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_rpp']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_rpp'] }}
-                                @else
-                                    -
-                                @endif
-                            </td> 
-                        </tr>
+                        @endforeach
+
                         @for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['hasil_kategori_tindakan']); $i++)
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
@@ -439,39 +394,24 @@
                             <td>GIZI</td>
                             <td>{{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['gizi']['gizi'] }}</td>
                         </tr>
+                        
+                        @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
                             <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_igd']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_igd'] }}
+                                @php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                @endphp
+                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4'][$index]))
+                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4'][$index] }}
                                 @else
                                     -
                                 @endif
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_iccu']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_iccu'] }}
-                                @else
-                                    -
-                                @endif
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                @if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_rpp']))
-                                    {{ $hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_rpp'] }}
-                                @else
-                                    -
-                                @endif
-                            </td> 
-                        </tr>
+                        @endforeach
+
                         @for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan']); $i++)
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>

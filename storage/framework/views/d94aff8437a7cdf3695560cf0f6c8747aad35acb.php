@@ -110,42 +110,25 @@
                             <td>GIZI</td>
                             <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['gizi']['gizi']); ?></td>
                         </tr>
+
+                        <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>     
                             <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_igd'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_igd']); ?>
+                                <?php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1'][$index]); ?>
 
                                 <?php else: ?>
                                     -
                                 <?php endif; ?>
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_iccu'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_iccu']); ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_rpp'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['perawat_rpp']); ?>
-
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td> 
-                        </tr>
                         <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 1']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
@@ -223,42 +206,25 @@
                             <td>GIZI</td>
                             <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['gizi']['gizi']); ?></td>
                         </tr>
+
+                        <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>     
                             <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_igd'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_igd']); ?>
+                                <?php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2'][$index]); ?>
 
                                 <?php else: ?>
                                     -
                                 <?php endif; ?>
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_iccu'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_iccu']); ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_rpp'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['perawat_rpp']); ?>
-
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td> 
-                        </tr>
                         <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 2']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
@@ -336,42 +302,25 @@
                             <td>GIZI</td>
                             <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['gizi']['gizi']); ?></td>
                         </tr>
+
+                        <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>     
                             <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_igd'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_igd']); ?>
+                                <?php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3'][$index]); ?>
 
                                 <?php else: ?>
                                     -
                                 <?php endif; ?>
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_iccu'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_iccu']); ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_rpp'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['perawat_rpp']); ?>
-
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td> 
-                        </tr>
                         <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 3']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
@@ -449,42 +398,25 @@
                             <td>GIZI</td>
                             <td><?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['gizi']['gizi']); ?></td>
                         </tr>
+                        
+                        <?php $__currentLoopData = $data_ruangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>PERAWAT IGD</td>
-                            <td>PERAWAT IGD</td>     
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>
+                            <td>PERAWAT <?php echo e($ruangan->kategori_ruangan); ?></td>     
                             <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_igd'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_igd']); ?>
+                                <?php
+                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                ?>
+                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4'][$index])): ?>
+                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4'][$index]); ?>
 
                                 <?php else: ?>
                                     -
                                 <?php endif; ?>
                             </td>
                         </tr>
-                        <tr>
-                            <td>PERAWAT ICCU</td>
-                            <td>PERAWAT ICCU</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_iccu'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_iccu']); ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>                           
-                        </tr>
-                        <tr>
-                            <td>PERAWAT RPP</td>
-                            <td>PERAWAT RPP</td>
-                            <td>
-                                <?php if(isset($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_rpp'])): ?>
-                                    <?php echo e($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['perawat_rpp']); ?>
-
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td> 
-                        </tr>
                         <?php for($i=0; $i < count($hasil[$data_pasiens[0]->id_data_pasien]['Ke 4']['hasil_kategori_tindakan']); $i++): ?>
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>

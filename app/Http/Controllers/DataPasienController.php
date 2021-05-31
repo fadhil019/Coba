@@ -230,10 +230,10 @@ class DataPasienController extends Controller
         {
             $data_pasien_rawat_inap = new DataPasien();
             $data_pasien_rawat_inaps = $data_pasien_rawat_inap->ShowTindakanDataPasien($id);
-
+            
             $data_tindakan_pasien = new DataTindakanPasien();
             $data_tindakan_pasiens = $data_tindakan_pasien->SelectDataTindakanPasien($id);
-
+            // dd($data_tindakan_pasiens);
             $data_dokter = new Dokter();
             $data_dokters = $data_dokter->SelectDokter("Spesialis");
 
@@ -293,7 +293,7 @@ class DataPasienController extends Controller
 
         $hasi = new ProsesPerhitungan();
         $hasil = $hasi->ShowProsesPerhitunganRawatInap($id_periode, $id_ruangan);
-        dd($hasil);
+        // dd($hasil);
         return view('pasien.rawat_jalan', compact('data_periodes', 'data_pasien_rawat_jalans', 'data_ruangans', 'show_ruangans', 'show_periodes'));
     }
 

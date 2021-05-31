@@ -87,6 +87,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>SEP</th>
                             <th>Penjamin</th>
                             <th>DPJP</th>
                             <th>Tindakan</th>
@@ -96,6 +97,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>SEP</th>
                             <th>Penjamin</th>
                             <th>DPJP</th>
                             <th>Tindakan</th>
@@ -106,6 +108,7 @@
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $data_pasien_rawat_inap->nama_pasien }}</td>
+                                <td>{{ $data_pasien_rawat_inap->no_sep }}</td>
                                 <td>{{ $data_pasien_rawat_inap->penjamin }}</td>
                                 <td>
                                     @if($data_pasien_rawat_inap->nama_dokter == "")
@@ -117,9 +120,9 @@
                                 <td>
                                     <!-- <a href="#" data-toggle="modal" data-target="#edit{{ $data_pasien_rawat_inap->id_data_pasien }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Tambah data pelengkap</a> -->
                                     @if( $cek_hasil == 0 )
-                                        <a href="{{ url('data_pasien_rawat_inap_tambah_detail_tindakan/'.$data_pasien_rawat_inap->id_data_pasien )}}"  class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah data pelengkap</a>
+                                        <a href="{{ url('data_pasien_rawat_inap_tambah_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi )}}"  class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah data pelengkap</a>
                                     @endif
-                                    <a href="{{ url('data_pasien_rawat_inap_detail_tindakan/'.$data_pasien_rawat_inap->id_data_pasien )}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
+                                    <a href="{{ url('data_pasien_rawat_inap_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi )}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
                                 </td>
                             </tr>
                         @endforeach

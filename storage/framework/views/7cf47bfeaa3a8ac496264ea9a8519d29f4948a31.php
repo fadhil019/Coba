@@ -68,12 +68,16 @@
 
                                 </td>
                                 <td>
-                                    <?php echo e($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['adm']['adm']); ?>
+                                    <?php if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['adm']['adm'])): ?>
+                                        <?php echo e($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['adm']['adm']); ?>
 
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_tindakan'])): ?>
-                                        <?php echo e($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_tindakan']); ?>
+                                    <?php if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_tindakan'])): ?>
+                                        <?php echo e($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_tindakan']); ?>
 
                                     <?php else: ?>
                                         -
@@ -82,8 +86,8 @@
                                 </td>
                                 <?php $__currentLoopData = $data_kategori_tindakans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <td>
-                                    <?php if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan])): ?>
-                                        <?php echo e($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan]); ?>
+                                    <?php if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan])): ?>
+                                        <?php echo e($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan]); ?>
 
                                     <?php else: ?>
                                         -
@@ -92,8 +96,8 @@
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php $__currentLoopData = $data_dokters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <td>
-                                    <?php if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['dokter'][$row->id_dokter])): ?>
-                                        <?php echo e($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['dokter'][$row->id_dokter]); ?>
+                                    <?php if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['dokter'][$row->id_dokter])): ?>
+                                        <?php echo e($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['dokter'][$row->id_dokter]); ?>
 
                                     <?php else: ?>
                                         -
@@ -101,11 +105,15 @@
                                 </td>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <td>
-                                    <?php echo e($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['total']); ?>
+                                    <?php if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['total'])): ?>
+                                        <?php echo e($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['total']); ?>
 
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a href="<?php echo e(url('show_detail_proses_perhitungan_rawat_jalan/'.$id_periode.'/'.$id_ruangan.'/'.$row_data_pasiens->id_data_pasien )); ?>"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
+                                    <a href="<?php echo e(url('show_detail_proses_perhitungan_rawat_jalan/'.$id_periode.'/'.$id_ruangan.'/'.$row_data_pasiens->id_transaksi )); ?>"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
                                 </td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

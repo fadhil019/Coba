@@ -19,7 +19,7 @@
         <div class="card-header">
             <div class="row pt-2 mb-2">
                 <div class="col-sm-6">
-                    <h1>Data tindakan pasien " {{ $data_pasien_rawat_inaps[0]->nama_pasien }} "</h1>
+                    <h1>Data tindakan pasien " {{ $data_tindakan_pasiens[0]->nama_pasien }} "</h1>
                 </div>
                 <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">

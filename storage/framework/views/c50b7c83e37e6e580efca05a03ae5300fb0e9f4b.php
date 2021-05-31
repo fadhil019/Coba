@@ -168,7 +168,7 @@
                                     <div class="modal-body">
                                     <form method="POST" action="<?php echo e(url('buat_data_gizi_pasien')); ?>" enctype="multipart/form-data">
                                         <?php echo csrf_field(); ?>
-                                        <input type="text" name="id_transaksi" value="<?php echo e($data_pasien_rawat_inaps[0]->id_transaksi); ?>">
+                                        <input type="hidden" name="id_transaksi" value="<?php echo e($data_pasien_rawat_inaps[0]->id_transaksi); ?>">
                                         <div class="form-group">
                                             <label for="Name">Jp</label><br>
                                             <input type="number" class="form-control" name="jumlah_jp" autofocus required>
@@ -247,7 +247,7 @@
                                     <div class="modal-body">
                                     <form method="POST" action="<?php echo e(url('buat_data_adm_pasien')); ?>" enctype="multipart/form-data">
                                         <?php echo csrf_field(); ?>
-                                        <input type="hidden" name="id_data_pasien" value="<?php echo e($data_pasien_rawat_inaps[0]->id_data_pasien); ?>">
+                                        <input type="hidden" name="id_transaksi" value="<?php echo e($data_pasien_rawat_inaps[0]->id_transaksi); ?>">
                                         <div class="form-group">
                                             <label for="Name">Jp</label><br>
                                             <input type="number" class="form-control" name="jumlah_jp" autofocus required>
@@ -300,7 +300,7 @@
                                 <div class="modal-body">
                                     <form method="POST" action="<?php echo e(url('buat_data_visite_pasien')); ?>" enctype="multipart/form-data">
                                         <?php echo csrf_field(); ?>
-                                        <input type="hidden" name="id_data_pasien" value="<?php echo e($data_pasien_rawat_inaps[0]->id_data_pasien); ?>">
+                                        <input type="hidden" name="id_transaksi" value="<?php echo e($data_pasien_rawat_inaps[0]->id_transaksi); ?>">
                                         <div class="form-group">
                                             <label for="Nama">Nama dokter visite</label>
                                             <select class="form-control" name="id_dokter">

@@ -33,12 +33,12 @@
                             @foreach($data_kategori_tindakans as $row)
                             <th style="background-color: green;">{{ $row->nama }}</th>
                             @endforeach
-                            <th style="background-color: blue;">Perawat IGD</th>
                             @foreach($data_dokters as $row)
                             <th style="background-color: yellow;">{{ $row->nama_dokter }}</th>
                             @endforeach
-                            <th style="background-color: orange;">Tindakan<br>Perawat ICCU</th>
-                            <th style="background-color: orange;">Tindakan<br>Perawat RPP</th>
+                            @foreach($data_ruangans as $row)
+                            <th style="background-color: yellow;">Tindakan<br>Perawat {{ $row->nama_ruangan }}</th>
+                            @endforeach
                             @foreach($data_dokters as $row)
                             <th style="background-color: pink;">{{ $row->nama_dokter }}</th>
                             @endforeach
@@ -56,12 +56,12 @@
                             @foreach($data_kategori_tindakans as $row)
                             <th style="background-color: green;">{{ $row->nama }}</th>
                             @endforeach
-                            <th style="background-color: blue;">Perawat IGD</th>
                             @foreach($data_dokters as $row)
                             <th style="background-color: yellow;">{{ $row->nama_dokter }}</th>
                             @endforeach
-                            <th style="background-color: orange;">Tindakan<br>Perawat ICCU</th>
-                            <th style="background-color: orange;">Tindakan<br>Perawat RPP</th>
+                            @foreach($data_ruangans as $row)
+                            <th style="background-color: yellow;">Tindakan<br>Perawat {{ $row->nama_ruangan }}</th>
+                            @endforeach
                             @foreach($data_dokters as $row)
                             <th style="background-color: pink;">{{ $row->nama_dokter }}</th>
                             @endforeach
@@ -87,61 +87,55 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['adm']['adm'] }}
+                                    {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['adm']['adm'] }}
                                 </td>
                                 @foreach($data_kategori_tindakans as $row)
                                 <td>
-                                    @if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan]))
-                                        {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan] }}
+                                    @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan]))
+                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan] }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 @endforeach
-                                <td>
-                                    {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['perawat_igd'] }}
-                                </td>
                                 @foreach($data_dokters as $row)
                                 <td>
-                                    @if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['dokter'][$row->id_dokter]))
-                                        {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['dokter'][$row->id_dokter] }}
+                                    @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['dokter'][$row->id_dokter]))
+                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['dokter'][$row->id_dokter] }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 @endforeach
+                                @foreach($data_ruangans as $row)
                                 <td>
-                                    @if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['perawat_iccu']))
-                                        {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['perawat_iccu'] }}
-                                    @else
-                                        -
-                                    @endif
-                                    
-                                </td>
-                                <td>
-                                    @if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['perawat_rpp']))
-                                        {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['perawat_rpp'] }}
+                                    @php
+                                        $index = 'perawat_' . $row->kategori_ruangan;
+                                    @endphp
+                                    @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index]))
+                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index] }}
                                     @else
                                         -
                                     @endif
                                 </td>
+                                @endforeach
                                 @foreach($data_dokters as $row)
                                 <td>
-                                    @if(isset($hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['visite'][$row->id_dokter]))
-                                        {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['visite'][$row->id_dokter] }}
+                                    @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['visite'][$row->id_dokter]))
+                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['visite'][$row->id_dokter] }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 @endforeach
                                 <td> 
-                                    {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['gizi']['gizi'] }}
+                                    {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['gizi']['gizi'] }}
                                 </td>
                                 <td>
-                                    {{ $hasil[$row_data_pasiens->id_data_pasien]['Ke 1']['total'] }}
+                                    {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['total'] }}
                                 </td>
                                 <td>
-                                    <a href="{{ url('show_detail_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan.'/'.$row_data_pasiens->id_data_pasien )}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
+                                    <a href="{{ url('show_detail_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan.'/'.$row_data_pasiens->id_transaksi )}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
                                 </td>
                             </tr>
                         @endforeach
