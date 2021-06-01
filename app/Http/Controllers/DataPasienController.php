@@ -292,9 +292,9 @@ class DataPasienController extends Controller
         $show_periodes = $show_periode->ShowPeriode($id_periode);
 
         $hasi = new ProsesPerhitungan();
-        $hasil = $hasi->ShowProsesPerhitunganRawatInap($id_periode, $id_ruangan);
+        $hasil = $hasi->ShowProsesPerhitunganRawatJalan($id_periode, $id_ruangan);
         // dd($hasil);
-        return view('pasien.rawat_jalan', compact('data_periodes', 'data_pasien_rawat_jalans', 'data_ruangans', 'show_ruangans', 'show_periodes'));
+        return view('pasien.rawat_jalan', compact('hasil', 'data_periodes', 'data_pasien_rawat_jalans', 'data_ruangans', 'show_ruangans', 'show_periodes'));
     }
 
     public function data_pasien_rawat_jalan_tindakan($id)

@@ -23,9 +23,15 @@
                 </div>
                 <div class="col-sm-6">
                     <?php if(count($data_pasien_rawat_jalans) > 0): ?>
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="mr-2"><a href="<?php echo e(url('proses_perhitungan_rawat_jalan/' . $show_periodes->id_periode . '/' . $show_ruangans->id_ruangan)); ?>" class="btn btn-primary"><i class="fas fa-sync-alt" aria-hidden="true"></i> Proses</a></li>
-                        </ol>
+                        <?php if($hasil == null): ?>
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="mr-2"><a href="<?php echo e(url('proses_perhitungan_rawat_jalan/' . $show_periodes->id_periode . '/' . $show_ruangans->id_ruangan)); ?>" class="btn btn-primary"><i class="fas fa-sync-alt" aria-hidden="true"></i> Proses</a></li>
+                            </ol>
+                        <?php else: ?>
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="mr-2"><a href="#" class="btn btn-success"><i class="fas fa-sync-alt" aria-hidden="true"></i> Telah Proses</a></li>
+                            </ol>
+                        <?php endif; ?>
                     <?php else: ?>
                         <ol class="breadcrumb float-sm-right">
                             <li class="mr-2"><a href="#" data-toggle="modal" data-target="#import_data" class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> Import Data Pasien</a></li>

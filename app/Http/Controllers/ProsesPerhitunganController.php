@@ -1261,7 +1261,7 @@ class ProsesPerhitunganController extends Controller
 
         $hasi = new ProsesPerhitungan();
         $hasil = $hasi->ShowProsesPerhitunganRawatJalan($id_periode, $id_ruangan); 
-        
+        // dd($hasil);
         $data_pasien = new DataPasien();
         $data_pasiens = $data_pasien->SelectDataPasienRawatJalan($id_periode, $id_ruangan);
         
