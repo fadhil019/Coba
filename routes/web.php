@@ -33,6 +33,10 @@ Route::resource('rekap_data','RekapDataController');
 Route::resource('variable_rumus','variableRumusController');
 Route::resource('dasboard','DashboardController');
 
+Route::resource('proses_jp_perawat','ProsesJPPerawatController');
+Route::resource('proses_jp_penunjang','ProsesJPPenunjangController');
+Route::resource('proses_jp_admin','ProsesJPAdminController');
+
 
 Route::post('import_data_keuangan_pasien','DataKeuanganPasienController@import')->name('data_keuangan_pasien.import');
 Route::post('import_data_pasien','DataPasienController@import')->name('data_pasien.import');
