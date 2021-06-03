@@ -263,7 +263,7 @@ class ProsesPerhitunganController extends Controller
                                 $hasil[$row->id_transaksi]['Ke 1']['total'] += $row_dtp->jp;
                             }   
                         } else {
-                            $index = 'perawat_' . $karyawan_perawats->kategori_ruangan;
+                            $index = 'perawat_' . $karyawan_perawats->nama_ruangan;
                             if(!isset($hasil[$row->id_transaksi]['Ke 1'][$index])) {
                                 $hasil[$row->id_transaksi]['Ke 1'][$index] = $row_dtp->jp;
                                 $hasil[$row->id_transaksi]['Ke 1']['total'] += $row_dtp->jp;
@@ -278,7 +278,7 @@ class ProsesPerhitunganController extends Controller
                 $ruangans = DB::table('ruangan')->get();
 
                 foreach($ruangans as $ruangan) {
-                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                    $index = 'perawat_' . $ruangan->nama_ruangan;
                     if(!isset($hasil[$row->id_transaksi]['Ke 1'][$index])) {
                         $hasil[$row->id_transaksi]['Ke 1'][$index] = 0;
                     }
@@ -329,10 +329,10 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
 
                 foreach($ruangans as $ruangan) {
-                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                    $index = 'perawat_' . $ruangan->nama_ruangan;
 
                     $proses_perhitungan = new ProsesPerhitungan();
-                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->kategori_ruangan;
+                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
                     $proses_perhitungan->proses = 'Ke 1';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1'][$index];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
@@ -441,7 +441,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
 
                 foreach($ruangans as $ruangan) {
-                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                    $index = 'perawat_' . $ruangan->nama_ruangan;
 
                     if($hasil[$row->id_transaksi]['Ke 1'][$index] == 0 || $hasil[$row->id_transaksi]['Ke 1']['total'] == 0 )
                     {
@@ -455,7 +455,7 @@ class ProsesPerhitunganController extends Controller
                     }
 
                     $proses_perhitungan = new ProsesPerhitungan();
-                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->kategori_ruangan;
+                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
                     $proses_perhitungan->proses = 'Ke 2';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2'][$index];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
@@ -561,13 +561,13 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
 
                 foreach($ruangans as $ruangan) {
-                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                    $index = 'perawat_' . $ruangan->nama_ruangan;
 
                     $hasil[$row->id_transaksi]['Ke 3'][$index] = $hasil[$row->id_transaksi]['Ke 2'][$index] * $data_value_keuangan->nominal_uang;
                     $tmp_total_ke_3 += $hasil[$row->id_transaksi]['Ke 2'][$index] * $data_value_keuangan->nominal_uang;
 
                     $proses_perhitungan = new ProsesPerhitungan();
-                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->kategori_ruangan;
+                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
                     $proses_perhitungan->proses = 'Ke 3';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3'][$index];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
@@ -702,13 +702,13 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan->save();
 
                 foreach($ruangans as $ruangan) {
-                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                    $index = 'perawat_' . $ruangan->nama_ruangan;
 
                     $hasil[$row->id_transaksi]['Ke 4'][$index] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, "PERAWAT IGD");
                     $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 3'][$index];
 
                     $proses_perhitungan = new ProsesPerhitungan();
-                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->kategori_ruangan;
+                    $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
                     $proses_perhitungan->proses = 'Ke 4';
                     $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4'][$index];
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;

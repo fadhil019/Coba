@@ -37,7 +37,7 @@
                             <th style="background-color: yellow;">{{ $row->nama_dokter }}</th>
                             @endforeach
                             @foreach($data_ruangans as $row)
-                            <th style="background-color: yellow;">Tindakan<br>Perawat {{ $row->nama_ruangan }}</th>
+                            <th style="background-color: skyblue;">Tindakan<br>Perawat {{ $row->nama_ruangan }}</th>
                             @endforeach
                             @foreach($data_dokters as $row)
                             <th style="background-color: pink;">{{ $row->nama_dokter }}</th>
@@ -60,7 +60,7 @@
                             <th style="background-color: yellow;">{{ $row->nama_dokter }}</th>
                             @endforeach
                             @foreach($data_ruangans as $row)
-                            <th style="background-color: yellow;">Tindakan<br>Perawat {{ $row->nama_ruangan }}</th>
+                            <th style="background-color: skyblue;">Tindakan<br>Perawat {{ $row->nama_ruangan }}</th>
                             @endforeach
                             @foreach($data_dokters as $row)
                             <th style="background-color: pink;">{{ $row->nama_dokter }}</th>
@@ -110,7 +110,7 @@
                                 @foreach($data_ruangans as $row)
                                 <td>
                                     @php
-                                        $index = 'perawat_' . $row->kategori_ruangan;
+                                        $index = 'perawat_' . $row->nama_ruangan;
                                     @endphp
                                     @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index]))
                                         {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index] }}

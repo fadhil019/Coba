@@ -84,7 +84,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable2" class="table table-bordered table-striped">
+                <table id="dataTable20" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Keterangan</th>
@@ -112,11 +112,11 @@
 
                         @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>     
                             <td>
                                 @php
-                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                    $index = 'perawat_' . $ruangan->nama_ruangan;
                                 @endphp
                                 @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index]))
                                     {{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index] }}
@@ -134,13 +134,21 @@
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
                             </tr>
                         @endfor
-                        @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter']); $i++)
+                        @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter']))
+                            @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter']); $i++)
+                                <tr>
+                                    <td>DOKTER</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['nama_dokter'] }}</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['jumlah_jp'] }}</td>
+                                </tr>
+                            @endfor
+                        @else
                             <tr>
                                 <td>DOKTER</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['nama_dokter'] }}</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['jumlah_jp'] }}</td>
+                                <td>-</td>
+                                <td>-</td>
                             </tr>
-                        @endfor
+                        @endif
                         @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite']))
                             @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite']); $i++)
                                 <tr>
@@ -179,7 +187,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable2" class="table table-bordered table-striped">
+                <table id="dataTable20" class="table table-bordered table-striped">
                 <thead>
                         <tr>
                             <th>Keterangan</th>
@@ -207,11 +215,11 @@
 
                         @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>     
                             <td>
                                 @php
-                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                    $index = 'perawat_' . $ruangan->nama_ruangan;
                                 @endphp
                                 @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2'][$index]))
                                     {{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2'][$index] }}
@@ -229,13 +237,21 @@
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
                             </tr>
                         @endfor
-                        @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter']); $i++)
+                        @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter']))
+                            @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter']); $i++)
+                                <tr>
+                                    <td>DOKTER</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter'][$i]['nama_dokter'] }}</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter'][$i]['jumlah_jp'] }}</td>
+                                </tr>
+                            @endfor
+                        @else
                             <tr>
                                 <td>DOKTER</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter'][$i]['nama_dokter'] }}</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['dokter'][$i]['jumlah_jp'] }}</td>
+                                <td>-</td>
+                                <td>-</td>
                             </tr>
-                        @endfor
+                        @endif
                         @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['visite']))
                             @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['visite']); $i++)
                                 <tr>
@@ -274,7 +290,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable2" class="table table-bordered table-striped">
+                <table id="dataTable20" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Keterangan</th>
@@ -302,11 +318,11 @@
 
                         @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>     
                             <td>
                                 @php
-                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                    $index = 'perawat_' . $ruangan->nama_ruangan;
                                 @endphp
                                 @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index]))
                                     {{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index] }}
@@ -324,13 +340,21 @@
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
                             </tr>
                         @endfor
-                        @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter']); $i++)
+                        @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter']))
+                            @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter']); $i++)
+                                <tr>
+                                    <td>DOKTER</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['nama_dokter'] }}</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['jumlah_jp'] }}</td>
+                                </tr>
+                            @endfor
+                        @else
                             <tr>
                                 <td>DOKTER</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['nama_dokter'] }}</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['jumlah_jp'] }}</td>
+                                <td>-</td>
+                                <td>-</td>
                             </tr>
-                        @endfor
+                        @endif
                         @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite']))
                             @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite']); $i++)
                                 <tr>
@@ -369,7 +393,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-            <table id="dataTable2" class="table table-bordered table-striped">
+            <table id="dataTable20" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Keterangan</th>
@@ -397,11 +421,11 @@
                         
                         @foreach($data_ruangans as $ruangan)
                         <tr>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>
-                            <td>PERAWAT {{ $ruangan->kategori_ruangan }}</td>     
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>
+                            <td>PERAWAT {{ $ruangan->nama_ruangan }}</td>     
                             <td>
                                 @php
-                                    $index = 'perawat_' . $ruangan->kategori_ruangan;
+                                    $index = 'perawat_' . $ruangan->nama_ruangan;
                                 @endphp
                                 @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index]))
                                     {{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index] }}
@@ -419,13 +443,21 @@
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
                             </tr>
                         @endfor
-                        @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter']); $i++)
+                       @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter']))
+                            @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter']); $i++)
+                                <tr>
+                                    <td>DOKTER</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['nama_dokter'] }}</td>
+                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['jumlah_jp'] }}</td>
+                                </tr>
+                            @endfor
+                        @else
                             <tr>
                                 <td>DOKTER</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['nama_dokter'] }}</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['jumlah_jp'] }}</td>
+                                <td>-</td>
+                                <td>-</td>
                             </tr>
-                        @endfor
+                        @endif
                         @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite']))
                             @for($i=0; $i < count($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite']); $i++)
                                 <tr>
