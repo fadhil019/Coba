@@ -116,8 +116,8 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ url('karyawan_admin_point')}}" class="nav-link">
-            <i class="fas fa-times nav-icon"></i>
+            <a href="{{ url('karyawan_admin_upah')}}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
             <p>Perhitungan upah</p>
             </a>
         </li>
@@ -149,8 +149,8 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ url('karyawan_penunjang_point')}}" class="nav-link">
-            <i class="fas fa-times nav-icon"></i>
+            <a href="{{ url('karyawan_penunjang_upah')}}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
             <p>Perhitungan upah</p>
             </a>
         </li>
@@ -182,8 +182,8 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ url('karyawan_perawat_point')}}" class="nav-link">
-            <i class="fas fa-times nav-icon"></i>
+            <a href="{{ url('karyawan_perawat_upah')}}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
             <p>Perhitungan upah</p>
             </a>
         </li>

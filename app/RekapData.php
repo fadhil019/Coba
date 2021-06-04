@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 use DB;
+use PDF;
 
 use App\User;
 use App\Periode;
@@ -177,4 +178,16 @@ class RekapData extends Model
         // dd($hasil);
         return $hasil;
     }
+
+    public function createPDF() {
+        // retreive all records from db
+        $data = Employee::all();
+  
+        // share data to view
+        view()->share('employee',$data);
+        $pdf = PDF::loadView('pdf_view', $data);
+  
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+      }
 }

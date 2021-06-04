@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\ProsesJPAdmin;
+use App\Periode;
+
 use Illuminate\Http\Request;
 use DB;
 
@@ -17,9 +20,9 @@ class ProsesJPAdminController extends Controller
         //
 
         $hasil = [];
-        $id_periode = 12;
+        $id_periode = 14;
 
-        $data_penunjangs = DB::table('proses_perhitungan')
+        $data_admins = DB::table('proses_perhitungan')
             ->join('transaksi', 'transaksi.id_transaksi', '=', 'proses_perhitungan.id_transaksi')
             ->where('transaksi.id_periode', $id_periode)
             ->where('proses_perhitungan.proses', 'Ke 4')
@@ -28,7 +31,7 @@ class ProsesJPAdminController extends Controller
             ->groupBy('proses_perhitungan.ket_kategori')
             ->get();
 
-        foreach($data_penunjangs as $row) {
+        foreach($data_admins as $row) {
             $hasil['ADM']['JASPEL'] = $row->total;
             $hasil['ADM']['PM'] = ($row->total * 0.4) * 0.12;
             $hasil['ADM']['IKU'] = ($row->total * 0.4) * 0.48;
@@ -41,14 +44,14 @@ class ProsesJPAdminController extends Controller
             ->groupBy('id_periode')
             ->get();
 
-        foreach($data_penunjangs as $row) {
+        foreach($data_admins as $row) {
             $hasil['STRUKTURAL']['JASPEL'] = $row->total * 0.1;
             $hasil['STRUKTURAL']['PM'] = (($row->total * 0.1) * 0.4) * 0.12;
             $hasil['STRUKTURAL']['IKU'] = (($row->total * 0.1) * 0.4) * 0.48;
             $hasil['STRUKTURAL']['IKI'] = (($row->total * 0.1) * 0.4) * 0.40;
         }
 
-        foreach($data_penunjangs as $row) {
+        foreach($data_admins as $row) {
             $hasil['UMUM']['JASPEL'] = $row->total * 0.05;
             $hasil['UMUM']['PM'] = (($row->total * 0.05) * 0.4) * 0.12;
             $hasil['UMUM']['IKU'] = (($row->total * 0.05) * 0.4) * 0.48;
@@ -56,15 +59,15 @@ class ProsesJPAdminController extends Controller
         }
 
         $hasil_final = [];
-        $penunjangs = DB::table('karyawan_admin')
-            ->join('point_karyawan', 'karyawan_admin.id_karyawan_admin', 'karyawan_admin.id_karyawan_admin')
+        $admins = DB::table('karyawan_admin')
+            ->join('point_karyawan', 'point_karyawan.id_karyawan_admin', 'karyawan_admin.id_karyawan_admin')
             ->get();
 
         $total_iki = 0;
         $total_iku = 0;
         $total_pm = 0;
 
-        foreach($penunjangs as $row) {
+        foreach($admins as $row) {
             $hasil_final[$row->id_karyawan_admin]['ID'] = $row->id_karyawan_admin;
             $hasil_final[$row->id_karyawan_admin]['NAMA'] = $row->nama;
             $hasil_final[$row->id_karyawan_admin]['BAGIAN'] = $row->bagian;
@@ -89,9 +92,39 @@ class ProsesJPAdminController extends Controller
                 $index = "STRUKTURAL";
             }
 
-            $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil[$index]['IKU'];
-            $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil[$index]['IKI'];
-            $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil[$index]['PM'];   
+            if($row['IKU'] != 0) {
+                $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil[$index]['IKU'];
+            } 
+            else {
+                $hasil_final[$row['ID']]['UANG IKU'] = 0;
+            }
+
+            if($row['IKI'] != 0) {
+                $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil[$index]['IKI'];
+            } 
+            else {
+                $hasil_final[$row['ID']]['UANG IKI'] = 0;
+            }
+
+            if($row['PM'] != 0) {
+                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil[$index]['PM'];   
+            } 
+            else {
+                $hasil_final[$row['ID']]['UANG PM'] = 0;
+            }
+            
+        }
+
+        foreach($hasil_final as $row) {
+            $proses_hitung_jp_admin = new ProsesJPAdmin();
+            $proses_hitung_jp_admin->iku = $hasil_final[$row['ID']]['UANG IKU'];
+            $proses_hitung_jp_admin->iki = $hasil_final[$row['ID']]['UANG IKI'];
+            $proses_hitung_jp_admin->pm = $hasil_final[$row['ID']]['UANG PM'];
+            $proses_hitung_jp_admin->id_periode = $id_periode;
+            $proses_hitung_jp_admin->id_karyawan_admin = $hasil_final[$row['ID']]['ID'];
+            $proses_hitung_jp_admin->created_at = now();
+            $proses_hitung_jp_admin->updated_at = now();
+            $proses_hitung_jp_admin->save();
         }
 
         dd($hasil_final);
@@ -161,5 +194,140 @@ class ProsesJPAdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function proses_upah_admin($id_periode)
+    {
+        //
+
+        $hasil = [];
+        $id_periode = 14;
+
+        $data_admins = DB::table('proses_perhitungan')
+            ->join('transaksi', 'transaksi.id_transaksi', '=', 'proses_perhitungan.id_transaksi')
+            ->where('transaksi.id_periode', $id_periode)
+            ->where('proses_perhitungan.proses', 'Ke 4')
+            ->where('proses_perhitungan.ket_kategori', 'ADM')
+            ->select('*', DB::raw('SUM(proses_perhitungan.jumlah_jp) as total'))
+            ->groupBy('proses_perhitungan.ket_kategori')
+            ->get();
+
+        foreach($data_admins as $row) {
+            $hasil['ADM']['JASPEL'] = $row->total;
+            $hasil['ADM']['PM'] = ($row->total * 0.4) * 0.12;
+            $hasil['ADM']['IKU'] = ($row->total * 0.4) * 0.48;
+            $hasil['ADM']['IKI'] = ($row->total * 0.4) * 0.40;
+        }
+
+        $data_keuangan_pasien = DB::table('data_keuangan_pasien')
+            ->where('id_periode', $id_periode)
+            ->select('*', DB::raw('SUM(nominal_uang) as total'))
+            ->groupBy('id_periode')
+            ->get();
+
+        foreach($data_admins as $row) {
+            $hasil['STRUKTURAL']['JASPEL'] = $row->total * 0.1;
+            $hasil['STRUKTURAL']['PM'] = (($row->total * 0.1) * 0.4) * 0.12;
+            $hasil['STRUKTURAL']['IKU'] = (($row->total * 0.1) * 0.4) * 0.48;
+            $hasil['STRUKTURAL']['IKI'] = (($row->total * 0.1) * 0.4) * 0.40;
+        }
+
+        foreach($data_admins as $row) {
+            $hasil['UMUM']['JASPEL'] = $row->total * 0.05;
+            $hasil['UMUM']['PM'] = (($row->total * 0.05) * 0.4) * 0.12;
+            $hasil['UMUM']['IKU'] = (($row->total * 0.05) * 0.4) * 0.48;
+            $hasil['UMUM']['IKI'] = (($row->total * 0.05) * 0.4) * 0.40;
+        }
+
+        $hasil_final = [];
+        $admins = DB::table('karyawan_admin')
+            ->join('point_karyawan', 'point_karyawan.id_karyawan_admin', 'karyawan_admin.id_karyawan_admin')
+            ->get();
+
+        $total_iki = 0;
+        $total_iku = 0;
+        $total_pm = 0;
+
+        foreach($admins as $row) {
+            $hasil_final[$row->id_karyawan_admin]['ID'] = $row->id_karyawan_admin;
+            $hasil_final[$row->id_karyawan_admin]['NAMA'] = $row->nama;
+            $hasil_final[$row->id_karyawan_admin]['BAGIAN'] = $row->bagian;
+            $hasil_final[$row->id_karyawan_admin]['KREDENTIAL'] = $row->kredential;
+            $hasil_final[$row->id_karyawan_admin]['UNIT'] = $row->unit;
+            $hasil_final[$row->id_karyawan_admin]['POSISI'] = $row->posisi;
+            $hasil_final[$row->id_karyawan_admin]['IKU'] = $row->kredential + $row->unit + $row->posisi;            
+            $hasil_final[$row->id_karyawan_admin]['PERFORMA'] = $row->performa;
+            $hasil_final[$row->id_karyawan_admin]['DISIPIN'] = $row->disiplin;
+            $hasil_final[$row->id_karyawan_admin]['KOMPLAIN'] = $row->komplain;
+            $hasil_final[$row->id_karyawan_admin]['IKI'] = $row->performa + $row->disiplin + $row->komplain;        
+            $hasil_final[$row->id_karyawan_admin]['PM'] = $row->pm;
+
+            $total_iku += $hasil_final[$row->id_karyawan_admin]['IKU'];
+            $total_iki += $hasil_final[$row->id_karyawan_admin]['IKI'];
+            $total_pm += $hasil_final[$row->id_karyawan_admin]['PM'];
+        }
+
+        foreach($hasil_final as $row) {
+            $index = "ADM";
+            if($row['BAGIAN'] == "Struktural") {
+                $index = "STRUKTURAL";
+            }
+
+            if($row['IKU'] != 0) {
+                $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil[$index]['IKU'];
+            } 
+            else {
+                $hasil_final[$row['ID']]['UANG IKU'] = 0;
+            }
+
+            if($row['IKI'] != 0) {
+                $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil[$index]['IKI'];
+            } 
+            else {
+                $hasil_final[$row['ID']]['UANG IKI'] = 0;
+            }
+
+            if($row['PM'] != 0) {
+                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil[$index]['PM'];   
+            } 
+            else {
+                $hasil_final[$row['ID']]['UANG PM'] = 0;
+            }
+            
+        }
+
+        foreach($hasil_final as $row) {
+            $proses_hitung_jp_admin = new ProsesJPAdmin();
+            $proses_hitung_jp_admin->iku = $hasil_final[$row['ID']]['UANG IKU'];
+            $proses_hitung_jp_admin->iki = $hasil_final[$row['ID']]['UANG IKI'];
+            $proses_hitung_jp_admin->pm = $hasil_final[$row['ID']]['UANG PM'];
+            $proses_hitung_jp_admin->id_periode = $id_periode;
+            $proses_hitung_jp_admin->id_karyawan_admin = $hasil_final[$row['ID']]['ID'];
+            $proses_hitung_jp_admin->created_at = now();
+            $proses_hitung_jp_admin->updated_at = now();
+            $proses_hitung_jp_admin->save();
+        }
+
+        // dd($hasil_final);
+        return redirect('daftar_upah_karyawan_admin/'.$id_periode)->with('alert-success', 'Proses perhitungan telah berhasil!');
+    }
+
+    public function index_upah()
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->SelectPeriodeDESC();
+
+        return view('karyawan_admin.upah.index', compact('data_periodes'));
+    }
+
+    public function daftar_upah_karyawan_admin($id_periode)
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->ShowPeriode($id_periode);
+
+        $data_upah_admin = new ProsesJPadmin();
+        $data_upah_admins = $data_upah_admin->SelectDaftarUpahadmin($id_periode);
+
+        return view('karyawan_admin.upah.upah', compact('data_upah_admins', 'data_periodes'));
     }
 }

@@ -14,8 +14,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('video/promosi', 'HomeController@video_promosi');
-Route::get('template/tf', 'HomeController@template_tf');
 
 // ROUTE
 Route::resource('dokter','DokterController');
@@ -63,14 +61,24 @@ Route::get('ruangan_p_pasien_rawat_jalan/{id_periode}','ProsesPerhitunganControl
 Route::get('karyawan_admin_point','KaryawanAdminController@index_point');
 Route::get('daftar_point_karyawan_admin/{id}','KaryawanAdminController@index_point_karyawan');
 Route::put('update_point_karyawan_admin/{id}','KaryawanAdminController@update_point_karyawan_admin');
+Route::get('proses_upah_admin/{id_periode}','ProsesJPAdminController@proses_upah_admin');
+Route::get('karyawan_admin_upah','ProsesJPAdminController@index_upah');
+Route::get('daftar_upah_karyawan_admin/{id_periode}','ProsesJPAdminController@daftar_upah_karyawan_admin');
 
 Route::get('karyawan_penunjang_point','KaryawanPenunjangController@index_point');
 Route::get('daftar_point_karyawan_penunjang/{id}','KaryawanPenunjangController@index_point_karyawan');
 Route::put('update_point_karyawan_penunjang/{id}','KaryawanPenunjangController@update_point_karyawan_penunjang');
+Route::get('proses_upah_penunjang/{id_periode}','ProsesJPPenunjangController@proses_upah_penunjang');
+Route::get('karyawan_penunjang_upah','ProsesJPPenunjangController@index_upah');
+Route::get('daftar_upah_karyawan_penunjang/{id_periode}','ProsesJPPenunjangController@daftar_upah_karyawan_penunjang');
 
 Route::get('karyawan_perawat_point','KaryawanPerawatController@index_point');
 Route::get('daftar_point_karyawan_perawat/{id}','KaryawanPerawatController@index_point_karyawan');
 Route::put('update_point_karyawan_perawat/{id}','KaryawanPerawatController@update_point_karyawan_perawat');
+Route::get('proses_upah_perawat/{id_periode}','ProsesJPPerawatController@proses_upah_perawat');
+Route::get('karyawan_perawat_upah','ProsesJPPerawatController@index_upah');
+Route::get('daftar_upah_karyawan_perawat/{id_periode}','ProsesJPPerawatController@daftar_upah_karyawan_perawat');
+Route::get('detail_upah_karyawan_perawat/{id_periode}/{id_karyawan_perawat}','ProsesJPPerawatController@detail_upah_karyawan_perawat');
 
 Route::get('generate_data_karyawan_admin/{id}','KaryawanAdminController@generate_data_karyawan_admin');
 Route::get('generate_data_karyawan_penunjang/{id}','KaryawanPenunjangController@generate_data_karyawan_penunjang');

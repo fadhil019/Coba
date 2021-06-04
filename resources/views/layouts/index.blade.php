@@ -34,6 +34,7 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
   <!-- Toastr -->
@@ -229,6 +230,14 @@
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
@@ -281,6 +290,46 @@
       'autoWidth'   : true,
       "responsive": true,
     })
+    $('#dataTable_pdf_dokter').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : false,
+      'autoWidth'   : true,
+      "responsive": true,    
+      "buttons": ["pdf"]     
+    }).buttons().container().appendTo('#tombol_pdf_dokter');
+    $('#dataTable_pdf_penunjang').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : false,
+      'autoWidth'   : true,
+      "responsive": true,    
+      "buttons": ["pdf"]     
+    }).buttons().container().appendTo('#tombol_pdf_penunjang');
+    $('#dataTable_pdf_perawat').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : false,
+      'autoWidth'   : true,
+      "responsive": true,    
+      "buttons": ["pdf"]     
+    }).buttons().container().appendTo('#tombol_pdf_perawat');
+    $('#dataTable_pdf_admin').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : false,
+      'autoWidth'   : true,
+      "responsive": true,    
+      "buttons": ["pdf"]     
+    }).buttons().container().appendTo('#tombol_pdf_admin');
   });
   function AlterDataCRUD(data, ket) {
     Swal.fire({

@@ -40,11 +40,16 @@
                     <div class="col-sm-6">
                         <h4>Daftar nama dokter</h4>
                     </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="mr-2" id="tombol_pdf_dokter"></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable" class="table table-bordered table-striped">
+                <table id="dataTable_pdf_dokter" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -85,11 +90,16 @@
                     <div class="col-sm-6">
                         <h4>Daftar kategori lainnya</h4>
                     </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="mr-2" id="tombol_pdf_penunjang"></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable2" class="table table-bordered table-striped">
+                <table id="dataTable_pdf_penunjang" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -133,11 +143,16 @@
                     <div class="col-sm-6">
                         <h4>Daftar ruangan</h4>
                     </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                        <li class="mr-2" id="tombol_pdf_perawat"></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable3" class="table table-bordered table-striped">
+                <table id="dataTable_pdf_perawat" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -181,11 +196,16 @@
                     <div class="col-sm-6">
                         <h4>Daftar admin remunerasi</h4>
                     </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                        <li class="mr-2" id="tombol_pdf_admin"></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="dataTable4" class="table table-bordered table-striped">
+                <table id="dataTable_pdf_admin" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>

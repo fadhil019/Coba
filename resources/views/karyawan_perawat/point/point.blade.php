@@ -38,8 +38,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="{{ url('/') }}" enctype="multipart/form-data">
-                                    @csrf
+                                <form method="GET" action="{{ url('proses_upah_perawat/'. $data_periodes->id_periode ) }}" enctype="multipart/form-data">
                                     <div class="form-group">
                                             <label for="Name">Apakah anda yakin ingin memproses perhitungan upah karyawan perawat periode ({{ $data_periodes->bulan }} - {{ $data_periodes->tahun }}) ?</label>
                                         </div>

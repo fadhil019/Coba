@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(DokterTableSeeder::class);
         // $this->call(KaryawanTableSeeder::class);
         // $this->call(DataPasienTableSeeder::class);
+        // $this->call(KaryawanAdminTableSeeder::class);
+        // $this->call(KaryawanPenunjangTableSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
     }
 }
