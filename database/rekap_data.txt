@@ -1,7 +1,0 @@
-kan rekap data itu menjumlahkan semua nominal jasa pelayanan yang didapatkan . yg direkap itu kn ada nama-nama dokter, lalu kategori tindakan (untuk ke karyawan penunjang), lalu kategori untuk perawat (perawat iccu,rpp dll), lalu yg terakhir ini admin.
-
-nah dibagian unutk karyawan admin itu yg DIAMBIL dari proses perhitungan HANYA kategori yg bernama ADM (kalau di database di tabel karyawan penunajng itu aku ksh nama admin rekam medis supaya gak double sm admin yg 5%).
-
-selain admin rekam medis untuk di bagian admin, itu ada admin umum 5%, lalu strutkural 10%. Na yg 2 kategori ini itu diambil dari mana?? diambilnya jumlahin atau totalkan nominal uang yg ada pada excel keuangan pasien lalu ambil 10% untuk strutkural dan 5% untuk admin(admin umum). 
-
-Selain itu dari totalin keuagan difile excel itu ambil 15% untuk JTL. na hasilnya nanti dibagi keseluruh KARYAWAN mualai dari dokter, bagian admin, penunajng dan perawat.
