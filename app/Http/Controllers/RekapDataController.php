@@ -113,4 +113,15 @@ class RekapDataController extends Controller
 
         return view('rekap_data.daftar_rekap_data', compact('data_periodes', 'rekap_data_dokters', 'rekap_data_kategori_tindakans', 'rekap_data_ruangans', 'rekap_data_admin_remus'));
     }
+
+    public function detail_rekap_data_dokter($id_periode, $id_karyawan)
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->ShowPeriode($id_periode);
+
+        $rekap_data_dokter = new RekapData();
+        $rekap_data_dokters = $rekap_data_dokter->DetailRekapDataDokterPerPeriode($id_periode, $id_karyawan);
+
+        return view('rekap_data.detail_rekap_data_dokter', compact('data_periodes', 'rekap_data_dokters'));
+    }
 }

@@ -50,9 +50,95 @@ class RekapData extends Model
             foreach($data_proses_perhitungan_id_kat_dokter as $row_perhitungan_kat_dokter){
                 $tmp_upah_jasa += $row_perhitungan_kat_dokter->jumlah_jp;
             }
-            
-            $hasil[$i]['upah_jasa'] = $tmp_upah_jasa;
+
+            $data_proses_perhitungan_jtl = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_proses_perhitungan] = $row_perhitungan_jtl->jumlah_jp;
+            }
+            $tmp_jasa_jtl = 0;
+            foreach($hasil[$i]['tmp_jtl'] as $row) {
+                $tmp_jasa_jtl += $row;
+            }
+            $hasil[$i]['upah_jasa'] = $tmp_upah_jasa + ($tmp_jasa_jtl * 0.15);
             $tmp_upah_jasa = 0;
+            $i++;
+        }
+        // dd($hasil);
+        return $hasil;
+    }
+
+    public function DetailRekapDataDokterPerPeriode($id, $id_karyawan){
+        $data_dokter = DB::table('dokter')
+        ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', 'dokter.id_kategori_tindakan')
+        ->where('dokter.id_dokter', $id_karyawan)
+        ->orderby('dokter.id_dokter', 'ASC')
+        ->get();
+
+        $hasil = [];
+        $i = 0;
+        
+        foreach($data_dokter as $row){
+            $hasil[$i]['id_dokter'] = $row->id_dokter;
+            $hasil[$i]['id_kategori_tindakan'] = $row->id_kategori_tindakan;
+            $hasil[$i]['nama_kategori_tindakan'] = $row->nama;
+            $hasil[$i]['nama_dokter'] = $row->nama_dokter;
+            $data_proses_perhitungan_id_dokter = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.id_dokter', '=', $row->id_dokter)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            
+            foreach($data_proses_perhitungan_id_dokter as $row_perhitungan){
+                $ruangan = Ruangan::find($row_perhitungan->id_ruangan);
+                $hasil[$i]['tmp_ruangan'][$row_perhitungan->id_proses_perhitungan]= $row_perhitungan->jumlah_jp;
+                $hasil[$i]['ruangan'][$ruangan->nama_ruangan] = $row_perhitungan->jumlah_jp;
+            }
+
+            $data_proses_perhitungan_id_kat_dokter = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.id_kategori_tindakan', '=', $row->id_kategori_tindakan)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            
+            foreach($data_proses_perhitungan_id_kat_dokter as $row_perhitungan_kat_dokter){
+                $hasil[$i]['tmp_kategori_tindakan'][$row_perhitungan_kat_dokter->id_proses_perhitungan]= $row_perhitungan_kat_dokter->jumlah_jp;
+            }
+            
+            $data_proses_perhitungan_jtl = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_proses_perhitungan] = $row_perhitungan_jtl->jumlah_jp;
+            }
+
+            $tmp_jasa_ruangan = 0;
+            $tmp_jasa_kategori = 0;
+            $tmp_jasa_jtl = 0;
+            foreach($hasil[$i]['tmp_kategori_tindakan'] as $row) {
+                $tmp_jasa_kategori += $row;
+            }
+            foreach($hasil[$i]['tmp_ruangan'] as $row) {
+                $tmp_jasa_ruangan += $row;
+            }
+            foreach($hasil[$i]['tmp_jtl'] as $row) {
+                $tmp_jasa_jtl += $row;
+            }
+            
+            $hasil[$i]['upah_jasa_total'] = $tmp_jasa_kategori + $tmp_jasa_ruangan + ($tmp_jasa_jtl * 0.15);
+            $hasil[$i]['upah_jasa_kategori'] = $tmp_jasa_kategori;
+            $hasil[$i]['upah_jasa_jtl'] = $tmp_jasa_jtl * 0.15;
             $i++;
         }
         // dd($hasil);
@@ -101,9 +187,20 @@ class RekapData extends Model
                     $tmp_upah_jasa += $row_perhitungan->jumlah_jp;
                 }
             }
-            
-            $hasil[$i]['upah_jasa'] = $tmp_upah_jasa;
-            $tmp_upah_jasa = 0;
+            $data_proses_perhitungan_jtl = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_proses_perhitungan] = $row_perhitungan_jtl->jumlah_jp;
+            }
+            $tmp_jasa_jtl = 0;
+            foreach($hasil[$i]['tmp_jtl'] as $row) {
+                $tmp_jasa_jtl += $row;
+            }
+            $hasil[$i]['upah_jasa'] = $tmp_upah_jasa + ($tmp_jasa_jtl * 0.15);
             $i++;
         }
         // dd($hasil);
@@ -135,8 +232,20 @@ class RekapData extends Model
             foreach($data_proses_perhitungan_rpp as $row_perhitungan){
                 $tmp_upah_jasa += $row_perhitungan->jumlah_jp;
             }            
-            $hasil[$i]['upah_jasa'] = $tmp_upah_jasa;
-            $tmp_upah_jasa = 0;
+            $data_proses_perhitungan_jtl = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_proses_perhitungan] = $row_perhitungan_jtl->jumlah_jp;
+            }
+            $tmp_jasa_jtl = 0;
+            foreach($hasil[$i]['tmp_jtl'] as $row) {
+                $tmp_jasa_jtl += $row;
+            }
+            $hasil[$i]['upah_jasa'] = $tmp_upah_jasa + ($tmp_jasa_jtl * 0.15);
             $i++;
         }
         // dd($hasil);
@@ -169,8 +278,24 @@ class RekapData extends Model
         foreach($data_proses_perhitungan as $row_perhitungan){
             $tmp_upah_jasa += $row_perhitungan->jumlah_jp;
         }
-        
-        $hasil['upah_jasa'] = $tmp_upah_jasa + ($tmp_nominal_uang * 0.05) + ($tmp_nominal_uang * 0.1) + ($tmp_nominal_uang * 0.15);
+
+        $i = 0;
+        $data_proses_perhitungan_jtl = DB::table('proses_perhitungan')
+        ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+        ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+        ->where('transaksi.id_periode', '=', $id)
+        ->where('proses_perhitungan.proses', '=', 'Ke 4')
+        ->get();
+        foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+            $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_proses_perhitungan] = $row_perhitungan_jtl->jumlah_jp;
+            
+        }
+        $tmp_jasa_jtl = 0;
+        foreach($hasil[$i]['tmp_jtl'] as $row) {
+            $tmp_jasa_jtl += $row;
+        }
+        $i++;
+        $hasil['upah_jasa'] = $tmp_upah_jasa + ($tmp_nominal_uang * 0.05) + ($tmp_nominal_uang * 0.1) + ($tmp_nominal_uang * 0.15) + ($tmp_jasa_jtl * 0.15);
         // dd($hasil);
         return $hasil;
     }

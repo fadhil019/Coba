@@ -103,6 +103,9 @@ Route::get('show_detail_proses_perhitungan_rawat_jalan/{id_periode}/{id_ruangan}
 // Rekap data
 Route::get('periode_rekap_data','RekapDataController@periode_rekap_data');
 Route::get('daftar_rekap_data/{id}','RekapDataController@daftar_rekap_data');
+Route::get('detail_rekap_data_dokter/{id_periode}/{id_karyawan}','RekapDataController@detail_rekap_data_dokter');
+Route::get('detail_rekap_data_penunjang/{id_periode}/{id_karyawan}','RekapDataController@detail_rekap_data_penunjang');
+Route::get('detail_rekap_data_perawat/{id_periode}/{id_karyawan}','RekapDataController@detail_rekap_data_perawat');
 
 // Dashboard
 Route::get('daftar_dashboard/{id}','DashboardController@daftar_dashboard');

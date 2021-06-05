@@ -39,6 +39,7 @@
                 <div class="row pt-2 mb-2">
                     <div class="col-sm-6">
                         <h4>Daftar nama dokter</h4>
+                        <span>*klik pada nama dokter untuk melihat detail</span>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -68,7 +69,7 @@
                         @for ($i=0; $i < count($rekap_data_dokters); $i++)
                             <tr>
                                 <td>{{ $i+1 }}</td>
-                                <td>{{ $rekap_data_dokters[$i]['nama_dokter'] }}</td>
+                                <td><a href="{{ url('detail_rekap_data_dokter/'. $data_periodes->id_periode . '/' . $rekap_data_dokters[$i]['id_dokter']) }}" class="text-dark">{{ $rekap_data_dokters[$i]['nama_dokter'] }}</a></td>
                                 <td>{{ $rekap_data_dokters[$i]['upah_jasa'] }}</td>
                             </tr>
                         @endfor
