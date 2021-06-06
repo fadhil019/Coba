@@ -65,7 +65,7 @@ class RekapData extends Model
                 $tmp_jasa_jtl += $row;
             }
             $hasil[$i]['upah_jasa'] = $tmp_upah_jasa + ($tmp_jasa_jtl * 0.15);
-            $tmp_upah_jasa = 0;
+            // $tmp_upah_jasa = 0;
             $i++;
         }
         // dd($hasil);

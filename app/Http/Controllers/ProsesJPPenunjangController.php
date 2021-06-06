@@ -182,4 +182,15 @@ class ProsesJPPenunjangController extends Controller
 
         return view('karyawan_penunjang.upah.upah', compact('data_upah_penunjangs', 'data_periodes'));
     }
+
+    public function detail_upah_karyawan_penunjang($id_periode, $id_karyawan_penunjang)
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->ShowPeriode($id_periode);
+
+        $data_upah_penunjang = new ProsesJPPenunjang();
+        $data_upah_penunjangs = $data_upah_penunjang->SelectDetailUpahPenunjang($id_periode, $id_karyawan_penunjang);
+
+        return view('karyawan_penunjang.upah.upah_detail', compact('data_upah_penunjangs', 'data_periodes'));
+    }
 }

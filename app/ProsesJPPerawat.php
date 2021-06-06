@@ -53,7 +53,7 @@ class ProsesJPPerawat extends Model
         return $hasil;
     }
 
-    public function SelectDetailUpahperawat($id_periode, $id_karyawan_perawat){
+    public function SelectDetailUpahPerawat($id_periode, $id_karyawan_perawat){
         $hasil = [];
         $point_perawats = DB::table('karyawan_perawat')
         ->join('point_karyawan', 'point_karyawan.id_karyawan_perawat', 'karyawan_perawat.id_karyawan_perawat')
@@ -88,6 +88,22 @@ class ProsesJPPerawat extends Model
             $hasil[$i]['iku_2'] = $proses_perawats2->iku;
             $hasil[$i]['iki_2'] = $proses_perawats2->iki;
             $hasil[$i]['pm_proses_2'] = $proses_perawats2->pm;
+
+            $data_proses_perhitungan_jtl = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->where('transaksi.id_periode', '=', $id_periode)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_proses_perhitungan] = $row_perhitungan_jtl->jumlah_jp;
+            }
+            $tmp_jasa_jtl = 0;
+            foreach($hasil[$i]['tmp_jtl'] as $row) {
+                $tmp_jasa_jtl += $row;
+            }
+            $hasil[$i]['upah_jasa_jtl'] = $tmp_jasa_jtl * 0.15;
+            $hasil[$i]['upah_jasa'] = $proses_perawats1->iku + $proses_perawats1->iki + $proses_perawats1->pm + $proses_perawats2->iku + $proses_perawats2->iki + $proses_perawats2->pm + ($tmp_jasa_jtl * 0.15);
         }
         // dd($hasil);
         return $hasil;

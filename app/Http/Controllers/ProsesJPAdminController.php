@@ -330,4 +330,15 @@ class ProsesJPAdminController extends Controller
 
         return view('karyawan_admin.upah.upah', compact('data_upah_admins', 'data_periodes'));
     }
+
+    public function detail_upah_karyawan_admin($id_periode, $id_karyawan_admin)
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->ShowPeriode($id_periode);
+
+        $data_upah_admin = new ProsesJPAdmin();
+        $data_upah_admins = $data_upah_admin->SelectDetailUpahAdmin($id_periode, $id_karyawan_admin);
+
+        return view('karyawan_admin.upah.upah_detail', compact('data_upah_admins', 'data_periodes'));
+    }
 }

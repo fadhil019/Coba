@@ -457,7 +457,7 @@ class ProsesJPPerawatController extends Controller
         $data_periodes = $data_periode->ShowPeriode($id_periode);
 
         $data_upah_perawat = new ProsesJPPerawat();
-        $data_upah_perawats = $data_upah_perawat->SelectDetailUpahperawat($id_periode, $id_karyawan_perawat);
+        $data_upah_perawats = $data_upah_perawat->SelectDetailUpahPerawat($id_periode, $id_karyawan_perawat);
 
         return view('karyawan_perawat.upah.upah_detail', compact('data_upah_perawats', 'data_periodes'));
     }

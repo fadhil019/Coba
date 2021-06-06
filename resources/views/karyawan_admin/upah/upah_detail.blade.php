@@ -19,7 +19,7 @@
         <div class="card-header">
             <div class="row pt-2 mb-2">
                 <div class="col">
-                    <h1>Rekap data dokter " {{ $rekap_data_dokters[0]['nama_dokter'] }} " periode " {{ $data_periodes->bulan }} - {{ $data_periodes->tahun }} "</h1>
+                    <h1>Detail data karyawan " {{ $data_upah_admins[0]['nama'] }} " periode " {{ $data_periodes->bulan }} - {{ $data_periodes->tahun }} "</h1>
                 </div>
                 <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -59,23 +59,25 @@
                         <tfoot>
                             <tr>
                                 <th>Total</th>
-                                <th>{{ $rekap_data_dokters[0]['upah_jasa_total'] }}</th>
+                                <th>{{ $data_upah_admins[0]['upah_jasa'] }}</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach($rekap_data_dokters[0]['ruangan'] as $row => $val)
-                                <tr>
-                                    <td>{{ $row }}</td>
-                                    <td>{{ $val }}</td>
-                                </tr>
-                            @endforeach
                             <tr>
-                                <td>{{ $rekap_data_dokters[0]['nama_kategori_tindakan'] }}</td>
-                                <td>{{ $rekap_data_dokters[0]['upah_jasa_kategori'] }}</td>
+                                <td>IKU</td>
+                                <td>{{ $data_upah_admins[0]['iku'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>IKI</td>
+                                <td>{{ $data_upah_admins[0]['iki'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>PM</td>
+                                <td>{{ $data_upah_admins[0]['pm_proses'] }}</td>
                             </tr>
                             <tr>
                                 <td>JTL</td>
-                                <td>{{ $rekap_data_dokters[0]['upah_jasa_jtl'] }}</td>
+                                <td>{{ $data_upah_admins[0]['upah_jasa_jtl'] }}</td>
                             </tr>
                         </tbody> 
                     </table>

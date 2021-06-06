@@ -30,7 +30,19 @@
         <div class="col-12">
         <input type="hidden" value="{{ $no = 1 }}">
         <div class="card">
-            <!-- /.card-header -->
+            <div class="card-header">
+                <div class="row pt-2 mb-2">
+                    <div class="col-sm-6">
+                        <!-- <h4>Daftar nama dokter</h4> -->
+                        <span>*klik pada nama karyawan untuk melihat detail</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="mr-2" id="tombol_pdf_dokter"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 <table id="dataTable" class="table table-bordered table-striped">
                     <thead>
@@ -71,7 +83,7 @@
                         @for($i=0; $i < count($data_upah_penunjangs); $i++)
                             <tr>
                                 <td>{{ ($i+1) }}</td>
-                                <td>{{ $data_upah_penunjangs[$i]['nama'] }}</td>
+                                <td><a href="{{ url('detail_upah_karyawan_penunjang/'. $data_periodes->id_periode . '/' . $data_upah_penunjangs[$i]['id_karyawan_penunjang']) }}" class="text-dark">{{ $data_upah_penunjangs[$i]['nama'] }}</a></td>
                                 <td>{{ $data_upah_penunjangs[$i]['kredential'] }}</td>
                                 <td>{{ $data_upah_penunjangs[$i]['unit'] }}</td>
                                 <td>{{ $data_upah_penunjangs[$i]['posisi'] }}</td>

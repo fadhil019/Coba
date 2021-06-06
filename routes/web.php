@@ -64,6 +64,7 @@ Route::put('update_point_karyawan_admin/{id}','KaryawanAdminController@update_po
 Route::get('proses_upah_admin/{id_periode}','ProsesJPAdminController@proses_upah_admin');
 Route::get('karyawan_admin_upah','ProsesJPAdminController@index_upah');
 Route::get('daftar_upah_karyawan_admin/{id_periode}','ProsesJPAdminController@daftar_upah_karyawan_admin');
+Route::get('detail_upah_karyawan_admin/{id_periode}/{id_karyawan}','ProsesJPAdminController@detail_upah_karyawan_admin');
 
 Route::get('karyawan_penunjang_point','KaryawanPenunjangController@index_point');
 Route::get('daftar_point_karyawan_penunjang/{id}','KaryawanPenunjangController@index_point_karyawan');
@@ -71,6 +72,7 @@ Route::put('update_point_karyawan_penunjang/{id}','KaryawanPenunjangController@u
 Route::get('proses_upah_penunjang/{id_periode}','ProsesJPPenunjangController@proses_upah_penunjang');
 Route::get('karyawan_penunjang_upah','ProsesJPPenunjangController@index_upah');
 Route::get('daftar_upah_karyawan_penunjang/{id_periode}','ProsesJPPenunjangController@daftar_upah_karyawan_penunjang');
+Route::get('detail_upah_karyawan_penunjang/{id_periode}/{id_karyawan}','ProsesJPPenunjangController@detail_upah_karyawan_penunjang');
 
 Route::get('karyawan_perawat_point','KaryawanPerawatController@index_point');
 Route::get('daftar_point_karyawan_perawat/{id}','KaryawanPerawatController@index_point_karyawan');
