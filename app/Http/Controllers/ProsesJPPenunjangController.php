@@ -107,9 +107,9 @@ class ProsesJPPenunjangController extends Controller
 
         foreach($data_penunjangs as $row) {
             $hasil['JASPEL'] = $row->total;
-            $hasil['PM'] = ($row->total * 0.4) * 0.12;
-            $hasil['IKU'] = ($row->total * 0.4) * 0.48;
-            $hasil['IKI'] = ($row->total * 0.4) * 0.40;
+            $hasil['PM'] = $hasil['JASPEL'] * 0.15;
+            $hasil['IKU'] = $hasil['JASPEL'] * 0.55;
+            $hasil['IKI'] = $hasil['JASPEL'] * 0.3;
         }
 
         $hasil_final = [];

@@ -1,6 +1,6 @@
 <li class="nav-item">
-    <a href="{{ url('/')}}" class="nav-link">
-    <i class="nav-icon fas fa-star"></i>
+    <a href="{{ url('daftar_dashboard/'. date('Y') )}}" class="nav-link">
+    <i class="nav-icon fas fa-check"></i>
         <p>Dasboard</p>
     </a>
 </li>
@@ -14,7 +14,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ url('/')}}" class="nav-link">
+            <a href="{{ route('karyawan_admin.index')}}" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
             <p>Admin remunerasi</p>
             </a>
@@ -22,7 +22,7 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ url('/')}}" class="nav-link">
+            <a href="{{ route('karyawan_penunjang.index')}}" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
             <p>Penunjang</p>
             </a>
@@ -30,7 +30,7 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ url('/')}}" class="nav-link">
+            <a href="{{ route('karyawan_perawat.index')}}" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
             <p>Perawat</p>
             </a>
@@ -38,8 +38,8 @@
     </ul>
 </li>
 <li class="nav-item">
-    <a href="{{ url('/')}}" class="nav-link">
-    <i class="nav-icon fas fa-star"></i>
-        <p>Report</p>
+    <a href="{{ url('periode_rekap_data')}}" class="nav-link">
+    <i class="nav-icon fas fa-check"></i>
+        <p>Rekap data</p>
     </a>
 </li>

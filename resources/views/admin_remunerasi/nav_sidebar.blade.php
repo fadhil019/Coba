@@ -1,4 +1,4 @@
-<li class="nav-item has-treeview menu-open">
+<li class="nav-item has-treeview menu-close">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user"></i>
         <p>
@@ -22,10 +22,12 @@
             </a>
         </li>
     </ul>
-</li>
-<li class="nav-item">
-    <a href="{{ url('/')}}" class="nav-link">
-    <i class="nav-icon fas fa-star"></i>
-        <p>Perhitungan upah</p>
-    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ url('karyawan_admin_upah')}}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Perhitungan upah</p>
+            </a>
+        </li>
+    </ul>
 </li>
