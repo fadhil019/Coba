@@ -218,9 +218,9 @@ class ProsesJPAdminController extends Controller
 
         foreach($data_admins as $row) {
             $hasil['ADM']['JASPEL'] = $row->total;
-            $hasil['ADM']['PM'] = ($row->total * 0.4) * 0.12;
-            $hasil['ADM']['IKU'] = ($row->total * 0.4) * 0.48;
-            $hasil['ADM']['IKI'] = ($row->total * 0.4) * 0.40;
+            $hasil['ADM']['PM'] = $row->total * 0.1;
+            $hasil['ADM']['IKU'] = $row->total * 0.5;
+            $hasil['ADM']['IKI'] = $row->total * 0.4;
         }
 
         $data_keuangan_pasien = DB::table('data_keuangan_pasien')
@@ -229,18 +229,18 @@ class ProsesJPAdminController extends Controller
             ->groupBy('id_periode')
             ->get();
 
-        foreach($data_admins as $row) {
+        foreach($data_keuangan_pasien as $row) {
             $hasil['STRUKTURAL']['JASPEL'] = $row->total * 0.1;
-            $hasil['STRUKTURAL']['PM'] = (($row->total * 0.1) * 0.4) * 0.12;
-            $hasil['STRUKTURAL']['IKU'] = (($row->total * 0.1) * 0.4) * 0.48;
-            $hasil['STRUKTURAL']['IKI'] = (($row->total * 0.1) * 0.4) * 0.40;
+            $hasil['STRUKTURAL']['PM'] = $hasil['STRUKTURAL']['JASPEL'] * 0.1;
+            $hasil['STRUKTURAL']['IKU'] = $hasil['STRUKTURAL']['JASPEL'] * 0.5;
+            $hasil['STRUKTURAL']['IKI'] = $hasil['STRUKTURAL']['JASPEL'] * 0.4;
         }
 
-        foreach($data_admins as $row) {
+        foreach($data_keuangan_pasien as $row) {
             $hasil['UMUM']['JASPEL'] = $row->total * 0.05;
-            $hasil['UMUM']['PM'] = (($row->total * 0.05) * 0.4) * 0.12;
-            $hasil['UMUM']['IKU'] = (($row->total * 0.05) * 0.4) * 0.48;
-            $hasil['UMUM']['IKI'] = (($row->total * 0.05) * 0.4) * 0.40;
+            $hasil['UMUM']['PM'] = $hasil['UMUM']['JASPEL'] * 0.1;
+            $hasil['UMUM']['IKU'] = $hasil['UMUM']['JASPEL'] * 0.5;
+            $hasil['UMUM']['IKI'] = $hasil['UMUM']['JASPEL'] * 0.4;
         }
 
         $hasil_final = [];
