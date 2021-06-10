@@ -60,6 +60,7 @@
                                     <div class="form-group">
                                         <label for="Nama">Kategori tindakan</label>
                                         <select class="form-control" name="id_kategori_tindakan">
+                                            <option value="" >Kosong</option>
                                             @foreach($data_kategori_tindakans as $data_kategori_tindakan)
                                                 <option value="{{ $data_kategori_tindakan->id_kategori_tindakan }}" >{{ $data_kategori_tindakan->nama }}</option>
                                             @endforeach
@@ -159,6 +160,7 @@
                                         <div class="form-group">
                                             <label for="Nama">Kategori tindakan</label>
                                             <select class="form-control" name="id_kategori_tindakan">
+                                                <option value="" >Kosong</option>
                                                 @foreach($data_kategori_tindakans as $data_kategori_tindakan)
                                                     <option value="{{ $data_kategori_tindakan->id_kategori_tindakan }}" @if($data_dokter->id_kategori_tindakan == $data_kategori_tindakan->id_kategori_tindakan) selected @endif>{{ $data_kategori_tindakan->nama }}</option>
                                                 @endforeach

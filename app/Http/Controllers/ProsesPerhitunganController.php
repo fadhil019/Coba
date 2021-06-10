@@ -294,7 +294,7 @@ class ProsesPerhitunganController extends Controller
 
                 $data_visite_pasien = DB::table('proses_perhitungan')
                 ->join('dokter', 'dokter.id_dokter', '=', 'proses_perhitungan.id_dokter')
-                ->where('id_data_pasien', '=', $row->id_transaksi)
+                ->where('id_transaksi', '=', $row->id_transaksi)
                 ->where('ket_kategori', '=', 'VISITE')
                 ->where('proses', '=', 'Ke 1')
                 ->get();
@@ -303,7 +303,7 @@ class ProsesPerhitunganController extends Controller
                     $hasil[$row->id_transaksi]['Ke 1']['visite'][$row_visite->id_dokter] = $row_visite->jumlah_jp;
                     $hasil[$row->id_transaksi]['Ke 1']['total'] += $hasil[$row->id_transaksi]['Ke 1']['visite'][$row_visite->id_dokter];
                 }
-                
+                // dd($hasil);
                 // proses ke 1
                 $tmp_total_ke_1 = 0;
                 $proses_perhitungan = new ProsesPerhitungan();
@@ -391,7 +391,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->save();
                     }
                 }
-
+                
                 if(isset($hasil[$row->id_transaksi]['Ke 1']['visite'])) {
                     foreach($hasil[$row->id_transaksi]['Ke 1']['visite'] as $hasil_1 => $val) {
                         $proses_perhitungan = new ProsesPerhitungan();
@@ -546,7 +546,7 @@ class ProsesPerhitunganController extends Controller
                         $hasil[$row->id_transaksi]['Ke 2']['visite'][ucfirst($hasil_1)] = $hasil[$row->id_transaksi]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_transaksi]['Ke 1']['total'];
                         $tmp_total_ke_2 += $hasil[$row->id_transaksi]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_transaksi]['Ke 1']['total'];
                         $proses_perhitungan = new ProsesPerhitungan();
-                        $proses_perhitungan->ket_kategori = 'VISITE';
+                        $proses_perhitungan->ket_kategori = 'visite';
                         $proses_perhitungan->proses = 'Ke 2';
                         $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['visite'][ucfirst($hasil_1)];
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
@@ -558,6 +558,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan->save();
                     }
                 }
+                
                 $hasil[$row->id_transaksi]['Ke 2']['total'] = $tmp_total_ke_2;
 
                 // proses ke 3

@@ -148,7 +148,8 @@ class ProsesJPPerawatController extends Controller
         //
     }
 
-    public function proses_upah_perawat($id_periode, $kategori_ruangan)
+    // public function proses_upah_perawat($id_periode, $kategori_ruangan)
+    public function proses_upah_perawat($id_periode)
     {
         $hasil1 = [];
         $hasil2 = [];
@@ -164,7 +165,7 @@ class ProsesJPPerawatController extends Controller
             ->get();
 
         foreach($ruangans as $row) {
-            if($kategori_ruangan == "Rawat Jalan") {
+            if($row->kategori_ruangan == "Rawat Jalan") {
                 $hasil1[$row->nama_ruangan]['JASPEL'] = $row->total;
                 $hasil1[$row->nama_ruangan]['PM'] = 0;
                 $hasil1[$row->nama_ruangan]['IKU'] = ($row->total * 0.4) * 0.6;

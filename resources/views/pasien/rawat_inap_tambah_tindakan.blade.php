@@ -165,9 +165,10 @@
                                     <form method="POST" action="{{ url('buat_data_gizi_pasien')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="id_transaksi" value="{{ $data_pasien_rawat_inaps[0]->id_transaksi }}">
+                                        <input type="hidden" name="id_ruangan" value="{{ $id_ruangan }}">
                                         <div class="form-group">
                                             <label for="Name">Jp</label><br>
-                                            <input type="number" class="form-control" name="jumlah_jp" autofocus required>
+                                            <input type="number" class="form-control" name="jumlah_jp" @if(isset($show_gizi_pasiens->jumlah_jp)) value="{{ $show_gizi_pasiens->jumlah_jp }}" @else value="0" @endif autofocus required>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-outline-light">
@@ -242,9 +243,10 @@
                                     <form method="POST" action="{{ url('buat_data_adm_pasien')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="id_transaksi" value="{{ $data_pasien_rawat_inaps[0]->id_transaksi }}">
+                                        <input type="hidden" name="id_ruangan" value="{{ $id_ruangan }}">
                                         <div class="form-group">
                                             <label for="Name">Jp</label><br>
-                                            <input type="number" class="form-control" name="jumlah_jp" autofocus required>
+                                            <input type="number" class="form-control" name="jumlah_jp" @if(isset($show_adm_pasiens->jumlah_jp)) value="{{ $show_adm_pasiens->jumlah_jp }}" @else value="0" @endif autofocus required>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-outline-light">
@@ -294,6 +296,7 @@
                                     <form method="POST" action="{{ url('buat_data_visite_pasien')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="id_transaksi" value="{{ $data_pasien_rawat_inaps[0]->id_transaksi }}">
+                                        <input type="hidden" name="id_ruangan" value="{{ $id_ruangan }}">
                                         <div class="form-group">
                                             <label for="Nama">Nama dokter visite</label>
                                             <select class="form-control" name="id_dokter">
@@ -361,7 +364,7 @@
                                         <span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="modal-body">
-                                    <form method="POST" action="{{ url('delete_visite_pasien/'.  $show_visite_pasien->id_proses_perhitungan)}}" enctype="multipart/form-data">
+                                    <form method="POST" action="{{ url('ubah_data_visite_pasien/'.  $show_visite_pasien->id_proses_perhitungan)}}" enctype="multipart/form-data">
                                         @csrf
                                         {{ method_field('PUT') }}
                                         <div class="form-group">

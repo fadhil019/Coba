@@ -24,7 +24,7 @@
                 <div class="col-sm-6">
                 <input type="hidden" value="{{ $cek_hasil = 0 }}">
                 @if(count($data_pasien_rawat_inaps) > 0)
-                    @if($hasil == null)
+                    @if(!isset($hasil[$data_pasien_rawat_inaps[0]->id_transaksi]['hasil_kategori_tindakan']))
                         <ol class="breadcrumb float-sm-right">
                             <li class="mr-2"><a href="{{ url('proses_perhitungan_rawat_inap/' . $show_periodes->id_periode . '/' . $show_ruangans->id_ruangan) }}" class="btn btn-primary"><i class="fas fa-sync-alt" aria-hidden="true"></i> Proses</a></li>
                         </ol>
@@ -32,7 +32,7 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="mr-2"><a href="#" class="btn btn-success"><i class="fas fa-sync-alt" aria-hidden="true"></i> Telah Proses</a></li>
                         </ol>
-                        {{ $cek_hasil = 1 }}
+                        <input type="hidden" value="{{ $cek_hasil = 1 }}">
                     @endif
                 @else
                     <ol class="breadcrumb float-sm-right">
@@ -120,7 +120,7 @@
                                 <td>
                                     <!-- <a href="#" data-toggle="modal" data-target="#edit{{ $data_pasien_rawat_inap->id_data_pasien }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Tambah data pelengkap</a> -->
                                     @if( $cek_hasil == 0 )
-                                        <a href="{{ url('data_pasien_rawat_inap_tambah_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi )}}"  class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah data pelengkap</a>
+                                        <a href="{{ url('data_pasien_rawat_inap_tambah_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi. '/' .$show_ruangans->id_ruangan )}}"  class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah data pelengkap</a>
                                     @endif
                                     <a href="{{ url('data_pasien_rawat_inap_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi )}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
                                 </td>

@@ -208,6 +208,7 @@ class DataPasienController extends Controller
 
             $hasi = new ProsesPerhitungan();
             $hasil = $hasi->ShowProsesPerhitunganRawatInap($id_periode, $id_ruangan);
+
             // dd($hasil);
             return view('pasien.rawat_inap', compact('data_periodes', 'data_pasien_rawat_inaps', 'data_dokters', 'data_ruangans', 'show_ruangans', 'show_periodes', 'hasil'));
         }
@@ -226,7 +227,7 @@ class DataPasienController extends Controller
             return view('pasien.rawat_inap_tindakan', compact('data_pasien_rawat_inaps', 'data_tindakan_pasiens', 'data_deskripsi_tindakans'));
         }
 
-        public function data_pasien_rawat_inap_tambah_tindakan($id)
+        public function data_pasien_rawat_inap_tambah_tindakan($id, $id_ruangan)
         {
             $data_pasien_rawat_inap = new DataPasien();
             $data_pasien_rawat_inaps = $data_pasien_rawat_inap->ShowTindakanDataPasien($id);
@@ -249,8 +250,9 @@ class DataPasienController extends Controller
             $show_visite_pasien = new ProsesPerhitungan();
             $show_visite_pasiens = $show_visite_pasien->ShowVisitePasien($id);
             
+            $id_ruangan = $id_ruangan;
 
-            return view('pasien.rawat_inap_tambah_tindakan', compact('data_pasien_rawat_inaps', 'data_tindakan_pasiens', 'data_deskripsi_tindakans', 'data_dokters', 'show_gizi_pasiens', 'show_adm_pasiens', 'show_visite_pasiens'));
+            return view('pasien.rawat_inap_tambah_tindakan', compact('data_pasien_rawat_inaps', 'data_tindakan_pasiens', 'data_deskripsi_tindakans', 'data_dokters', 'show_gizi_pasiens', 'show_adm_pasiens', 'show_visite_pasiens', 'id_ruangan'));
         }
     // END RAWAT INAP
     

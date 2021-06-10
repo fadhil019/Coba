@@ -126,6 +126,12 @@
                                 <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] }}</td>
                             </tr>
                         @endfor
+                        <tr>
+                            <td>{{ $i+1 }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['nama_kategori'] }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['bagian'] }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                        </tr>
                     </tbody> 
                 </table>
             </div>
@@ -179,6 +185,12 @@
                                 <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] }}</td>
                             </tr>
                         @endfor
+                        <tr>
+                            <td>{{ $i+1 }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['nama_kategori'] }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['bagian'] }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                        </tr>
                     </tbody> 
                 </table>
             </div>
@@ -224,11 +236,19 @@
                         </tr>
                     </tfoot>
                     <tbody>
+                        @for ($i=0; $i < count($rekap_data_admin_remus); $i++)
+                            <tr>
+                                <td>{{ $i+1 }}</td>
+                                <td>{{ $rekap_data_admin_remus[$i]['nama_kategori'] }}</td>
+                                <td>{{ $rekap_data_admin_remus[$i]['bagian'] }}</td>
+                                <td>{{ $rekap_data_admin_remus[$i]['upah_jasa'] }}</td>
+                            </tr>
+                        @endfor
                         <tr>
-                            <td>1</td>
-                            <td>{{ $rekap_data_admin_remus['nama_kategori'] }}</td>
-                            <td>{{ $rekap_data_admin_remus['bagian'] }}</td>
-                            <td>{{ $rekap_data_admin_remus['upah_jasa'] }}</td>
+                            <td>{{ $i+1 }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['nama_kategori'] }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['bagian'] }}</td>
+                            <td>{{ $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
                         </tr>
                     </tbody> 
                 </table>

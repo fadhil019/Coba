@@ -63,19 +63,17 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach($rekap_data_dokters[0]['ruangan'] as $row => $val)
-                                <tr>
-                                    <td>{{ $row }}</td>
-                                    <td>{{ $val }}</td>
-                                </tr>
-                            @endforeach
+                            @if(isset($rekap_data_dokters[0]['ruangan']))
+                                @foreach($rekap_data_dokters[0]['ruangan'] as $row => $val)
+                                    <tr>
+                                        <td>{{ $row }}</td>
+                                        <td>{{ $val }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             <tr>
                                 <td>{{ $rekap_data_dokters[0]['nama_kategori_tindakan'] }}</td>
                                 <td>{{ $rekap_data_dokters[0]['upah_jasa_kategori'] }}</td>
-                            </tr>
-                            <tr>
-                                <td>JTL</td>
-                                <td>{{ $rekap_data_dokters[0]['upah_jasa_jtl'] }}</td>
                             </tr>
                         </tbody> 
                     </table>

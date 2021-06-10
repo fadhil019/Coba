@@ -45,7 +45,7 @@ Route::get('periode_pasien_rawat_inap','DataPasienController@periode_pasien_rawa
 Route::get('ruangan_pasien_rawat_inap/{id_periode}','DataPasienController@ruangan_pasien_rawat_inap');
 Route::get('data_pasien_rawat_inap/{id_periode}/{id_ruangan}','DataPasienController@data_pasien_rawat_inap');
 Route::get('data_pasien_rawat_inap_detail_tindakan/{id}','DataPasienController@data_pasien_rawat_inap_tindakan');
-Route::get('data_pasien_rawat_inap_tambah_detail_tindakan/{id}','DataPasienController@data_pasien_rawat_inap_tambah_tindakan');
+Route::get('data_pasien_rawat_inap_tambah_detail_tindakan/{id}/{id_ruangan}','DataPasienController@data_pasien_rawat_inap_tambah_tindakan');
 Route::get('periode_p_pasien_rawat_inap','ProsesPerhitunganController@periode__p_pasien_rawat_inap');
 Route::get('ruangan_p_pasien_rawat_inap/{id_periode}','ProsesPerhitunganController@ruangan_p_pasien_rawat_inap');
 
