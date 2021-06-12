@@ -123,7 +123,11 @@
                                 <td>{{ $i+1 }}</td>
                                 <td>{{ $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan'] }}</td>
                                 <td>{{ $rekap_data_kategori_tindakans[$i]['bagian_kategori_tindakan'] }}</td>
-                                <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] }}</td>
+                                @if($rekap_data_ruangans[$i]['upah_jasa'] == 0)
+                                    <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] }}</td>
+                                @else
+                                    <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                                @endif
                             </tr>
                         @endfor
                         <tr>
@@ -182,7 +186,11 @@
                                 <td>{{ $i+1 }}</td>
                                 <td>{{ $rekap_data_ruangans[$i]['nama_ruangan'] }}</td>
                                 <td>{{ $rekap_data_ruangans[$i]['bagian'] }}</td>
-                                <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] }}</td>
+                                @if($rekap_data_ruangans[$i]['upah_jasa'] == 0)
+                                    <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] }}</td>
+                                @else
+                                    <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                                @endif
                             </tr>
                         @endfor
                         <tr>
@@ -241,7 +249,7 @@
                                 <td>{{ $i+1 }}</td>
                                 <td>{{ $rekap_data_admin_remus[$i]['nama_kategori'] }}</td>
                                 <td>{{ $rekap_data_admin_remus[$i]['bagian'] }}</td>
-                                <td>{{ $rekap_data_admin_remus[$i]['upah_jasa'] }}</td>
+                                <td>{{ $rekap_data_admin_remus[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
                             </tr>
                         @endfor
                         <tr>

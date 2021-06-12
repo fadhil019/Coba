@@ -154,7 +154,8 @@ class ProsesJPPerawatController extends Controller
         $hasil1 = [];
         $hasil2 = [];
         // $id_periode = $id_periode;
-
+        $rekap_data = new RekapData();
+        $rekap_datas = $rekap_data->tampungJTL($id_periode);
         $ruangans = DB::table('ruangan')
             ->leftjoin('proses_perhitungan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
             ->join('transaksi', 'transaksi.id_transaksi', '=', 'proses_perhitungan.id_transaksi')
@@ -166,18 +167,18 @@ class ProsesJPPerawatController extends Controller
 
         foreach($ruangans as $row) {
             if($row->kategori_ruangan == "Rawat Jalan") {
-                $hasil1[$row->nama_ruangan]['JASPEL'] = $row->total;
+                $hasil1[$row->nama_ruangan]['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
                 $hasil1[$row->nama_ruangan]['PM'] = 0;
                 $hasil1[$row->nama_ruangan]['IKU'] = ($row->total * 0.4) * 0.6;
                 $hasil1[$row->nama_ruangan]['IKI'] = ($row->total * 0.4) * 0.4;
             } else {
-                $hasil1[$row->nama_ruangan]['JASPEL'] = $row->total;
+                $hasil1[$row->nama_ruangan]['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
                 $hasil1[$row->nama_ruangan]['PM'] = ($row->total * 0.4) * 0.12;
                 $hasil1[$row->nama_ruangan]['IKU'] = ($row->total * 0.4) * 0.48;
                 $hasil1[$row->nama_ruangan]['IKI'] = ($row->total * 0.4) * 0.40;
             }
                 
-            $hasil2[$row->nama_ruangan]['JASPEL'] = $row->total;
+            $hasil2[$row->nama_ruangan]['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
             $hasil2[$row->nama_ruangan]['PM'] = ($row->total * 0.6) * 0.12;
             $hasil2[$row->nama_ruangan]['IKU'] = ($row->total * 0.6) * 0.48;
             $hasil2[$row->nama_ruangan]['IKI'] = ($row->total * 0.6) * 0.40;   

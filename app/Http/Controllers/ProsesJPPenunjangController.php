@@ -92,7 +92,8 @@ class ProsesJPPenunjangController extends Controller
     {
         $hasil = [];
         // $id_periode = 14;
-
+        $rekap_data = new RekapData();
+        $rekap_datas = $rekap_data->tampungJTL($id_periode);
         $data_penunjangs = DB::table('proses_perhitungan')
             ->join('transaksi', 'transaksi.id_transaksi', '=', 'proses_perhitungan.id_transaksi')
             ->where('transaksi.id_periode', $id_periode)
@@ -106,7 +107,7 @@ class ProsesJPPenunjangController extends Controller
             ->get();
 
         foreach($data_penunjangs as $row) {
-            $hasil['JASPEL'] = $row->total;
+            $hasil['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
             $hasil['PM'] = $hasil['JASPEL'] * 0.15;
             $hasil['IKU'] = $hasil['JASPEL'] * 0.55;
             $hasil['IKI'] = $hasil['JASPEL'] * 0.3;
