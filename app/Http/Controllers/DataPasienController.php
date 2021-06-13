@@ -223,11 +223,12 @@ class DataPasienController extends Controller
 
             $data_deskripsi_tindakan = new DeskripsiTindakan();
             $data_deskripsi_tindakans = $data_deskripsi_tindakan->SelectDeskripsiTindakan();
+            //dd($id);
 
             return view('pasien.rawat_inap_tindakan', compact('data_pasien_rawat_inaps', 'data_tindakan_pasiens', 'data_deskripsi_tindakans'));
         }
 
-        public function data_pasien_rawat_inap_tambah_tindakan($id, $id_ruangan)
+        public function data_pasien_rawat_inap_tambah_tindakan($id, $id_ruangan, $id_data_pasien)
         {
             $data_pasien_rawat_inap = new DataPasien();
             $data_pasien_rawat_inaps = $data_pasien_rawat_inap->ShowTindakanDataPasien($id);
@@ -252,7 +253,7 @@ class DataPasienController extends Controller
             
             $id_ruangan = $id_ruangan;
 
-            return view('pasien.rawat_inap_tambah_tindakan', compact('data_pasien_rawat_inaps', 'data_tindakan_pasiens', 'data_deskripsi_tindakans', 'data_dokters', 'show_gizi_pasiens', 'show_adm_pasiens', 'show_visite_pasiens', 'id_ruangan'));
+            return view('pasien.rawat_inap_tambah_tindakan', compact('data_pasien_rawat_inaps', 'data_tindakan_pasiens', 'data_deskripsi_tindakans', 'data_dokters', 'show_gizi_pasiens', 'show_adm_pasiens', 'show_visite_pasiens', 'id_ruangan', 'id_data_pasien'));
         }
     // END RAWAT INAP
     

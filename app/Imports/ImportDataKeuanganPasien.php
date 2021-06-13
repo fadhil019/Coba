@@ -31,12 +31,13 @@ class ImportDataKeuanganPasien implements ToCollection, WithStartRow
         {
         	$no_sep = $row[1];
         	$nominal = $row[2];
-
-        	$data_keuangan_pasien = new DataKeuanganPasien();
-        	$data_keuangan_pasien->no_sep_keuangan_pasien = $no_sep;
-        	$data_keuangan_pasien->nominal_uang = $nominal;
-        	$data_keuangan_pasien->id_periode = session('id_periode');
-        	$data_keuangan_pasien->save();
+            if ($no_sep!="") {
+                $data_keuangan_pasien = new DataKeuanganPasien();
+                $data_keuangan_pasien->no_sep_keuangan_pasien = $no_sep;
+                $data_keuangan_pasien->nominal_uang = $nominal;
+                $data_keuangan_pasien->id_periode = session('id_periode');
+                $data_keuangan_pasien->save();
+            }
         }
     }
 }

@@ -296,6 +296,7 @@
                                     <form method="POST" action="{{ url('buat_data_visite_pasien')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="id_transaksi" value="{{ $data_pasien_rawat_inaps[0]->id_transaksi }}">
+                                        <input type="hidden" name="id_data_pasien" value="{{ $data_pasien_rawat_inaps[0]->id_data_pasien }}">
                                         <input type="hidden" name="id_ruangan" value="{{ $id_ruangan }}">
                                         <div class="form-group">
                                             <label for="Nama">Nama dokter visite</label>

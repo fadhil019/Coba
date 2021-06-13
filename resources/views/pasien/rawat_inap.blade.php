@@ -120,7 +120,7 @@
                                 <td>
                                     <!-- <a href="#" data-toggle="modal" data-target="#edit{{ $data_pasien_rawat_inap->id_data_pasien }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Tambah data pelengkap</a> -->
                                     @if( $cek_hasil == 0 )
-                                        <a href="{{ url('data_pasien_rawat_inap_tambah_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi. '/' .$show_ruangans->id_ruangan )}}"  class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah data pelengkap</a>
+                                        <a href="{{ url('data_pasien_rawat_inap_tambah_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi. '/' .$show_ruangans->id_ruangan. '/' .$data_pasien_rawat_inap->id_data_pasien)}}"  class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah data pelengkap</a>
                                     @endif
                                     <a href="{{ url('data_pasien_rawat_inap_detail_tindakan/'.$data_pasien_rawat_inap->id_transaksi )}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
                                 </td>

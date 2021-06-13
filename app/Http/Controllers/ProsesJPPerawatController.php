@@ -153,7 +153,6 @@ class ProsesJPPerawatController extends Controller
     {
         $hasil1 = [];
         $hasil2 = [];
-        // $id_periode = $id_periode;
         $rekap_data = new RekapData();
         $rekap_datas = $rekap_data->tampungJTL($id_periode);
         $ruangans = DB::table('ruangan')
@@ -238,9 +237,9 @@ class ProsesJPPerawatController extends Controller
 
         foreach($hasil1_final as $row) {
             if(isset($hasil1[$row['RUANG']])) {
-                $hasil1_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil1[$row['RUANG']]['IKU'];
-                $hasil1_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil1[$row['RUANG']]['IKI'];
-                $hasil1_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil1[$row['RUANG']]['PM'];   
+                $hasil1_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total1_iku * $hasil1[$row['RUANG']]['IKU'];
+                $hasil1_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total1_iki * $hasil1[$row['RUANG']]['IKI'];
+                $hasil1_final[$row['ID']]['UANG PM'] = $row['PM'] / $total1_pm * $hasil1[$row['RUANG']]['PM'];   
             } else {
                 $hasil1_final[$row['ID']]['UANG IKU'] = 0;
                 $hasil1_final[$row['ID']]['UANG IKI'] = 0;
@@ -250,9 +249,9 @@ class ProsesJPPerawatController extends Controller
 
         foreach($hasil2_final as $row) {
             if(isset($hasil2[$row['RUANG']])) {
-                $hasil2_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil2[$row['RUANG']]['IKU'];
-                $hasil2_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil2[$row['RUANG']]['IKI'];
-                $hasil2_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil2[$row['RUANG']]['PM'];   
+                $hasil2_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total2_iku * $hasil2[$row['RUANG']]['IKU'];
+                $hasil2_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total2_iki * $hasil2[$row['RUANG']]['IKI'];
+                $hasil2_final[$row['ID']]['UANG PM'] = $row['PM'] / $total2_pm * $hasil2[$row['RUANG']]['PM'];   
             } else {
                 $hasil2_final[$row['ID']]['UANG IKU'] = 0;
                 $hasil2_final[$row['ID']]['UANG IKI'] = 0;

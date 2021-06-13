@@ -221,9 +221,9 @@ class ProsesJPAdminController extends Controller
 
         foreach($data_admins as $row) {
             $hasil['ADM']['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
-            $hasil['ADM']['PM'] = $row->total * 0.1;
-            $hasil['ADM']['IKU'] = $row->total * 0.5;
-            $hasil['ADM']['IKI'] = $row->total * 0.4;
+            $hasil['ADM']['PM'] = $hasil['ADM']['JASPEL'] * 0.1;
+            $hasil['ADM']['IKU'] = $hasil['ADM']['JASPEL'] * 0.5;
+            $hasil['ADM']['IKI'] = $hasil['ADM']['JASPEL'] * 0.4;
         }
 
         $data_keuangan_pasien = DB::table('data_keuangan_pasien')

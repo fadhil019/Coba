@@ -58,7 +58,7 @@ class DataPasien extends Model
 
     public function ShowDataPasien($id){
         $data_data_pasien = DB::table('data_pasien')
-        ->join('transaksi', 'transaksi.id_transaksi', '=', 'data_pasien.id_data_pasien')
+        ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
         ->where('transaksi.id_transaksi', '=', $id)
         ->orderby('data_pasien.id_data_pasien', 'ASC')
         ->get();

@@ -96,6 +96,7 @@ class RekapDataController extends Controller
 
     public function daftar_rekap_data($id_periode)
     {
+        $rekap_data_kategori_tindakans=array(); 
         $data_periode = new Periode();
         $data_periodes = $data_periode->ShowPeriode($id_periode);
 
@@ -113,7 +114,7 @@ class RekapDataController extends Controller
 
         $rekap_data_jtl = new RekapData();
         $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
-
+        //dd($rekap_data_kategori_tindakans[3]['nama_kategori_tindakan']);
         return view('rekap_data.daftar_rekap_data', compact('data_periodes', 'rekap_data_dokters', 'rekap_data_kategori_tindakans', 'rekap_data_ruangans', 'rekap_data_admin_remus', 'rekap_data_jtls'));
     }
 

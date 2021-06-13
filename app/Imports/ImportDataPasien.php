@@ -54,7 +54,7 @@ class ImportDataPasien implements ToCollection, WithStartRow
 			->where('no_sep_keuangan_pasien', $no_sep)
 			->where('id_periode', session('id_periode'))
 			->first();
-			if($sep_pasien != null) {
+			if($sep_pasien != null && $sep_pasien != "") {
 				$pasien = DB::table('data_pasien')->where('nama_pasien', $nama_pasien)->first();
 				if($pasien == null) {
 					$pasien = new DataPasien();

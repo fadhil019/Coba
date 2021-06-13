@@ -214,7 +214,8 @@ class RekapData extends Model
         // $jmlh_kat_tindakan = $this->SelectRekapDataKategoriTindakanPerPeriode($id);
         // $jmlh_kat_ruangan = $this->SelectRekapDataRuanganPerPeriode($id);
         // $jmlh_kat_admin = $this->SelectRekapDataAdminRemuPerPeriode($id);
-        // dd($jmlh_kat_ruangan);
+        //dd($hasil);
+        //dd($data_kategori_tindakan);
         return $hasil;
     }
 
