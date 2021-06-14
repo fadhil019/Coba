@@ -121,10 +121,10 @@
                         @for ($i=0; $i < count($rekap_data_kategori_tindakans); $i++)
 
                             <tr>
-                                <td>{{ $i }}</td>
+                                <td>{{ $i+1 }}</td>
                                 <td>{{ $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan'] }}</td>
                                 <td>{{ $rekap_data_kategori_tindakans[$i]['bagian_kategori_tindakan'] }}</td>
-                                @if($rekap_data_ruangans[$i]['upah_jasa'] == 0)
+                                @if($rekap_data_kategori_tindakans[$i]['upah_jasa'] == 0)
                                     <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] }}</td>
                                 @else
                                     <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>

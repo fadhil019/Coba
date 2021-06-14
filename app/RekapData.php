@@ -216,6 +216,7 @@ class RekapData extends Model
         // $jmlh_kat_admin = $this->SelectRekapDataAdminRemuPerPeriode($id);
         //dd($hasil);
         //dd($data_kategori_tindakan);
+        // dd($hasil);
         return $hasil;
     }
 
@@ -379,7 +380,24 @@ class RekapData extends Model
         }
         $hasil['JTL'][0]['nama_kategori'] = 'JTL';
         $hasil['JTL'][0]['bagian'] = 'JTL';
-        $hasil['JTL'][0]['upah_jasa'] = ($tmp_jasa_jtl * 0.15) / ($tmp_jmlh_kat_admin + $tmp_jmlh_kat_ruangan + $tmp_jmlh_kategori_tindakan);
+        // $hasil['JTL'][0]['upah_jasa'] = ($tmp_jasa_jtl * 0.15) / 1;
+        $tmp_semua_kategori = 0;
+        if($tmp_jmlh_kat_admin != 0) {
+            $tmp_semua_kategori += $tmp_jmlh_kat_admin;
+        } else {
+            $tmp_semua_kategori = 1;
+        }
+        if($tmp_jmlh_kat_ruangan != 0) {
+            $tmp_semua_kategori += $tmp_jmlh_kat_ruangan;
+        } else {
+            $tmp_semua_kategori = 1;
+        }
+        if($tmp_jmlh_kategori_tindakan != 0) {
+            $tmp_semua_kategori += $tmp_jmlh_kategori_tindakan;
+        } else {
+            $tmp_semua_kategori = 1;
+        }
+        $hasil['JTL'][0]['upah_jasa'] = ($tmp_jasa_jtl * 0.15) / $tmp_semua_kategori;
         // dd($hasil['JTL'][0]['upah_jasa']);
         return $hasil;
     }
