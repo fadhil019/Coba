@@ -869,26 +869,26 @@ class ProsesPerhitunganController extends Controller
                     if(count($index) == 1) {
                         $rumus = str_replace($nama_variable, $hasil[$index[0]], $rumus);
                     } else {
-                        // $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                        $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
                     }
                     break;
                 } else {
                     // tidak ada
                     if($variable_kategori == "DOKTER IGD" || $variable_kategori == "DOKTER VISITE" || $variable_kategori == "DOKTER") {
                         $index = explode("|", $value);
-                        // if(count($index) == 1) {
-                        //     dd($variable_kategori);                        
-                        //     dd($list_variable);
-                        //     dd($value);
-                        // }
                         $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
                         break;
                     }
                 }
             }
-
-            $hasil_perhitungan = 111111;
-            // $hasil_perhitungan = eval('return (' . $rumus . ');');
+            
+            $rumus = str_replace(" ", "", $rumus);
+            $rumus = str_replace("*", " * ", $rumus);
+            $rumus = str_replace("/", " / ", $rumus);
+            $rumus = str_replace("+", " + ", $rumus);
+            $rumus = str_replace("-", " - ", $rumus);
+            $rumus = str_replace("%", " / 100", $rumus);
+            $hasil_perhitungan = eval("return " . $rumus . ";");
         }
 
         return $hasil_perhitungan;
