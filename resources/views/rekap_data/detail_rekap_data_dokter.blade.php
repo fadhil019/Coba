@@ -71,10 +71,13 @@
                                     </tr>
                                 @endforeach
                             @endif
-                            <tr>
-                                <td>{{ $rekap_data_dokters[0]['nama_kategori_tindakan'] }}</td>
-                                <td>{{ $rekap_data_dokters[0]['upah_jasa_kategori'] }}</td>
-                            </tr>
+                            @if(isset($rekap_data_dokters[0]['nama_kategori_tindakan']))
+                                <tr>
+                                    <td>{{ $rekap_data_dokters[0]['nama_kategori_tindakan'] }}</td>
+                                    <td>{{ $rekap_data_dokters[0]['upah_jasa_kategori'] }}</td>
+                                </tr>
+                            @endif
+                            
                         </tbody> 
                     </table>
                 </div>

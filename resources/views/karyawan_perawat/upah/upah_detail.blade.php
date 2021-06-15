@@ -87,10 +87,6 @@
                                 <td>PM 2</td>
                                 <td>{{ $data_upah_perawats[0]['pm_proses_1'] }}</td>
                             </tr>
-                            <tr>
-                                <td>JTL</td>
-                                <td>{{ $data_upah_perawats[0]['upah_jasa_jtl'] }}</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

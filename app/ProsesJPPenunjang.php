@@ -73,21 +73,7 @@ class ProsesJPPenunjang extends Model
             $hasil[$i]['iki'] = $proses_penunjangs->iki;
             $hasil[$i]['pm_proses'] = $proses_penunjangs->pm;
 
-            $data_proses_perhitungan_jtl = DB::table('proses_perhitungan')
-            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
-            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
-            ->where('transaksi.id_periode', '=', $id_periode)
-            ->where('proses_perhitungan.proses', '=', 'Ke 4')
-            ->get();
-            foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
-                $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_proses_perhitungan] = $row_perhitungan_jtl->jumlah_jp;
-            }
-            $tmp_jasa_jtl = 0;
-            foreach($hasil[$i]['tmp_jtl'] as $row) {
-                $tmp_jasa_jtl += $row;
-            }
-            $hasil[$i]['upah_jasa_jtl'] = $tmp_jasa_jtl * 0.15;
-            $hasil[$i]['upah_jasa'] = $proses_penunjangs->iku + $proses_penunjangs->iki + $proses_penunjangs->pm + ($tmp_jasa_jtl * 0.15);
+            $hasil[$i]['upah_jasa'] = $proses_penunjangs->iku + $proses_penunjangs->iki + $proses_penunjangs->pm;
         }
         // dd($hasil);
         return $hasil;
