@@ -28,7 +28,7 @@ class KaryawanAdmin extends Model
             $this->nama = $request->nama;
             $this->jabatan = $request->jabatan;
             $this->bagian = $request->bagian;
-            $this->id_users = Auth::user()->id_users;
+            // $this->id_users = Auth::user()->id_users;
             $this->created_at = now();
             $this->updated_at = now();
             $this->save();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProsesJPPenunjang;
 use App\Periode;
+use App\RekapData;
 
 use Illuminate\Http\Request;
 use DB;

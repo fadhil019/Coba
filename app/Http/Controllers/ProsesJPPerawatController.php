@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProsesJPPerawat;
 use App\Periode;
+use App\RekapData;
 
 use Illuminate\Http\Request;
 use DB;
@@ -29,67 +30,67 @@ class ProsesJPPerawatController extends Controller
     {
         // proses upah 2
 
-        $hasil2 = [];
-        $id_periode = 12;
+        // $hasil2 = [];
+        // $id_periode = 12;
 
-        $ruangans = DB::table('ruangan')
-            ->leftjoin('proses_perhitungan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
-            ->join('transaksi', 'transaksi.id_transaksi', '=', 'proses_perhitungan.id_transaksi')
-            ->where('transaksi.id_periode', $id_periode)
-            ->where('proses_perhitungan.proses', 'Ke 4')
-            ->select('*', DB::raw('SUM(proses_perhitungan.jumlah_jp) as total'))
-            ->groupBy('ruangan.id_ruangan')
-            ->get();
+        // $ruangans = DB::table('ruangan')
+        //     ->leftjoin('proses_perhitungan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
+        //     ->join('transaksi', 'transaksi.id_transaksi', '=', 'proses_perhitungan.id_transaksi')
+        //     ->where('transaksi.id_periode', $id_periode)
+        //     ->where('proses_perhitungan.proses', 'Ke 4')
+        //     ->select('*', DB::raw('SUM(proses_perhitungan.jumlah_jp) as total'))
+        //     ->groupBy('ruangan.id_ruangan')
+        //     ->get();
 
-        foreach($ruangans as $row) {
-            $hasil2[$row->nama_ruangan]['JASPEL'] = $row->total;
-            $hasil2[$row->nama_ruangan]['PM'] = ($row->total * 0.6) * 0.12;
-            $hasil2[$row->nama_ruangan]['IKU'] = ($row->total * 0.6) * 0.48;
-            $hasil2[$row->nama_ruangan]['IKI'] = ($row->total * 0.6) * 0.40;
-        }
+        // foreach($ruangans as $row) {
+        //     $hasil2[$row->nama_ruangan]['JASPEL'] = $row->total;
+        //     $hasil2[$row->nama_ruangan]['PM'] = ($row->total * 0.6) * 0.12;
+        //     $hasil2[$row->nama_ruangan]['IKU'] = ($row->total * 0.6) * 0.48;
+        //     $hasil2[$row->nama_ruangan]['IKI'] = ($row->total * 0.6) * 0.40;
+        // }
 
-        $hasil2_final = [];
-        $perawats = DB::table('karyawan_perawat')
-            ->leftjoin('ruangan', 'ruangan.id_ruangan', '=', 'karyawan_perawat.id_ruangan')
-            ->join('point_karyawan', 'karyawan_perawat.id_karyawan_perawat', 'karyawan_perawat.id_karyawan_perawat')
-            ->get();
+        // $hasil2_final = [];
+        // $perawats = DB::table('karyawan_perawat')
+        //     ->leftjoin('ruangan', 'ruangan.id_ruangan', '=', 'karyawan_perawat.id_ruangan')
+        //     ->join('point_karyawan', 'karyawan_perawat.id_karyawan_perawat', 'karyawan_perawat.id_karyawan_perawat')
+        //     ->get();
 
-        $total_iki = 0;
-        $total_iku = 0;
-        $total_pm = 0;
+        // $total_iki = 0;
+        // $total_iku = 0;
+        // $total_pm = 0;
 
-        foreach($perawats as $row) {
-            $hasil2_final[$row->id_karyawan_perawat]['ID'] = $row->id_karyawan_perawat;
-            $hasil2_final[$row->id_karyawan_perawat]['NAMA'] = $row->nama;
-            $hasil2_final[$row->id_karyawan_perawat]['RUANG'] = $row->nama_ruangan;
-            $hasil2_final[$row->id_karyawan_perawat]['KREDENTIAL'] = $row->kredential;
-            $hasil2_final[$row->id_karyawan_perawat]['UNIT'] = $row->unit;
-            $hasil2_final[$row->id_karyawan_perawat]['POSISI'] = $row->posisi;
-            $hasil2_final[$row->id_karyawan_perawat]['IKU'] = $row->kredential + $row->unit + $row->posisi;            
-            $hasil2_final[$row->id_karyawan_perawat]['PERFORMA'] = $row->performa;
-            $hasil2_final[$row->id_karyawan_perawat]['DISIPIN'] = $row->disiplin;
-            $hasil2_final[$row->id_karyawan_perawat]['KOMPLAIN'] = $row->komplain;
-            $hasil2_final[$row->id_karyawan_perawat]['IKI'] = $row->performa + $row->disiplin + $row->komplain;        
-            $hasil2_final[$row->id_karyawan_perawat]['PM'] = $row->pm;
+        // foreach($perawats as $row) {
+        //     $hasil2_final[$row->id_karyawan_perawat]['ID'] = $row->id_karyawan_perawat;
+        //     $hasil2_final[$row->id_karyawan_perawat]['NAMA'] = $row->nama;
+        //     $hasil2_final[$row->id_karyawan_perawat]['RUANG'] = $row->nama_ruangan;
+        //     $hasil2_final[$row->id_karyawan_perawat]['KREDENTIAL'] = $row->kredential;
+        //     $hasil2_final[$row->id_karyawan_perawat]['UNIT'] = $row->unit;
+        //     $hasil2_final[$row->id_karyawan_perawat]['POSISI'] = $row->posisi;
+        //     $hasil2_final[$row->id_karyawan_perawat]['IKU'] = $row->kredential + $row->unit + $row->posisi;            
+        //     $hasil2_final[$row->id_karyawan_perawat]['PERFORMA'] = $row->performa;
+        //     $hasil2_final[$row->id_karyawan_perawat]['DISIPIN'] = $row->disiplin;
+        //     $hasil2_final[$row->id_karyawan_perawat]['KOMPLAIN'] = $row->komplain;
+        //     $hasil2_final[$row->id_karyawan_perawat]['IKI'] = $row->performa + $row->disiplin + $row->komplain;        
+        //     $hasil2_final[$row->id_karyawan_perawat]['PM'] = $row->pm;
 
-            $total_iku += $hasil2_final[$row->id_karyawan_perawat]['IKU'];
-            $total_iki += $hasil2_final[$row->id_karyawan_perawat]['IKI'];
-            $total_pm += $hasil2_final[$row->id_karyawan_perawat]['PM'];
-        }
+        //     $total_iku += $hasil2_final[$row->id_karyawan_perawat]['IKU'];
+        //     $total_iki += $hasil2_final[$row->id_karyawan_perawat]['IKI'];
+        //     $total_pm += $hasil2_final[$row->id_karyawan_perawat]['PM'];
+        // }
 
-        foreach($hasil2_final as $row) {
-            if(isset($hasil2[$row['RUANG']])) {
-                $hasil2_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil2[$row['RUANG']]['IKU'];
-                $hasil2_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil2[$row['RUANG']]['IKI'];
-                $hasil2_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil2[$row['RUANG']]['PM'];   
-            } else {
-                $hasil2_final[$row['ID']]['UANG IKU'] = 0;
-                $hasil2_final[$row['ID']]['UANG IKI'] = 0;
-                $hasil2_final[$row['ID']]['UANG PM'] = 0;
-            }
-        }
+        // foreach($hasil2_final as $row) {
+        //     if(isset($hasil2[$row['RUANG']])) {
+        //         $hasil2_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil2[$row['RUANG']]['IKU'];
+        //         $hasil2_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil2[$row['RUANG']]['IKI'];
+        //         $hasil2_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil2[$row['RUANG']]['PM'];   
+        //     } else {
+        //         $hasil2_final[$row['ID']]['UANG IKU'] = 0;
+        //         $hasil2_final[$row['ID']]['UANG IKI'] = 0;
+        //         $hasil2_final[$row['ID']]['UANG PM'] = 0;
+        //     }
+        // }
 
-        dd($hasil2_final);
+        // dd($hasil2_final);
     }
 
     /**

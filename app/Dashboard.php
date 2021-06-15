@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 use DB;
 
+use App\RekapData;
 class Dashboard extends Model
 {
     public function SelectDashboard($tahun){
@@ -21,6 +22,8 @@ class Dashboard extends Model
         $hasil = [];
         $i = 0;
         foreach($data_periode as $row){
+            $rekap_data = new RekapData();
+            $rekap_datas = $rekap_data->tampungJTL($row->id_periode);
             // DOKTER
             $data_dokter = DB::table('dokter')
             ->orderby('dokter.id_dokter', 'ASC')
@@ -127,10 +130,10 @@ class Dashboard extends Model
                 $tmp_total_pendapatan_perawat += $row_perhitungan_perawat_igd->jumlah_jp;
             }
 
-            $hasil['dokter'][$i] = $tmp_total_pendapatan_dokter;
-            $hasil['admin'][$i] = $tmp_total_pendapatan_admin + ($tmp_nominal_uang * 0.05) + ($tmp_nominal_uang * 0.1) + ($tmp_nominal_uang * 0.15);
-            $hasil['penunjang'][$i] = $tmp_total_pendapatan_penunjang;
-            $hasil['perawat'][$i] = $tmp_total_pendapatan_perawat;
+            $hasil['dokter'][$i] = $tmp_total_pendapatan_dokter + $rekap_datas['JTL'][0]['upah_jasa'];
+            $hasil['admin'][$i] = $tmp_total_pendapatan_admin + $rekap_datas['JTL'][0]['upah_jasa'];
+            $hasil['penunjang'][$i] = $tmp_total_pendapatan_penunjang + $rekap_datas['JTL'][0]['upah_jasa'];
+            $hasil['perawat'][$i] = $tmp_total_pendapatan_perawat + $rekap_datas['JTL'][0]['upah_jasa'];
             $i++;
         }
 
