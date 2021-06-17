@@ -701,9 +701,12 @@ class ProsesPerhitunganController extends Controller
                 // list variable rumus 
                 $list_variable['ADM'] = "adm|adm";
                 $list_variable['GIZI'] = "gizi|gizi";
-                $list_variable['PERAWAT IGD'] = "perawat_igd";
-                $list_variable['PERAWAT ICCU'] = "perawat_iccu";
-                $list_variable['PERAWAT RPP'] = "perawat_rpp";
+
+                $ruangans = DB::table('ruangan')->get();
+                foreach($ruangans as $ruangan) {
+                    $list_variable['PERAWAT ' . strtoupper($ruangan->nama_ruangan)] = "perawat_" . $ruangan->nama_ruangan;
+                }
+                
                 foreach($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
                     $data_kategori_tindakan = new KategoriTindakan();
                     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
@@ -867,13 +870,21 @@ class ProsesPerhitunganController extends Controller
                     // ada
                     $index = explode("|", $value);
                     if(count($index) == 1) {
-                        $rumus = str_replace($nama_variable, $hasil[$index[0]], $rumus);
+                        if(isset($hasil[$index[0]])) {
+                            $rumus = str_replace($nama_variable, $hasil[$index[0]], $rumus);
+                        }
                     } else {
                         $kategori_tindakan = DB::table('kategori_tindakan')->where('nama', '=', $variable_kategori)->first();
-                        if($kategori_tindakan == null) {
-                            $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                        if($kategori_tindakan == null || $variable_kategori == "GIZI") {
+                            if(isset($hasil[$index[0]][$index[1]])) {
+                                $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                            }
                         } else {
-                            $rumus = str_replace($nama_variable, $hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan], $rumus);
+                            if(isset($hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan])) {
+                                $rumus = str_replace($nama_variable, $hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan], $rumus);   
+                            } else {
+                                $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                            }
                         }
                     }
                     break;
@@ -881,7 +892,9 @@ class ProsesPerhitunganController extends Controller
                     // tidak ada
                     if($variable_kategori == "DOKTER IGD" || $variable_kategori == "DOKTER VISITE" || $variable_kategori == "DOKTER") {
                         $index = explode("|", $value);
-                        $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                        if(isset($hasil[$index[0]][$index[1]])) {
+                            $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                        }
                         break;
                     }
                 }
@@ -895,7 +908,7 @@ class ProsesPerhitunganController extends Controller
             $rumus = str_replace("%", " / 100", $rumus);
             $hasil_perhitungan = eval("return " . $rumus . ";");
         }
-        dd($hasil_perhitungan);
+
         return $hasil_perhitungan;
     }
 
