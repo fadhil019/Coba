@@ -854,7 +854,7 @@ class ProsesPerhitunganController extends Controller
     public function hitung_rumus($hasil, $list_variable, $variable_kategori) {
         $rumus = DB::table('variable_rumus')->where("nama_variabel", "=", $variable_kategori)->first();
         if($rumus == null) {
-            $hasil_perhitungan = 2222222;
+            $hasil_perhitungan = 0;
         } else {
             $rumus = $rumus->rumus;
 
@@ -869,7 +869,12 @@ class ProsesPerhitunganController extends Controller
                     if(count($index) == 1) {
                         $rumus = str_replace($nama_variable, $hasil[$index[0]], $rumus);
                     } else {
-                        $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                        $kategori_tindakan = DB::table('kategori_tindakan')->where('nama', '=', $variable_kategori)->first();
+                        if($kategori_tindakan == null) {
+                            $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                        } else {
+                            $rumus = str_replace($nama_variable, $hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan], $rumus);
+                        }
                     }
                     break;
                 } else {
@@ -890,7 +895,7 @@ class ProsesPerhitunganController extends Controller
             $rumus = str_replace("%", " / 100", $rumus);
             $hasil_perhitungan = eval("return " . $rumus . ";");
         }
-
+        dd($hasil_perhitungan);
         return $hasil_perhitungan;
     }
 
