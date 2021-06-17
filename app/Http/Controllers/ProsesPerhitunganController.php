@@ -699,12 +699,12 @@ class ProsesPerhitunganController extends Controller
                 $hasil[$row->id_transaksi]['Ke 3']['total'] = $tmp_total_ke_3;
 
                 // list variable rumus 
-                $list_variable['ADM'] = "adm|adm";
-                $list_variable['GIZI'] = "gizi|gizi";
+                $list_variable['ADM'][] = "adm|adm";
+                $list_variable['GIZI'][] = "gizi|gizi";
 
                 $ruangans = DB::table('ruangan')->get();
                 foreach($ruangans as $ruangan) {
-                    $list_variable['PERAWAT ' . strtoupper($ruangan->nama_ruangan)] = "perawat_" . $ruangan->nama_ruangan;
+                    $list_variable['PERAWAT ' . strtoupper($ruangan->nama_ruangan)][] = "perawat_" . $ruangan->nama_ruangan;
                 }
                 
                 foreach($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
@@ -712,20 +712,24 @@ class ProsesPerhitunganController extends Controller
                     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
 
                     if($data_kategori_tindakans != null) {
-                        $list_variable[$data_kategori_tindakans->nama] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
+                        $list_variable[$data_kategori_tindakans->nama][] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
                     }
                 }
                 
                 if(isset($hasil[$row->id_transaksi]['Ke 2']['dokter'])) {
                     foreach($hasil[$row->id_transaksi]['Ke 3']['dokter'] as $hasil_1 => $val) {
-                        $list_variable["DOKTER IGD"] = "dokter|" . $hasil_1;
+                        $list_variable["DOKTER IGD"][] = "dokter|" . $hasil_1;
                     }
+                } else {
+                    $list_variable["DOKTER IGD"][] = "dokter|0";
                 }
                 
                 if(isset($hasil[$row->id_transaksi]['Ke 3']['visite'])) {
                     foreach($hasil[$row->id_transaksi]['Ke 3']['visite'] as $hasil_1 => $val) {
-                        $list_variable["DOKTER VISITE"] = "visite|" . $hasil_1;
+                        $list_variable["DOKTER VISITE"][] = "visite|" . $hasil_1;
                     }
+                } else {
+                    $list_variable["DOKTER VISITE"][] = "visite|0";
                 }
 
                 // proses ke 4
@@ -866,38 +870,40 @@ class ProsesPerhitunganController extends Controller
 
             $hasil_perhitungan = 0;
             foreach($list_variable as $nama_variable => $value) {
-                if(strpos($rumus, $nama_variable) !== false) {
-                    // ada
-                    $index = explode("|", $value);
-                    if(count($index) == 1) {
-                        if(isset($hasil[$index[0]])) {
-                            $rumus = str_replace($nama_variable, $hasil[$index[0]], $rumus);
-                        }
-                    } else {
-                        $kategori_tindakan = DB::table('kategori_tindakan')->where('nama', '=', $variable_kategori)->first();
-                        if($kategori_tindakan == null || $variable_kategori == "GIZI") {
-                            if(isset($hasil[$index[0]][$index[1]])) {
-                                $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                foreach($value as $val) {
+                    if(strpos($rumus, $nama_variable) !== false) {
+                        // ada
+                        $index = explode("|", $val);
+                        if(count($index) == 1) {
+                            if(isset($hasil[$index[0]])) {
+                                $rumus = str_replace($nama_variable, $hasil[$index[0]], $rumus);
                             }
                         } else {
-                            if(isset($hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan])) {
-                                $rumus = str_replace($nama_variable, $hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan], $rumus);   
+                            $kategori_tindakan = DB::table('kategori_tindakan')->where('nama', '=', $nama_variable)->first();
+                            if($kategori_tindakan == null || $nama_variable == "GIZI") {
+                                if(isset($hasil[$index[0]][$index[1]])) {
+                                    $rumus = str_replace(" " . $nama_variable . " ", "(" . $hasil[$index[0]][$index[1]] . ")", $rumus);
+                                }
                             } else {
-                                $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
+                                if(isset($hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan])) {
+                                    $rumus = str_replace(" " . $nama_variable . " ", "(" . $hasil[$index[0]][$kategori_tindakan->id_kategori_tindakan] . ")", $rumus);
+                                }
+                            }
+                        }
+                    } else {
+                        // tidak ada
+                        if($nama_variable == "DOKTER IGD" || $nama_variable == "DOKTER VISITE" || $nama_variable == "DOKTER") {
+                            $index = explode("|", $val);
+                            if(isset($hasil[$index[0]][$index[1]])) {
+                                $rumus = str_replace(" " . $nama_variable . " ", "(" . $hasil[$index[0]][$index[1]] . ")", $rumus);
                             }
                         }
                     }
-                    break;
-                } else {
-                    // tidak ada
-                    if($variable_kategori == "DOKTER IGD" || $variable_kategori == "DOKTER VISITE" || $variable_kategori == "DOKTER") {
-                        $index = explode("|", $value);
-                        if(isset($hasil[$index[0]][$index[1]])) {
-                            $rumus = str_replace($nama_variable, $hasil[$index[0]][$index[1]], $rumus);
-                        }
-                        break;
-                    }
                 }
+            }
+
+            foreach($list_variable as $nama_variable => $value) {
+                $rumus = str_replace(" " . $nama_variable . " ", "0", $rumus);
             }
             
             $rumus = str_replace(" ", "", $rumus);
