@@ -1246,22 +1246,22 @@ class ProsesPerhitunganController extends Controller
             $hasil[$row->id_transaksi]['Ke 3']['total'] = $tmp_total_ke_3;
 
             // list variable rumus 
-            $list_variable['ADM'] = "adm|adm";
-            $list_variable['ADM'] = "hasil_tindakan|hasil_tindakan";
+            $list_variable['ADM'][] = "adm|adm";
+            $list_variable['HASIL TINDAKAN'][] = "hasil_tindakan|hasil_tindakan";
             if(isset($hasil[$row->id_transaksi]['Ke 1']['hasil_kategori_tindakan'])) {
                 foreach($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
                     $data_kategori_tindakan = new KategoriTindakan();
                     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
 
                     if($data_kategori_tindakans != null) {
-                        $list_variable[$data_kategori_tindakans->nama] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
+                        $list_variable[$data_kategori_tindakans->nama][] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
                     }
                 }
             }
                 
             if(isset($hasil[$row->id_transaksi]['Ke 2']['dokter'])) {
                 foreach($hasil[$row->id_transaksi]['Ke 3']['dokter'] as $hasil_1 => $val) {
-                    $list_variable["DOKTER"] = "dokter|" . $hasil_1;
+                    $list_variable["DOKTER"][] = "dokter|" . $hasil_1;
                 }
             }
 

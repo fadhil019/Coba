@@ -24,7 +24,14 @@ class VariableRumusController extends Controller
         $show_varieble_rumus = new VariableRumus();
         $show_varieble_rumuss = $show_varieble_rumus->SelectVariableRumus();
 
-        $variable_kategori = ["ADM", "KOMDIK", "PERAWAT IGD", "PERAWAT ICCU", "PERAWAT RPP", "DOKTER IGD", "DOKTER VISITE"];
+        $variable_kategori = ["ADM", "KOMDIK", "DOKTER IGD", "DOKTER VISITE"];
+
+        $data_ruangan = new Ruangan();
+        $data_ruangans = $data_ruangan->SelectRuangan();
+
+        foreach($data_ruangans as $row) {
+            $variable_kategori[] = "PERAWAT " . $row->nama_ruangan;
+        }
 
         return view('variable_rumus.index', compact('data_kategori_tindakans', 'show_varieble_rumuss', 'variable_kategori'));
     }
