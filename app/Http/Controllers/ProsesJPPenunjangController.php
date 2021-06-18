@@ -104,14 +104,21 @@ class ProsesJPPenunjangController extends Controller
                 $query->orwhere('proses_perhitungan.ket_kategori', '=', 'GIZI');
             })
             ->select('*', DB::raw('SUM(proses_perhitungan.jumlah_jp) as total'))
-            ->groupBy('proses_perhitungan.ket_kategori')
+            ->groupBy('proses_perhitungan.ket_kategori', 'proses_perhitungan.id_kategori_tindakan')
             ->get();
 
         foreach($data_penunjangs as $row) {
-            $hasil['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
-            $hasil['PM'] = $hasil['JASPEL'] * 0.15;
-            $hasil['IKU'] = $hasil['JASPEL'] * 0.55;
-            $hasil['IKI'] = $hasil['JASPEL'] * 0.3;
+            if($row->ket_kategori == "GIZI") {
+                $hasil['JASPEL']['GIZI'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
+                $hasil['PM']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.15;
+                $hasil['IKU']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.55;
+                $hasil['IKI']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.3;
+            } else {
+                $hasil['JASPEL'][$row->id_kategori_tindakan] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
+                $hasil['PM'][$row->id_kategori_tindakan] = $hasil['JASPEL'][$row->id_kategori_tindakan] * 0.15;
+                $hasil['IKU'][$row->id_kategori_tindakan] = $hasil['JASPEL'][$row->id_kategori_tindakan] * 0.55;
+                $hasil['IKI'][$row->id_kategori_tindakan] = $hasil['JASPEL'][$row->id_kategori_tindakan] * 0.3;
+            }
         }
 
         $hasil_final = [];
@@ -142,10 +149,22 @@ class ProsesJPPenunjangController extends Controller
             $total_pm += $hasil_final[$row->id_karyawan_penunjang]['PM'];
         }
 
-        foreach($hasil_final as $row) {
-            $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil['IKU'];
-            $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil['IKI'];
-            $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM'];   
+        foreach($hasil_final as $id_karyawan_penunjang => $row) {
+            $karyawan_penunjangs = DB::table('karyawan_penunjang')
+                ->join('kategori_tindakan', 'karyawan_penunjang.bagian', '=', 'kategori_tindakan.id_kategori_tindakan')
+                ->where('karyawan_penunjang.id_karyawan_penunjang', '=', $id_karyawan_penunjang)
+                ->select('*', 'kategori_tindakan.nama as nama_kategori_tindakan')
+                ->first();
+
+            if($karyawan_penunjangs->nama_kategori_tindakan == "GIZI") {
+                $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil['IKU']['GIZI'];
+                $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil['IKI']['GIZI'];
+                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM']['GIZI'];
+            } else {
+                $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil['IKU'][$karyawan_penunjangs->id_kategori_tindakan];
+                $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil['IKI'][$karyawan_penunjangs->id_kategori_tindakan];
+                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM'][$karyawan_penunjangs->id_kategori_tindakan];
+            }
         }
 
         foreach($hasil_final as $row) {
