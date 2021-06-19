@@ -35,6 +35,10 @@ class KategoriTindakan extends Model
 
     public function CreateKategoriTindakan(Request $request) {
         try {
+            $kt = DB::table('kategori_tindakan')
+                ->where('nama', '=', $request->nama)
+                ->first();
+            if ($kt == null) {
             $this->nama = $request->nama;
             $this->kategori_data = $request->kategori_data;
             $this->tahapan_proses = $request->tahapan_proses;
@@ -42,8 +46,11 @@ class KategoriTindakan extends Model
             $this->created_at = now();
             $this->updated_at = now();
             $this->save();
-
             return 'success';
+            }
+            else{
+                return 'tidaksuccess';
+            }
         } catch (Exception $e) {
             return $e->getMessage();
         }

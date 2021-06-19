@@ -114,16 +114,16 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <p>
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata dokter yaitu " Rp. {{ $data_dashboards['rata_rata_dokter'] }} "
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapatan rata - rata dokter yaitu " Rp. {{ $data_dashboards['rata_rata_dokter'] }} "
                     </p>
                     <p>
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata admin yaitu " Rp. {{ $data_dashboards['rata_rata_admin'] }} "
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapatan rata - rata admin yaitu " Rp. {{ $data_dashboards['rata_rata_admin'] }} "
                     </p>
                     <p>
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata penunjang yaitu " Rp. {{ $data_dashboards['rata_rata_penunjang'] }} "
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapatan rata - rata penunjang yaitu " Rp. {{ $data_dashboards['rata_rata_penunjang'] }} "
                     </p>
                     <p>
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapan rata - rata perawat yaitu " Rp. {{ $data_dashboards['rata_rata_perawat'] }} "
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Pendapatan rata - rata perawat yaitu " Rp. {{ $data_dashboards['rata_rata_perawat'] }} "
                     </p>
                 </div>
                 <!-- /.card-body -->
@@ -145,16 +145,16 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <p>
-                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan dokter terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_dokter']) }} "
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapatan dokter terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_dokter']) }} "
                     </p>
                     <p>
-                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan admin terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_admin']) }} "
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapatan admin terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_admin']) }} "
                     </p>
                     <p>
-                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan penunjang terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_penunjang']) }} "
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapatan penunjang terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_penunjang']) }} "
                     </p>
                     <p>
-                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapan perawat terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_perawat']) }} "
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Pendapatan perawat terbesar yaitu pada bulan " {{ tanggal_indo($data_dashboards['terbesar_perawat']) }} "
                     </p>
                 </div>
                 <!-- /.card-body -->

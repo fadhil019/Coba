@@ -260,6 +260,7 @@ class RekapData extends Model
         foreach($hasil[$i]['tmp_jtl'] as $row) {
             $tmp_jasa_jtl += $row;
         }
+
         $i++;
 
         // dd($hasil);
@@ -310,14 +311,28 @@ class RekapData extends Model
                 $data_proses_perhitungan_jtl = DB::table('data_keuangan_pasien')
                 ->where('id_periode', '=', $id)
                 ->get();
-                foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
-                    $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_data_keuangan_pasien] = $row_perhitungan_jtl->nominal_uang;
+
+                if (count($data_proses_perhitungan_jtl) == 0) {
                     
+                    $hasil[$i]['tmp_jtl'] = 0;
+                }
+                else{
+                    foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                        $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_data_keuangan_pasien] = $row_perhitungan_jtl->nominal_uang;
+                    }
                 }
                 $tmp_jasa_jtl = 0;
-                foreach($hasil[$i]['tmp_jtl'] as $row) {
-                    $tmp_jasa_jtl += $row;
+                if($hasil[$i]['tmp_jtl'] == 0)
+                {
+                    $tmp_jasa_jtl = 0;
                 }
+                else
+                {
+                    foreach($hasil[$i]['tmp_jtl'] as $row) {
+                        $tmp_jasa_jtl += $row;
+                    }
+                }
+                
                 $i++;
                 if($val == "Struktural")
                 {
@@ -347,57 +362,72 @@ class RekapData extends Model
             $hasil['tmp_jtl'][$row_perhitungan_jtl->id_data_keuangan_pasien] = $row_perhitungan_jtl->nominal_uang;
             
         }
+        //dd($id);
         $tmp_jasa_jtl = 0;
-        foreach($hasil['tmp_jtl'] as $row) {
-            $tmp_jasa_jtl += $row;
-        }
-        
-        $jmlh_kat_ruangan = $this->SelectRekapDataRuanganPerPeriode($id);
-        $tmp_jmlh_kat_ruangan = 0;
-        for ($i=0; $i < count($jmlh_kat_ruangan); $i++) { 
-            if($jmlh_kat_ruangan[$i]['upah_jasa'] > 0)
-            {
-                $tmp_jmlh_kat_ruangan ++;
-            }
-        }
-
-        $jmlh_kat_kategori_tindakan = $this->SelectRekapDataKategoriTindakanPerPeriode($id);
-        $tmp_jmlh_kategori_tindakan = 0;
-        for ($i=0; $i < count($jmlh_kat_kategori_tindakan); $i++) { 
-            if($jmlh_kat_kategori_tindakan[$i]['upah_jasa'] > 0)
-            {
-                $tmp_jmlh_kategori_tindakan ++;
-            }
-        }
-
-        $jmlh_kat_admin = $this->SelectRekapDataKategoriTindakanPerPeriode($id);
-        $tmp_jmlh_kat_admin = 0;
-        for ($i=0; $i < count($jmlh_kat_admin); $i++) { 
-            if($jmlh_kat_admin[$i]['upah_jasa'] > 0)
-            {
-                $tmp_jmlh_kat_admin ++;
-            }
-        }
-        $hasil['JTL'][0]['nama_kategori'] = 'JTL';
-        $hasil['JTL'][0]['bagian'] = 'JTL';
-        // $hasil['JTL'][0]['upah_jasa'] = ($tmp_jasa_jtl * 0.15) / 1;
         $tmp_semua_kategori = 0;
-        if($tmp_jmlh_kat_admin != 0) {
-            $tmp_semua_kategori += $tmp_jmlh_kat_admin;
-        } else {
-            $tmp_semua_kategori = 1;
+        if(count($hasil) == 0)
+        {
+            $tmp_jasa_jtl =0;
         }
-        if($tmp_jmlh_kat_ruangan != 0) {
-            $tmp_semua_kategori += $tmp_jmlh_kat_ruangan;
-        } else {
-            $tmp_semua_kategori = 1;
+        else
+        {
+            foreach($hasil['tmp_jtl'] as $row) {
+            $tmp_jasa_jtl += $row;
+            }
+            $jmlh_kat_ruangan = $this->SelectRekapDataRuanganPerPeriode($id);
+            $tmp_jmlh_kat_ruangan = 0;
+            for ($i=0; $i < count($jmlh_kat_ruangan); $i++) { 
+                if($jmlh_kat_ruangan[$i]['upah_jasa'] > 0)
+                {
+                    $tmp_jmlh_kat_ruangan ++;
+                }
+            }
+
+            $jmlh_kat_kategori_tindakan = $this->SelectRekapDataKategoriTindakanPerPeriode($id);
+            $tmp_jmlh_kategori_tindakan = 0;
+            for ($i=0; $i < count($jmlh_kat_kategori_tindakan); $i++) { 
+                if($jmlh_kat_kategori_tindakan[$i]['upah_jasa'] > 0)
+                {
+                    $tmp_jmlh_kategori_tindakan ++;
+                }
+            }
+
+            $jmlh_kat_admin = $this->SelectRekapDataKategoriTindakanPerPeriode($id);
+            $tmp_jmlh_kat_admin = 0;
+            for ($i=0; $i < count($jmlh_kat_admin); $i++) { 
+                if($jmlh_kat_admin[$i]['upah_jasa'] > 0)
+                {
+                    $tmp_jmlh_kat_admin ++;
+                }
+            }
+            $hasil['JTL'][0]['nama_kategori'] = 'JTL';
+            $hasil['JTL'][0]['bagian'] = 'JTL';
+            // $hasil['JTL'][0]['upah_jasa'] = ($tmp_jasa_jtl * 0.15) / 1;
+            $tmp_semua_kategori = 0;
+            if($tmp_jmlh_kat_admin != 0) {
+                $tmp_semua_kategori += $tmp_jmlh_kat_admin;
+            } else {
+                $tmp_semua_kategori = 1;
+            }
+            if($tmp_jmlh_kat_ruangan != 0) {
+                $tmp_semua_kategori += $tmp_jmlh_kat_ruangan;
+            } else {
+                $tmp_semua_kategori = 1;
+            }
+            if($tmp_jmlh_kategori_tindakan != 0) {
+                $tmp_semua_kategori += $tmp_jmlh_kategori_tindakan;
+            } else {
+                $tmp_semua_kategori = 1;
+            }
         }
-        if($tmp_jmlh_kategori_tindakan != 0) {
-            $tmp_semua_kategori += $tmp_jmlh_kategori_tindakan;
-        } else {
-            $tmp_semua_kategori = 1;
+                
+        if($tmp_semua_kategori == 0)
+        {
+            $hasil['JTL'][0]['upah_jasa'] =0;
         }
+        else{
         $hasil['JTL'][0]['upah_jasa'] = ($tmp_jasa_jtl * 0.15) / $tmp_semua_kategori;
+        }
         // dd($hasil['JTL'][0]['upah_jasa']);
         return $hasil;
     }
@@ -413,4 +443,8 @@ class RekapData extends Model
         // download PDF file with download method
         return $pdf->download('pdf_file.pdf');
       }
+
+    public function rekapdataAdmin(){
+
+    }
 }

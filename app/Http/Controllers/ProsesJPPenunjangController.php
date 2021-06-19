@@ -108,7 +108,7 @@ class ProsesJPPenunjangController extends Controller
             ->get();
 
         foreach($data_penunjangs as $row) {
-            if($row->ket_kategori == "GIZI") {
+            if($row->id_kategori_tindakan == null) {
                 $hasil['JASPEL']['GIZI'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
                 $hasil['PM']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.15;
                 $hasil['IKU']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.55;
@@ -120,6 +120,7 @@ class ProsesJPPenunjangController extends Controller
                 $hasil['IKI'][$row->id_kategori_tindakan] = $hasil['JASPEL'][$row->id_kategori_tindakan] * 0.3;
             }
         }
+        //dd($hasil);
 
         $hasil_final = [];
         $penunjangs = DB::table('karyawan_penunjang')
@@ -159,13 +160,27 @@ class ProsesJPPenunjangController extends Controller
             if($karyawan_penunjangs->nama_kategori_tindakan == "GIZI") {
                 $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil['IKU']['GIZI'];
                 $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil['IKI']['GIZI'];
-                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM']['GIZI'];
+                if($row['PM'] == 0)
+                {
+                    $hasil_final[$row['ID']]['UANG PM'] =0;
+                }
+                else{
+                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM']['GIZI'];       
+                }
             } else {
-                $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil['IKU'][$karyawan_penunjangs->id_kategori_tindakan];
+                $hasil_final[$row['ID']]['UANG IKU'] = ($row['IKU'] / $total_iku) * $hasil['IKU'][$karyawan_penunjangs->id_kategori_tindakan];
                 $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil['IKI'][$karyawan_penunjangs->id_kategori_tindakan];
-                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM'][$karyawan_penunjangs->id_kategori_tindakan];
+                if($row['PM'] == 0)
+                {
+                    $hasil_final[$row['ID']]['UANG PM'] =0;
+                }
+                else{
+                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM'][$karyawan_penunjangs->id_kategori_tindakan];         
+                }
+                
             }
         }
+        //dd($hasil_final);
 
         foreach($hasil_final as $row) {
             $proses_hitung_jp_penunjang = new ProsesJPPenunjang();

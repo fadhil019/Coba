@@ -103,7 +103,7 @@
                                 <td>{{ $data_pasien_rawat_jalan->nama_pasien }}</td>
                                 <td>{{ $data_pasien_rawat_jalan->nama_dokter_perawat }}</td>
                                 <td>
-                                    <a href="{{ url('data_pasien_rawat_jalan_detail_tindakan/'.$data_pasien_rawat_jalan->id_data_pasien)}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
+                                    <a href="{{ url('data_pasien_rawat_jalan_detail_tindakan/'.$data_pasien_rawat_jalan->id_transaksi)}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
                                 </td>
                             </tr>
                         @endforeach

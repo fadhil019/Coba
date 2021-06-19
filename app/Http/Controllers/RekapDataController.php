@@ -105,7 +105,10 @@ class RekapDataController extends Controller
 
         $rekap_data_kategori_tindakan = new RekapData();
         $rekap_data_kategori_tindakans = $rekap_data_kategori_tindakan->SelectRekapDataKategoriTindakanPerPeriode($id_periode);
-
+        // $i=0;
+        // foreach ($rekap_data_kategori_tindakans as  $value) {
+        //     $i ++;
+        // }
         $rekap_data_ruangan = new RekapData();
         $rekap_data_ruangans = $rekap_data_ruangan->SelectRekapDataRuanganPerPeriode($id_periode);
 
@@ -114,6 +117,7 @@ class RekapDataController extends Controller
 
         $rekap_data_jtl = new RekapData();
         $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
+        //dd($i);
         //dd($rekap_data_kategori_tindakans[3]['nama_kategori_tindakan']);
         return view('rekap_data.daftar_rekap_data', compact('data_periodes', 'rekap_data_dokters', 'rekap_data_kategori_tindakans', 'rekap_data_ruangans', 'rekap_data_admin_remus', 'rekap_data_jtls'));
     }

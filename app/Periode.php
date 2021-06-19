@@ -48,14 +48,24 @@ class Periode extends Model
 
     public function CreatePeriode(Request $request) {
         try {
-            $this->bulan = $request->bulan;
-            $this->tahun = $request->tahun;
-            $this->id_users = Auth::user()->id_users;
-            $this->created_at = now();
-            $this->updated_at = now();
-            $this->save();
-
-            return 'success';
+            $periodes = DB::table('periode')
+                ->where('bulan', '=', $request->bulan)
+                ->where('tahun', '=', $request->tahun)
+                ->first();
+            if ($periodes == null) {
+                $this->bulan = $request->bulan;
+                $this->tahun = $request->tahun;
+                $this->id_users = Auth::user()->id_users;
+                $this->created_at = now();
+                $this->updated_at = now();
+                $this->save();
+    
+                return 'success';
+            }
+            else{
+                return 'data sudah ada';
+            }
+            
         } catch (Exception $e) {
             return $e->getMessage();
         }

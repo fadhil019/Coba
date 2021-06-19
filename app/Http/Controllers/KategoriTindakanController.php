@@ -58,7 +58,7 @@ class KategoriTindakanController extends Controller
         }
         else
         {
-            return back()->with('alert-failed', 'Daftar kategori tidak berhasil dibuat. Silahkan hubungi admin sistem!');
+            return back()->with('alert-failed', 'Daftar kategori sudah ada!');
         }
     }
 

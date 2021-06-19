@@ -57,7 +57,7 @@ class RuanganController extends Controller
         }
         else
         {
-            return back()->with('alert-failed', 'Ruang kelas tidak berhasil dibuat. Silahkan hubungi admin sistem!');
+            return back()->with('alert-failed', 'Ruang kelas sudah ada!');
         }
     }
 

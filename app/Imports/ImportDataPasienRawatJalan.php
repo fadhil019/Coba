@@ -52,12 +52,15 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
 			->where('id_periode', session('id_periode'))
 			->first();
 			if($sep_pasien != null) {
-				$pasien = DB::table('data_pasien')->where('nama_pasien', $nama_pasien)->first();
-				if($pasien == null) {
-					$pasien = new DataPasien();
-					$pasien->nama_pasien = $nama_pasien;
-					$pasien->penjamin = $penjamin;
-					$pasien->save();
+				if($nama_pasien != null && $nama_pasien != "")
+				{
+					$pasien = DB::table('data_pasien')->where('nama_pasien', $nama_pasien)->first();
+					if($pasien == null) {
+						$pasien = new DataPasien();
+						$pasien->nama_pasien = $nama_pasien;
+						$pasien->penjamin = $penjamin;
+						$pasien->save();
+					}
 				}
 				$id_data_pasien = $pasien->id_data_pasien;
 	
@@ -118,7 +121,7 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
 					$data_tindakan_pasien->id_deskripsi_tindakan = $data_deskripsi_tindakan->id_deskripsi_tindakan;
 					$data_tindakan_pasien->save();
 				} else {
-					if($jp !== 0 && $jp !== null && $jp !== "") {
+					if($jp !== 0 && $jp !== null && $jp !== "" && $deskripsi_tindakan != " Jasa Pelayanan") {
 						$data_deskripsi_tindakan = DeskripsiTindakan::where('deskripsi_tindakan', '=', $deskripsi_tindakan)->first();
 						if($data_deskripsi_tindakan == null) {
 							$data_deskripsi_tindakan = new DeskripsiTindakan();

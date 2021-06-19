@@ -86,7 +86,7 @@
                     Perawat IGD = {{1}} x 40%
                     <br>
                     Penjelasan : 
-                    LOL .. :v
+                    -------
                     </p>
                 </div>
                 <!-- /.card-body -->

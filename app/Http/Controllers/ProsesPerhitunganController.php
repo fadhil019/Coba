@@ -716,7 +716,7 @@ class ProsesPerhitunganController extends Controller
                     }
                 }
                 
-                if(isset($hasil[$row->id_transaksi]['Ke 2']['dokter'])) {
+                if(isset($hasil[$row->id_transaksi]['Ke 3']['dokter'])) {
                     foreach($hasil[$row->id_transaksi]['Ke 3']['dokter'] as $hasil_1 => $val) {
                         $list_variable["DOKTER IGD"][] = "dokter|" . $hasil_1;
                     }
@@ -731,11 +731,9 @@ class ProsesPerhitunganController extends Controller
                 } else {
                     $list_variable["DOKTER VISITE"][] = "visite|0";
                 }
+                //dd($list_variable);
 
                 // proses ke 4
-                $data_value_keuangan = DB::table('data_keuangan_pasien')
-                ->where('no_sep_keuangan_pasien', '=', $row->no_sep)
-                ->first();
                 $tmp_total_ke_4 = 0;
 
                 $hasil[$row->id_transaksi]['Ke 4']['adm']['adm'] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, "ADM");
@@ -767,8 +765,9 @@ class ProsesPerhitunganController extends Controller
 
                 foreach($ruangans as $ruangan) {
                     $index = 'perawat_' . $ruangan->nama_ruangan;
+                    $index2 = 'PERAWAT '.$ruangan->nama_ruangan;
 
-                    $hasil[$row->id_transaksi]['Ke 4'][$index] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, "PERAWAT IGD");
+                    $hasil[$row->id_transaksi]['Ke 4'][$index] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, $index2);
                     $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 3'][$index];
 
                     $proses_perhitungan = new ProsesPerhitungan();
@@ -859,24 +858,30 @@ class ProsesPerhitunganController extends Controller
     }
 
     public function hitung_rumus($hasil, $list_variable, $variable_kategori) {
+        //cari terlebih dahulu rumusdaru variabel yang akan dilakukan proses perhitungna ke 4
         $rumus = DB::table('variable_rumus')->where("nama_variabel", "=", $variable_kategori)->first();
         if($rumus == null) {
             $hasil_perhitungan = 0;
         } else {
+
+            //mengambil data rumus saya
             $rumus = $rumus->rumus;
 
+            //menghapus kurung kurng awal misal {{ LAB }} * 50% jadi LAB * 50%
             $rumus = str_replace("{{", "", $rumus);
             $rumus = str_replace("}}", "", $rumus);
 
             $hasil_perhitungan = 0;
+            
             foreach($list_variable as $nama_variable => $value) {
+                dd($value);
                 foreach($value as $val) {
                     if(strpos($rumus, $nama_variable) !== false) {
                         // ada
                         $index = explode("|", $val);
                         if(count($index) == 1) {
                             if(isset($hasil[$index[0]])) {
-                                $rumus = str_replace($nama_variable, $hasil[$index[0]], $rumus);
+                                $rumus = str_replace(" " . $nama_variable . " ", $hasil[$index[0]], $rumus);
                             }
                         } else {
                             $kategori_tindakan = DB::table('kategori_tindakan')->where('nama', '=', $nama_variable)->first();
@@ -906,12 +911,15 @@ class ProsesPerhitunganController extends Controller
                 $rumus = str_replace(" " . $nama_variable . " ", "0", $rumus);
             }
             
+            //ini proses penjumlahan
             $rumus = str_replace(" ", "", $rumus);
             $rumus = str_replace("*", " * ", $rumus);
             $rumus = str_replace("/", " / ", $rumus);
             $rumus = str_replace("+", " + ", $rumus);
             $rumus = str_replace("-", " - ", $rumus);
             $rumus = str_replace("%", " / 100", $rumus);
+
+            //ini langsung memproses data yang ada di rumus
             $hasil_perhitungan = eval("return " . $rumus . ";");
         }
 

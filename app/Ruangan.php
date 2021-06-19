@@ -43,6 +43,10 @@ class Ruangan extends Model
 
     public function CreateRuangan(Request $request) {
         try {
+            $ruangans = DB::table('ruangan')
+                ->where('nama_ruangan', '=', $request->nama_ruangan)
+                ->first();
+            if ($ruangans == null) {
             $this->nama_ruangan = $request->nama_ruangan;
             $this->kategori_ruangan = $request->kategori_ruangan;
             $this->id_users = Auth::user()->id_users;
@@ -51,6 +55,11 @@ class Ruangan extends Model
             $this->save();
 
             return 'success';
+            }
+            else
+            {
+                return 'tidak success';
+            }
         } catch (Exception $e) {
             return $e->getMessage();
         }

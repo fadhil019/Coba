@@ -62,7 +62,7 @@ class DataPasien extends Model
         ->where('transaksi.id_transaksi', '=', $id)
         ->orderby('data_pasien.id_data_pasien', 'ASC')
         ->get();
-        // dd($data_data_pasien);
+        //$hasil = $id;
         return $data_data_pasien;
     }
 

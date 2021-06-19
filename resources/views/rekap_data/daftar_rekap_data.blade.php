@@ -188,12 +188,7 @@
                                 @endif
                             </tr>
                         @endfor
-                        <tr>
-                            <td>{{ $i+1 }}</td>
-                            <td>{{ $rekap_data_jtls['JTL'][0]['nama_kategori'] }}</td>
-                            <td>{{ $rekap_data_jtls['JTL'][0]['bagian'] }}</td>
-                            <td>{{ $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
-                        </tr>
+                        
                     </tbody> 
                 </table>
             </div>

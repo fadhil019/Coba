@@ -8,6 +8,7 @@ use App\User;
 use App\KategoriTindakan;
 use App\VariableRumus;
 use App\VariableRumusDetail;
+use App\Ruangan;
 
 class VariableRumusController extends Controller
 {
@@ -24,7 +25,7 @@ class VariableRumusController extends Controller
         $show_varieble_rumus = new VariableRumus();
         $show_varieble_rumuss = $show_varieble_rumus->SelectVariableRumus();
 
-        $variable_kategori = ["ADM", "KOMDIK", "DOKTER IGD", "DOKTER VISITE"];
+        $variable_kategori = ["ADM", "DOKTER", "DOKTER IGD", "DOKTER VISITE"];
 
         $data_ruangan = new Ruangan();
         $data_ruangans = $data_ruangan->SelectRuangan();

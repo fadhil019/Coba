@@ -156,33 +156,69 @@ class ProsesJPPerawatController extends Controller
         $hasil2 = [];
         $rekap_data = new RekapData();
         $rekap_datas = $rekap_data->tampungJTL($id_periode);
-        $ruangans = DB::table('ruangan')
+        $data_ruangan = DB::table('ruangan')
+        ->orderby('ruangan.id_ruangan', 'ASC')
+        ->get();
+
+        foreach ($data_ruangan as $row) {
+            $ruangans = DB::table('ruangan')
             ->leftjoin('proses_perhitungan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
             ->join('transaksi', 'transaksi.id_transaksi', '=', 'proses_perhitungan.id_transaksi')
             ->where('transaksi.id_periode', $id_periode)
             ->where('proses_perhitungan.proses', 'Ke 4')
+            ->where('proses_perhitungan.ket_kategori', 'PERAWAT '.$row->nama_ruangan)
             ->select('*', DB::raw('SUM(proses_perhitungan.jumlah_jp) as total'))
-            ->groupBy('ruangan.id_ruangan')
+            ->groupBy('proses_perhitungan.ket_kategori')
             ->get();
 
-        foreach($ruangans as $row) {
-            if($row->kategori_ruangan == "Rawat Jalan") {
-                $hasil1[$row->nama_ruangan]['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
-                $hasil1[$row->nama_ruangan]['PM'] = 0;
-                $hasil1[$row->nama_ruangan]['IKU'] = ($row->total * 0.4) * 0.6;
-                $hasil1[$row->nama_ruangan]['IKI'] = ($row->total * 0.4) * 0.4;
+            foreach($ruangans as $row2) {
+            if($row->kategori_ruangan == "Rawat jalan") {
+                if($row2->total != 0)
+                {
+                    $hasil1[$row->nama_ruangan]['JASPEL'] = $row2->total + $rekap_datas['JTL'][0]['upah_jasa'];
+                    $hasil1[$row->nama_ruangan]['PM'] = 0;
+                    $hasil1[$row->nama_ruangan]['IKU'] = ($hasil1[$row->nama_ruangan]['JASPEL'] * 0.4) * 0.6;
+                    $hasil1[$row->nama_ruangan]['IKI'] = ($hasil1[$row->nama_ruangan]['JASPEL'] * 0.4) * 0.4;
+                }
+                else
+                {
+                    $hasil1[$row->nama_ruangan]['JASPEL'] = 0;
+                    $hasil1[$row->nama_ruangan]['PM'] = 0;
+                    $hasil1[$row->nama_ruangan]['IKU'] = 0;
+                    $hasil1[$row->nama_ruangan]['IKI'] = 0;
+                }
+                
             } else {
-                $hasil1[$row->nama_ruangan]['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
-                $hasil1[$row->nama_ruangan]['PM'] = ($row->total * 0.4) * 0.12;
-                $hasil1[$row->nama_ruangan]['IKU'] = ($row->total * 0.4) * 0.48;
-                $hasil1[$row->nama_ruangan]['IKI'] = ($row->total * 0.4) * 0.40;
+                if($row2->total != 0)
+                {
+                    $hasil1[$row->nama_ruangan]['JASPEL'] = $row2->total + $rekap_datas['JTL'][0]['upah_jasa'];
+                    $hasil1[$row->nama_ruangan]['PM'] = ($hasil1[$row->nama_ruangan]['JASPEL'] * 0.4) * 0.12;
+                    $hasil1[$row->nama_ruangan]['IKU'] = ($hasil1[$row->nama_ruangan]['JASPEL'] * 0.4) * 0.48;
+                    $hasil1[$row->nama_ruangan]['IKI'] = ($hasil1[$row->nama_ruangan]['JASPEL'] * 0.4) * 0.40;
+                }
+                else{
+                    $hasil1[$row->nama_ruangan]['JASPEL'] = 0;
+                    $hasil1[$row->nama_ruangan]['PM'] = 0;
+                    $hasil1[$row->nama_ruangan]['IKU'] = 0;
+                    $hasil1[$row->nama_ruangan]['IKI'] = 0;
+                }
             }
                 
-            $hasil2[$row->nama_ruangan]['JASPEL'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
-            $hasil2[$row->nama_ruangan]['PM'] = ($row->total * 0.6) * 0.12;
-            $hasil2[$row->nama_ruangan]['IKU'] = ($row->total * 0.6) * 0.48;
-            $hasil2[$row->nama_ruangan]['IKI'] = ($row->total * 0.6) * 0.40;   
-        }
+            if($row2->total != 0)
+            {
+                $hasil2[$row->nama_ruangan]['JASPEL'] = $row2->total + $rekap_datas['JTL'][0]['upah_jasa'];
+                $hasil2[$row->nama_ruangan]['PM'] = ($hasil2[$row->nama_ruangan]['JASPEL'] * 0.6) * 0.12;
+                $hasil2[$row->nama_ruangan]['IKU'] = ($hasil2[$row->nama_ruangan]['JASPEL'] * 0.6) * 0.48;
+                $hasil2[$row->nama_ruangan]['IKI'] = ($hasil2[$row->nama_ruangan]['JASPEL'] * 0.6) * 0.40;   
+            }else
+            {
+                $hasil2[$row->nama_ruangan]['JASPEL'] = 0;
+                $hasil2[$row->nama_ruangan]['PM'] = 0;
+                $hasil2[$row->nama_ruangan]['IKU'] = 0;
+                $hasil2[$row->nama_ruangan]['IKI'] = 0; 
+            }
+            
+        }}
 
         $hasil1_final = [];
         $hasil2_final = [];
@@ -238,9 +274,32 @@ class ProsesJPPerawatController extends Controller
 
         foreach($hasil1_final as $row) {
             if(isset($hasil1[$row['RUANG']])) {
-                $hasil1_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total1_iku * $hasil1[$row['RUANG']]['IKU'];
-                $hasil1_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total1_iki * $hasil1[$row['RUANG']]['IKI'];
-                $hasil1_final[$row['ID']]['UANG PM'] = $row['PM'] / $total1_pm * $hasil1[$row['RUANG']]['PM'];   
+                
+                if($row['IKU'] == 0)
+                {
+                $hasil1_final[$row['ID']]['UANG IKU'] = 0;
+                }
+                else{
+                $hasil1_final[$row['ID']]['UANG IKU'] = ($row['IKU'] / $total1_iku) * $hasil1[$row['RUANG']]['IKU'];
+                }
+
+                if($row['IKI'] == 0)
+                {
+                $hasil1_final[$row['ID']]['UANG IKI'] = 0;
+                }
+                else
+                {
+                $hasil1_final[$row['ID']]['UANG IKI'] = ($row['IKI'] / $total1_iki) * $hasil1[$row['RUANG']]['IKI'];
+                }
+
+                if($row['PM'] == 0)
+                {
+                    $hasil1_final[$row['ID']]['UANG PM'] =0;
+                }
+                else{
+                $hasil1_final[$row['ID']]['UANG PM'] = ($row['PM'] / $total1_pm) * $hasil1[$row['RUANG']]['PM'];         
+                }
+
             } else {
                 $hasil1_final[$row['ID']]['UANG IKU'] = 0;
                 $hasil1_final[$row['ID']]['UANG IKI'] = 0;
@@ -250,9 +309,32 @@ class ProsesJPPerawatController extends Controller
 
         foreach($hasil2_final as $row) {
             if(isset($hasil2[$row['RUANG']])) {
-                $hasil2_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total2_iku * $hasil2[$row['RUANG']]['IKU'];
-                $hasil2_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total2_iki * $hasil2[$row['RUANG']]['IKI'];
-                $hasil2_final[$row['ID']]['UANG PM'] = $row['PM'] / $total2_pm * $hasil2[$row['RUANG']]['PM'];   
+
+                if($row['IKU'] == 0)
+                {
+                $hasil2_final[$row['ID']]['UANG IKU'] = 0;
+                }
+                else{
+                $hasil2_final[$row['ID']]['UANG IKU'] = ($row['IKU'] / $total2_iku) * $hasil2[$row['RUANG']]['IKU'];
+                }
+
+                if($row['IKI'] == 0)
+                {
+                $hasil2_final[$row['ID']]['UANG IKI'] = 0;
+                }
+                else
+                {
+                $hasil2_final[$row['ID']]['UANG IKI'] = ($row['IKI'] / $total2_iki) * $hasil2[$row['RUANG']]['IKI'];
+                }
+                
+                if($row['PM'] == 0)
+                {
+                    $hasil2_final[$row['ID']]['UANG PM'] =0;
+                }
+                else{
+                $hasil2_final[$row['ID']]['UANG PM'] = ($row['PM'] / $total2_pm) * $hasil2[$row['RUANG']]['PM'];         
+                }
+
             } else {
                 $hasil2_final[$row['ID']]['UANG IKU'] = 0;
                 $hasil2_final[$row['ID']]['UANG IKI'] = 0;

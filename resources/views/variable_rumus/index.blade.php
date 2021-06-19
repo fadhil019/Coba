@@ -43,8 +43,8 @@
                     <tfoot>
                         <tr>
                             <th>Nama</th>
-                            <th>Tindakan</th>
                             <th>Rumus</th>
+                            <th>Keterangan</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -73,10 +73,10 @@
                                             <p>
                                             Berikut meurupakan contoh dalam penulisan rumus variable dengan variable atau dengan angka.
                                             <br>
-                                            Perawat IGD = ((PERAWAT IGD)) * 40%
+                                            Perawat IGD = (( PERAWAT IGD )) * 40%
                                             <br>
                                             Penjelasan : 
-                                            LOL .. :v
+                                            ------
                                             </p>
                                             <p>
                                                 <b><u>Varible rumus:</u></b><br>
@@ -169,7 +169,7 @@
                                                 Perawat IGD = ((PERAWAT IGD)) * 40%
                                                 <br>
                                                 Penjelasan : 
-                                                LOL .. :v
+                                                ----
                                                 </p>
                                                 <p>
                                                     <b><u>Varible rumus:</u></b><br>
