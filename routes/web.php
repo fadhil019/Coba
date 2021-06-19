@@ -30,6 +30,7 @@ Route::resource('data_tindakan_pasien','DataTindakanPasienController');
 Route::resource('rekap_data','RekapDataController');
 Route::resource('variable_rumus','variableRumusController');
 Route::resource('dasboard','DashboardController');
+Route::resource('pengguna','UserController');
 
 Route::resource('proses_jp_perawat','ProsesJPPerawatController');
 Route::resource('proses_jp_penunjang','ProsesJPPenunjangController');

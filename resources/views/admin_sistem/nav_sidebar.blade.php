@@ -1,4 +1,10 @@
 <li class="nav-item">
+    <a href="{{ route('pengguna.index')}}" class="nav-link">
+    <i class="nav-icon fas fa-check"></i>
+        <p>User</p>
+    </a>
+</li>
+<li class="nav-item">
     <a href="{{ route('periode.index')}}" class="nav-link">
     <i class="nav-icon fas fa-check"></i>
         <p>Periode</p>

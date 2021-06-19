@@ -49,11 +49,11 @@ class Dashboard extends Model
 
             $tmp_total_pendapatan_admin = 0;
             //INI YANG DIPAKAI UNTUK AMBIL DATA STRUKTURAL DAN ADMIN UMUM TAPI EROR KALAU DITAMBAH INI
-            // $rekap_data_admin_remu = new RekapData();
-            //     $rekap_data_admin_remus = $rekap_data_admin_remu->SelectRekapDataAdminRemuPerPeriode($row->id_periode);
-            //     for ($i=0; $i < count($rekap_data_admin_remus); $i++){
-            //         $tmp_total_pendapatan_admin += $rekap_data_admin_remus[$i]['upah_jasa'];
-            //     }
+            $rekap_data_admin_remu = new RekapData();
+            $rekap_data_admin_remus = $rekap_data_admin_remu->SelectRekapDataAdminRemuPerPeriode($row->id_periode);
+            for($index_admin=0; $index_admin < count($rekap_data_admin_remus); $index_admin++){
+                $tmp_total_pendapatan_admin += $rekap_data_admin_remus[$index_admin]['upah_jasa'];
+            }
             
             
             $data_proses_perhitungan_admin_adm = DB::table('proses_perhitungan')
