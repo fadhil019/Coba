@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="dataTable" class="table table-bordered table-striped">
+                <table id="dataTable_pdf_dokter" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>

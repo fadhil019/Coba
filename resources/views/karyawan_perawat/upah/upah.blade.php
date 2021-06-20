@@ -30,9 +30,21 @@
         <div class="col-12">
         <input type="hidden" value="{{ $no = 1 }}">
         <div class="card">
-            <!-- /.card-header -->
+            <div class="card-header">
+                <div class="row pt-2 mb-2">
+                    <div class="col-sm-6">
+                        <!-- <h4>Daftar nama dokter</h4> -->
+                        <span>*klik pada nama karyawan untuk melihat detail</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="mr-2" id="tombol_pdf_dokter"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
-                <table id="dataTable" class="table table-bordered table-striped">
+                <table id="dataTable_pdf_dokter" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -47,7 +59,6 @@
                             <th>IKU</th>
                             <th>IKI</th>
                             <th>PM AKHIR</th>
-                            <th>Tindakan</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -64,14 +75,16 @@
                             <th>IKU</th>
                             <th>IKI</th>
                             <th>PM AKHIR</th>
-                            <th>Tindakan</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @for($i=0; $i < count($data_upah_perawats); $i++)
                             <tr>
                                 <td>{{ ($i+1) }}</td>
-                                <td>{{ $data_upah_perawats[$i]['nama'] }}</td>
+                                <td>
+                                <a href="{{ url('detail_upah_karyawan_perawat/'. $data_periodes->id_periode . '/' . $data_upah_perawats[$i]['id_karyawan_perawat'] ) }}"  class="text-dark">{{ $data_upah_perawats[$i]['nama'] }}</a>
+                                    
+                                </td>
                                 <td>{{ $data_upah_perawats[$i]['kredential'] }}</td>
                                 <td>{{ $data_upah_perawats[$i]['unit'] }}</td>
                                 <td>{{ $data_upah_perawats[$i]['posisi'] }}</td>
@@ -82,9 +95,6 @@
                                 <td>{{ $data_upah_perawats[$i]['iku'] }}</td>
                                 <td>{{ $data_upah_perawats[$i]['iki'] }}</td>
                                 <td>{{ $data_upah_perawats[$i]['pm_proses'] }}</td>
-                                <td>
-                                    <a href="{{ url('detail_upah_karyawan_perawat/'. $data_periodes->id_periode . '/' . $data_upah_perawats[$i]['id_karyawan_perawat'] ) }}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
-                                </td>
                             </tr>
                         @endfor
                     </tbody> 
