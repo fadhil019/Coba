@@ -56,9 +56,7 @@
                             <th>Disiplin</th>
                             <th>Komplain</th>
                             <th>PM</th>
-                            <th>IKU</th>
-                            <th>IKI</th>
-                            <th>PM AKHIR</th>
+                            <th>Upah</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -72,9 +70,7 @@
                             <th>Disiplin</th>
                             <th>Komplain</th>
                             <th>PM</th>
-                            <th>IKU</th>
-                            <th>IKI</th>
-                            <th>PM AKHIR</th>
+                            <th>Upah</th>                            
                         </tr>
                     </tfoot>
                     <tbody>
@@ -92,9 +88,7 @@
                                 <td>{{ $data_upah_perawats[$i]['disiplin'] }}</td>
                                 <td>{{ $data_upah_perawats[$i]['komplain'] }}</td>
                                 <td>{{ $data_upah_perawats[$i]['pm'] }}</td>
-                                <td>{{ $data_upah_perawats[$i]['iku'] }}</td>
-                                <td>{{ $data_upah_perawats[$i]['iki'] }}</td>
-                                <td>{{ $data_upah_perawats[$i]['pm_proses'] }}</td>
+                                <td>{{ $data_upah_perawats[$i]['iku'] + $data_upah_perawats[$i]['iki'] + $data_upah_perawats[$i]['pm_proses']}}</td>
                             </tr>
                         @endfor
                     </tbody> 

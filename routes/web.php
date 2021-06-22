@@ -109,6 +109,8 @@ Route::get('daftar_rekap_data/{id}','RekapDataController@daftar_rekap_data');
 Route::get('detail_rekap_data_dokter/{id_periode}/{id_karyawan}','RekapDataController@detail_rekap_data_dokter');
 Route::get('detail_rekap_data_penunjang/{id_periode}/{id_karyawan}','RekapDataController@detail_rekap_data_penunjang');
 Route::get('detail_rekap_data_perawat/{id_periode}/{id_karyawan}','RekapDataController@detail_rekap_data_perawat');
+Route::get('detail_rekap_data_kategoritindakan/{id_periode}/{id_kt}/{nama_kategori}','RekapDataController@detail_rekap_data_kategoritindakan');
+Route::get('detail_rekap_data_ruangan/{id_periode}/{id_ruangan}','RekapDataController@detail_rekap_data_ruangan');
 
 // Dashboard
 Route::get('daftar_dashboard/{id}','DashboardController@daftar_dashboard');

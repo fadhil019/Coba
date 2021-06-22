@@ -122,12 +122,12 @@
 
                             <tr>
                                 <td>{{ $i+1 }}</td>
-                                <td>{{ $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan'] }}</td>
+                                <td><a href="{{ url('detail_rekap_data_kategoritindakan/'. $data_periodes->id_periode . '/' . $rekap_data_kategori_tindakans[$i]['id_kategori_tindakan'] . '/' . $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan']) }}" class="text-dark">{{ $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan'] }}</a></td>
                                 <td>{{ $rekap_data_kategori_tindakans[$i]['bagian_kategori_tindakan'] }}</td>
                                 @if($rekap_data_kategori_tindakans[$i]['upah_jasa'] == 0)
                                     <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] }}</td>
                                 @else
-                                    <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                                    <td>{{ round($rekap_data_kategori_tindakans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']) }}</td>
                                 @endif
                             </tr>
                         @endfor
@@ -179,12 +179,13 @@
                         @for ($i=0; $i < count($rekap_data_ruangans); $i++)
                             <tr>
                                 <td>{{ $i+1 }}</td>
-                                <td>{{ $rekap_data_ruangans[$i]['nama_ruangan'] }}</td>
+                                <td>
+                                    <a href="{{ url('detail_rekap_data_ruangan/'. $data_periodes->id_periode . '/' . $rekap_data_ruangans[$i]['id_ruangan']) }}" class="text-dark">{{ $rekap_data_ruangans[$i]['nama_ruangan'] }}</a></td>
                                 <td>{{ $rekap_data_ruangans[$i]['bagian'] }}</td>
                                 @if($rekap_data_ruangans[$i]['upah_jasa'] == 0)
                                     <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] }}</td>
                                 @else
-                                    <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                                    <td>{{ round($rekap_data_ruangans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']) }}</td>
                                 @endif
                             </tr>
                         @endfor

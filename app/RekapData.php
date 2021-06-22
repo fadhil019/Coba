@@ -104,11 +104,12 @@ class RekapData extends Model
             ->where('proses_perhitungan.id_dokter', '=', $row->id_dokter)
             ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
+
             
             foreach($data_proses_perhitungan_id_dokter as $row_perhitungan){
                 $ruangan = Ruangan::find($row_perhitungan->id_ruangan);
                 $hasil[$i]['tmp_ruangan'][$row_perhitungan->id_proses_perhitungan]= $row_perhitungan->jumlah_jp;
-                $hasil[$i]['ruangan'][$ruangan->nama_ruangan] = $row_perhitungan->jumlah_jp;
+                $hasil[$i]['ruangan'][$ruangan->nama_ruangan][$row_perhitungan->ket_kategori] = $row_perhitungan->jumlah_jp;
             }
 
             if(isset($row->id_kategori_tindakan))
@@ -124,6 +125,7 @@ class RekapData extends Model
                 foreach($data_proses_perhitungan_id_kat_dokter as $row_perhitungan_kat_dokter){
                     $hasil[$i]['tmp_kategori_tindakan'][$row_perhitungan_kat_dokter->id_proses_perhitungan]= $row_perhitungan_kat_dokter->jumlah_jp;
                 }
+                $hasil[$i]['keterangankhusus'] = 'Tindakan Khusus Dokter';
             }
 
             $tmp_jasa_ruangan = 0;
@@ -148,9 +150,75 @@ class RekapData extends Model
             $i++;
         }
         
-        // dd($hasil);
+        //dd($hasil);
         return $hasil;
     }
+
+    public function DetailRekapDataKategoriTindakanPerPeriode($id, $id_kt){
+        
+        $hasil = [];
+        $i = 0;
+        
+        $data_proses_perhitungan_id_kategori_tindakan = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')            
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', '=', 'proses_perhitungan.id_kategori_tindakan')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.id_kategori_tindakan', '=', $id_kt)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+        $tmp_total =0;
+        foreach ($data_proses_perhitungan_id_kategori_tindakan as $row) {
+            $hasil[$i]['sep_pasien']=$row->no_sep;
+            $hasil[$i]['nama_pasien']=$row->nama_pasien;
+            $hasil[$i]['nominal']=$row->jumlah_jp;
+            $tmp_total +=  $row->jumlah_jp;
+            $i++;
+        }
+        $hasil[0]['total_jp'] = $tmp_total;
+
+        
+        //dd($hasil);
+        return $hasil;
+    }
+
+    public function DetailRekapDataRuanganPerPeriode($id, $id_ruangan){
+        $data_ruangan = DB::table('ruangan')
+        ->where('ruangan.id_ruangan', $id_ruangan)
+        ->get();
+
+        $hasil = [];
+        $i = 0;
+        $tmp_total =0;
+        foreach ($data_ruangan as $row) {
+
+            $data_proses_perhitungan_ruangan = DB::table('proses_perhitungan')
+            ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')            
+            ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+            ->join('ruangan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
+            ->where('transaksi.id_periode', '=', $id)
+            ->where('proses_perhitungan.ket_kategori', '=', 'PERAWAT '.$row->nama_ruangan)
+            ->where('proses_perhitungan.proses', '=', 'Ke 4')
+            ->get();
+            $hasil[0]['pilih_ruangan']=$row->nama_ruangan;
+            foreach ($data_proses_perhitungan_ruangan as $row2) {
+                $hasil[$i]['ruangan']=$row2->nama_ruangan;
+                $hasil[$i]['sep_pasien']=$row2->no_sep;
+                $hasil[$i]['nama_pasien']=$row2->nama_pasien;
+                $hasil[$i]['nominal']=$row2->jumlah_jp;
+                $tmp_total +=  $row2->jumlah_jp;
+                $i++;
+            }
+        }
+        
+        $hasil[0]['total_jp'] = $tmp_total;
+
+        
+        //dd($hasil);
+        return $hasil;
+    }
+
+
 
     public function SelectRekapDataKategoriTindakanPerPeriode($id){
         $data_kategori_tindakan = DB::table('kategori_tindakan')

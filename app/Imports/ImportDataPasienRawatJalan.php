@@ -121,7 +121,7 @@ class ImportDataPasienRawatJalan implements ToCollection, WithStartRow
 					$data_tindakan_pasien->id_deskripsi_tindakan = $data_deskripsi_tindakan->id_deskripsi_tindakan;
 					$data_tindakan_pasien->save();
 				} else {
-					if($jp !== 0 && $jp !== null && $jp !== "" && $deskripsi_tindakan != " Jasa Pelayanan") {
+					if($jp !== 0 && $jp !== null && $jp !== "" && $deskripsi_tindakan != " Jasa Pelayanan") {
 						$data_deskripsi_tindakan = DeskripsiTindakan::where('deskripsi_tindakan', '=', $deskripsi_tindakan)->first();
 						if($data_deskripsi_tindakan == null) {
 							$data_deskripsi_tindakan = new DeskripsiTindakan();

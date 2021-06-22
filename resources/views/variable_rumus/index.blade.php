@@ -73,10 +73,10 @@
                                             <p>
                                             Berikut meurupakan contoh dalam penulisan rumus variable dengan variable atau dengan angka.
                                             <br>
-                                            Perawat IGD = (( PERAWAT IGD )) * 40%
+                                            LAB = ( (( LAB )) * 80% ) + ( (( RAD )) * 30% )
                                             <br>
                                             Penjelasan : 
-                                            ------
+                                            Penambahan Rumus harus diawali dengan tanda kurung kurawal. Untuk rumus yang ada lebih dari satu perhitungan harus menggunakan tanda kurung biasa untuk pemisahnya.
                                             </p>
                                             <p>
                                                 <b><u>Varible rumus:</u></b><br>
@@ -166,10 +166,10 @@
                                                 <p>
                                                 Berikut meurupakan contoh dalam penulisan rumus variable dengan variable atau dengan angka.
                                                 <br>
-                                                Perawat IGD = ((PERAWAT IGD)) * 40%
+                                                LAB = ( (( LAB )) * 80% ) + ( (( RAD )) * 30% )
                                                 <br>
                                                 Penjelasan : 
-                                                ----
+                                                Penambahan Rumus harus diawali dengan tanda kurung kurawal. Untuk rumus yang ada lebih dari satu perhitungan harus menggunakan tanda kurung biasa untuk pemisahnya.
                                                 </p>
                                                 <p>
                                                     <b><u>Varible rumus:</u></b><br>

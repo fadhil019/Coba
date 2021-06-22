@@ -432,7 +432,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'ADM';
                 $proses_perhitungan->proses = 'Ke 2';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['adm']['adm'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['adm']['adm'],6);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -454,7 +454,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'GIZI';
                 $proses_perhitungan->proses = 'Ke 2';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['gizi']['gizi'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['gizi']['gizi'],6);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -479,7 +479,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
                     $proses_perhitungan->proses = 'Ke 2';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2'][$index];
+                    $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2'][$index],6);
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                     $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -504,7 +504,7 @@ class ProsesPerhitunganController extends Controller
                                 $proses_perhitungan = new ProsesPerhitungan();
                                 $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                                 $proses_perhitungan->proses = 'Ke 2';
-                                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)],6);
                                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                                 $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -519,7 +519,7 @@ class ProsesPerhitunganController extends Controller
                             $proses_perhitungan = new ProsesPerhitungan();
                             $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                             $proses_perhitungan->proses = 'Ke 2';
-                            $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)],6);
                             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                             $proses_perhitungan->id_transaksi = $row->id_transaksi;
                             $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -538,7 +538,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan = new ProsesPerhitungan();
                         $proses_perhitungan->ket_kategori = 'DOKTER';
                         $proses_perhitungan->proses = 'Ke 2';
-                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['dokter'][ucfirst($hasil_1)];
+                        $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['dokter'][ucfirst($hasil_1)],6);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                         $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -556,7 +556,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan = new ProsesPerhitungan();
                         $proses_perhitungan->ket_kategori = 'visite';
                         $proses_perhitungan->proses = 'Ke 2';
-                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['visite'][ucfirst($hasil_1)];
+                        $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['visite'][ucfirst($hasil_1)],6);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                         $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -579,7 +579,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'ADM';
                 $proses_perhitungan->proses = 'Ke 3';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['adm']['adm'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['adm']['adm']);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -592,7 +592,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'GIZI';
                 $proses_perhitungan->proses = 'Ke 3';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['gizi']['gizi'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['gizi']['gizi']);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -609,7 +609,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
                     $proses_perhitungan->proses = 'Ke 3';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3'][$index];
+                    $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3'][$index]);
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                     $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -634,7 +634,7 @@ class ProsesPerhitunganController extends Controller
                                 $proses_perhitungan = new ProsesPerhitungan();
                                 $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                                 $proses_perhitungan->proses = 'Ke 3';
-                                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)]);
                                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                                 $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -649,7 +649,7 @@ class ProsesPerhitunganController extends Controller
                             $proses_perhitungan = new ProsesPerhitungan();
                             $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                             $proses_perhitungan->proses = 'Ke 3';
-                            $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)]);
                             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                             $proses_perhitungan->id_transaksi = $row->id_transaksi;
                             $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -668,7 +668,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan = new ProsesPerhitungan();
                         $proses_perhitungan->ket_kategori = 'DOKTER';
                         $proses_perhitungan->proses = 'Ke 3';
-                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['dokter'][ucfirst($hasil_1)];
+                        $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['dokter'][ucfirst($hasil_1)]);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                         $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -687,7 +687,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                         $proses_perhitungan->ket_kategori = 'VISITE';
                         $proses_perhitungan->proses = 'Ke 3';
-                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['visite'][ucfirst($hasil_1)];
+                        $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['visite'][ucfirst($hasil_1)]);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                         $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -742,7 +742,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'ADM';
                 $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['adm']['adm'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['adm']['adm']);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -755,7 +755,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'GIZI';
                 $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['gizi']['gizi'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['gizi']['gizi']);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -773,7 +773,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
                     $proses_perhitungan->proses = 'Ke 4';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4'][$index];
+                    $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4'][$index]);
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                     $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -801,7 +801,7 @@ class ProsesPerhitunganController extends Controller
                             $proses_perhitungan = new ProsesPerhitungan();
                             $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                             $proses_perhitungan->proses = 'Ke 4';
-                            $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)]);
                             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                             $proses_perhitungan->id_transaksi = $row->id_transaksi;
                             $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -820,7 +820,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan = new ProsesPerhitungan();
                         $proses_perhitungan->ket_kategori = 'DOKTER';
                         $proses_perhitungan->proses = 'Ke 4';
-                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['dokter'][ucfirst($hasil_1)];
+                        $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['dokter'][ucfirst($hasil_1)]);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                         $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -839,7 +839,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'VISITE';
                     $proses_perhitungan->proses = 'Ke 4';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['visite'][ucfirst($hasil_1)];
+                    $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['visite'][ucfirst($hasil_1)]);
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                     $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -874,7 +874,7 @@ class ProsesPerhitunganController extends Controller
             $hasil_perhitungan = 0;
             
             foreach($list_variable as $nama_variable => $value) {
-                dd($value);
+                //dd($value);
                 foreach($value as $val) {
                     if(strpos($rumus, $nama_variable) !== false) {
                         // ada
@@ -1107,7 +1107,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan = new ProsesPerhitungan();
             $proses_perhitungan->ket_kategori = 'ADM';
             $proses_perhitungan->proses = 'Ke 2';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['adm']['adm'];
+            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['adm']['adm'],6);
             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
             $proses_perhitungan->id_transaksi = $row->id_transaksi;
             $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1121,7 +1121,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'TINDAKAN';
                 $proses_perhitungan->proses = 'Ke 2';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['hasil_tindakan'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['hasil_tindakan'],6);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1137,7 +1137,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'DOKTER';
                     $proses_perhitungan->proses = 'Ke 2';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['dokter'][ucfirst($hasil_1)],6);
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                     $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -1157,7 +1157,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan = new ProsesPerhitungan();
                         $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                         $proses_perhitungan->proses = 'Ke 2';
-                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                        $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['hasil_kategori_tindakan'][ucfirst($hasil_1)],6);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                         $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -1189,7 +1189,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan = new ProsesPerhitungan();
             $proses_perhitungan->ket_kategori = 'ADM';
             $proses_perhitungan->proses = 'Ke 3';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['adm']['adm'];
+            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['adm']['adm']);
             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
             $proses_perhitungan->id_transaksi = $row->id_transaksi;
             $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1203,7 +1203,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'TINDAKAN';
                 $proses_perhitungan->proses = 'Ke 3';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['hasil_tindakan'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['hasil_tindakan']);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1219,7 +1219,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'DOKTER';
                     $proses_perhitungan->proses = 'Ke 3';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['dokter'][ucfirst($hasil_1)]);
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                     $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -1239,7 +1239,7 @@ class ProsesPerhitunganController extends Controller
                         $proses_perhitungan = new ProsesPerhitungan();
                         $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                         $proses_perhitungan->proses = 'Ke 3';
-                        $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                        $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][ucfirst($hasil_1)]);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                         $proses_perhitungan->id_transaksi = $row->id_transaksi;
                         $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
@@ -1280,7 +1280,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan = new ProsesPerhitungan();
             $proses_perhitungan->ket_kategori = 'ADM';
             $proses_perhitungan->proses = 'Ke 4';
-            $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['adm']['adm'];
+            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['adm']['adm']);
             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
             $proses_perhitungan->id_transaksi = $row->id_transaksi;
             $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1294,7 +1294,7 @@ class ProsesPerhitunganController extends Controller
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'TINDAKAN';
                 $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['hasil_tindakan'];
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['hasil_tindakan']);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1310,7 +1310,7 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'DOKTER';
                     $proses_perhitungan->proses = 'Ke 4';
-                    $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['dokter'][ucfirst($hasil_1)];
+                    $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['dokter'][ucfirst($hasil_1)]);
                     $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                     $proses_perhitungan->id_transaksi = $row->id_transaksi;
                     $proses_perhitungan->id_dokter = ucfirst($hasil_1);
@@ -1334,7 +1334,7 @@ class ProsesPerhitunganController extends Controller
                             $proses_perhitungan = new ProsesPerhitungan();
                             $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                             $proses_perhitungan->proses = 'Ke 4';
-                            $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)]);
                             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                             $proses_perhitungan->id_transaksi = $row->id_transaksi;
                             $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);

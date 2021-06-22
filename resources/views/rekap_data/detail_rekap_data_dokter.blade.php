@@ -52,6 +52,7 @@
                     <table id="dataTable_pdf_dokter" class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>Nama</th>
                                 <th>Keterangan</th>
                                 <th>Upah jasa pelayanan</th>
                             </tr>
@@ -66,14 +67,18 @@
                             @if(isset($rekap_data_dokters[0]['ruangan']))
                                 @foreach($rekap_data_dokters[0]['ruangan'] as $row => $val)
                                     <tr>
-                                        <td>{{ $row }}</td>
-                                        <td>{{ $val }}</td>
+                                        <td>{{ $row }}</td> 
+                                        @foreach($val as $val1 => $val2)                            
+                                        <td>{{ $val1 }}</td>
+                                        <td>{{ $val2 }}</td>
+                                        @endforeach
                                     </tr>
                                 @endforeach
                             @endif
                             @if(isset($rekap_data_dokters[0]['nama_kategori_tindakan']))
                                 <tr>
                                     <td>{{ $rekap_data_dokters[0]['nama_kategori_tindakan'] }}</td>
+                                    <td>{{ $rekap_data_dokters[0]['keterangankhusus'] }}</td>
                                     <td>{{ $rekap_data_dokters[0]['upah_jasa_kategori'] }}</td>
                                 </tr>
                             @endif

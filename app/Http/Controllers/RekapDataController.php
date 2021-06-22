@@ -132,4 +132,32 @@ class RekapDataController extends Controller
 
         return view('rekap_data.detail_rekap_data_dokter', compact('data_periodes', 'rekap_data_dokters'));
     }
+
+    public function detail_rekap_data_kategoritindakan($id_periode, $id_kt, $nama_kategori)
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->ShowPeriode($id_periode);
+
+        $rekap_data_kategori_tindakan = new RekapData();
+        $rekap_data_kategori_tindakans = $rekap_data_kategori_tindakan->DetailRekapDataKategoriTindakanPerPeriode($id_periode, $id_kt);
+
+        $rekap_data_jtl = new RekapData();
+        $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
+
+        return view('rekap_data.detail_rekap_data_kategori_tindakan', compact('data_periodes', 'rekap_data_kategori_tindakans', 'nama_kategori', 'rekap_data_jtls'));
+    }
+
+    public function detail_rekap_data_ruangan($id_periode, $id_ruangan)
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->ShowPeriode($id_periode);
+
+        $rekap_data_ruangan = new RekapData();
+        $rekap_data_ruangans = $rekap_data_ruangan->DetailRekapDataRuanganPerPeriode($id_periode, $id_ruangan);
+
+        $rekap_data_jtl = new RekapData();
+        $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
+
+        return view('rekap_data.detail_rekap_data_ruangan', compact('data_periodes', 'rekap_data_ruangans', 'rekap_data_jtls'));
+    }
 }
