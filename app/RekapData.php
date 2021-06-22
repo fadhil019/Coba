@@ -163,12 +163,14 @@ class RekapData extends Model
             ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')            
             ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
             ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', '=', 'proses_perhitungan.id_kategori_tindakan')
+            ->join('ruangan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
             ->where('transaksi.id_periode', '=', $id)
             ->where('proses_perhitungan.id_kategori_tindakan', '=', $id_kt)
             ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
         $tmp_total =0;
         foreach ($data_proses_perhitungan_id_kategori_tindakan as $row) {
+            $hasil[$i]['ruangan']=$row->nama_ruangan;
             $hasil[$i]['sep_pasien']=$row->no_sep;
             $hasil[$i]['nama_pasien']=$row->nama_pasien;
             $hasil[$i]['nominal']=$row->jumlah_jp;
@@ -216,6 +218,11 @@ class RekapData extends Model
         
         //dd($hasil);
         return $hasil;
+    }
+
+    public function DetailRekapDataAdminPerPeriode($id, $nama_kategori){
+        
+        
     }
 
 
@@ -358,17 +365,24 @@ class RekapData extends Model
                 $tmp_upah_jasa = 0;
                     
                 $data_proses_perhitungan = DB::table('proses_perhitungan')
+                ->join('ruangan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
                 ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
                 ->join('transaksi', 'transaksi.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
                 ->where('transaksi.id_periode', '=', $id)
                 ->where('proses_perhitungan.ket_kategori', '=', 'ADM')
                 ->where('proses_perhitungan.proses', '=', 'Ke 4')
                 ->get();
+                $hasil[0]['nama_kategori_adm']=$val;
                 foreach($data_proses_perhitungan as $row_perhitungan){
+                    $hasil[$index]['ruangan_adm']=$row_perhitungan->nama_ruangan;
+                    $hasil[$index]['sep_pasien_adm']=$row_perhitungan->no_sep;
+                    $hasil[$index]['nama_pasien_adm']=$row_perhitungan->nama_pasien;
+                    $hasil[$index]['nominal_adm']=$row_perhitungan->jumlah_jp;
+                    $hasil[$index]['nama_kategori_adm']=$val;
                     $tmp_upah_jasa += $row_perhitungan->jumlah_jp;
                 }
-        
                 
+                $hasil[0]['jumlah_jp_adm']=$tmp_upah_jasa;
                 $hasil[$index]['upah_jasa'] = $tmp_upah_jasa;
             }
             else

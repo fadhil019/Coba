@@ -160,4 +160,18 @@ class RekapDataController extends Controller
 
         return view('rekap_data.detail_rekap_data_ruangan', compact('data_periodes', 'rekap_data_ruangans', 'rekap_data_jtls'));
     }
+
+    public function detail_rekap_data_admin($id_periode, $nama_kategori)
+    {
+        $data_periode = new Periode();
+        $data_periodes = $data_periode->ShowPeriode($id_periode);
+
+        $rekap_data_admin_remu = new RekapData();
+        $rekap_data_admin_remus = $rekap_data_admin_remu->SelectRekapDataAdminRemuPerPeriode($id_periode);
+
+        $rekap_data_jtl = new RekapData();
+        $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
+
+        return view('rekap_data.detail_rekap_data_admin', compact('data_periodes', 'rekap_data_admin_remus', 'nama_kategori' , 'rekap_data_jtls'));
+    }
 }

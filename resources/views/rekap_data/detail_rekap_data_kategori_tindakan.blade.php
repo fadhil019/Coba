@@ -54,6 +54,7 @@
                             <tr>
                                 <th>SEP</th>
                                 <th>Nama Pasien</th>
+                                <th>Ruangan</th>
                                 <th>Upah jasa pelayanan</th>
                             </tr>
                         </thead>
@@ -62,8 +63,10 @@
                                 <th>Total</th>
                                 @if(isset($rekap_data_kategori_tindakans[0]['sep_pasien']))
                                 <td></td>
+                                <td>
                                 <th>{{ $rekap_data_kategori_tindakans[0]['total_jp'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</th>
                                 @else
+                                <td></td>
                                 <td></td>
                                 <th>0</th>
                                 @endif
@@ -74,12 +77,14 @@
                                 @for ($i=0; $i < count($rekap_data_kategori_tindakans); $i++)
                                     <tr>
                                         <td>{{ $rekap_data_kategori_tindakans[$i]['sep_pasien'] }}</td>  
-                                        <td>{{ $rekap_data_kategori_tindakans[$i]['nama_pasien'] }}</td>                          
+                                        <td>{{ $rekap_data_kategori_tindakans[$i]['nama_pasien'] }}</td>  
+                                        <td>{{ $rekap_data_kategori_tindakans[$i]['ruangan'] }}</td>                        
                                         <td>{{ $rekap_data_kategori_tindakans[$i]['nominal'] }}</td>
                                     </tr>
                                 @endfor
                                 <tr>
                                         <td>JTL</td>
+                                        <td></td>
                                         <td></td>                           
                                         <td>{{ $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
                                 </tr>

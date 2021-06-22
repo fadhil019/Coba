@@ -179,8 +179,7 @@
                         @for ($i=0; $i < count($rekap_data_ruangans); $i++)
                             <tr>
                                 <td>{{ $i+1 }}</td>
-                                <td>
-                                    <a href="{{ url('detail_rekap_data_ruangan/'. $data_periodes->id_periode . '/' . $rekap_data_ruangans[$i]['id_ruangan']) }}" class="text-dark">{{ $rekap_data_ruangans[$i]['nama_ruangan'] }}</a></td>
+                                <td><a href="{{ url('detail_rekap_data_ruangan/'. $data_periodes->id_periode . '/' . $rekap_data_ruangans[$i]['id_ruangan']) }}" class="text-dark">{{ $rekap_data_ruangans[$i]['nama_ruangan'] }}</a></td>
                                 <td>{{ $rekap_data_ruangans[$i]['bagian'] }}</td>
                                 @if($rekap_data_ruangans[$i]['upah_jasa'] == 0)
                                     <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] }}</td>
@@ -238,7 +237,8 @@
                         @for ($i=0; $i < count($rekap_data_admin_remus); $i++)
                             <tr>
                                 <td>{{ $i+1 }}</td>
-                                <td>{{ $rekap_data_admin_remus[$i]['nama_kategori'] }}</td>
+                                <td>
+                                    <a href="{{ url('detail_rekap_data_admin/'. $data_periodes->id_periode) . '/' . $rekap_data_admin_remus[$i]['nama_kategori'] }}" class="text-dark">{{ $rekap_data_admin_remus[$i]['nama_kategori'] }}</a></td>
                                 <td>{{ $rekap_data_admin_remus[$i]['bagian'] }}</td>
                                 <td>{{ $rekap_data_admin_remus[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
                             </tr>
