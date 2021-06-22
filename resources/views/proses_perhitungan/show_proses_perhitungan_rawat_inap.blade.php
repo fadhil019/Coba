@@ -95,19 +95,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="2">Total</th>
-                            <th>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['total'] }}</th>
+                            <th>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['total'],2,",",".") }}</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>ADM</td>
                             <td>ADM</td>
-                            <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['adm']['adm'] }}</td>
+                            <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['adm']['adm'],2,",",".") }}</td>
                         </tr>
                         <tr>
                             <td>GIZI</td>
                             <td>GIZI</td>
-                            <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['gizi']['gizi'] }}</td>
+                            <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['gizi']['gizi'],2,",",".") }}</td>
                         </tr>
 
                         @foreach($data_ruangans as $ruangan)
@@ -119,7 +119,7 @@
                                     $index = 'perawat_' . $ruangan->nama_ruangan;
                                 @endphp
                                 @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index]))
-                                    {{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index] }}
+                                    {{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index],2,",",".") }}
                                 @else
                                     -
                                 @endif
@@ -131,7 +131,7 @@
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$i]['nama_kategori'] }}</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
+                                <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$i]['jumlah_jp'],2,",",".") }}</td>
                             </tr>
                         @endfor
                         @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter']))
@@ -139,7 +139,7 @@
                                 <tr>
                                     <td>DOKTER</td>
                                     <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['nama_dokter'] }}</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['jumlah_jp'] }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['dokter'][$i]['jumlah_jp'],2,",",".") }}</td>
                                 </tr>
                             @endfor
                         @else
@@ -154,7 +154,7 @@
                                 <tr>
                                     <td>VISITE</td>
                                     <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite'][$i]['nama_dokter'] }}</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite'][$i]['jumlah_jp'] }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['visite'][$i]['jumlah_jp'],2,",",".") }}</td>
                                 </tr>
                             @endfor
                         @else
@@ -301,19 +301,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="2">Total</th>
-                            <th>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['total'] }}</th>
+                            <th>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['total'],2,",",".") }}</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>ADM</td>
                             <td>ADM</td>
-                            <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['adm']['adm'] }}</td>
+                            <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['adm']['adm'],2,",",".") }}</td>
                         </tr>
                         <tr>
                             <td>GIZI</td>
                             <td>GIZI</td>
-                            <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['gizi']['gizi'] }}</td>
+                            <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['gizi']['gizi'],2,",",".") }}</td>
                         </tr>
 
                         @foreach($data_ruangans as $ruangan)
@@ -325,7 +325,7 @@
                                     $index = 'perawat_' . $ruangan->nama_ruangan;
                                 @endphp
                                 @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index]))
-                                    {{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index] }}
+                                    {{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index],2,",",".") }}
                                 @else
                                     -
                                 @endif
@@ -337,7 +337,7 @@
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][$i]['nama_kategori'] }}</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
+                                <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan'][$i]['jumlah_jp'],2,",",".") }}</td>
                             </tr>
                         @endfor
                         @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter']))
@@ -345,7 +345,7 @@
                                 <tr>
                                     <td>DOKTER</td>
                                     <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['nama_dokter'] }}</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['jumlah_jp'] }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['dokter'][$i]['jumlah_jp'],2,",",".") }}</td>
                                 </tr>
                             @endfor
                         @else
@@ -360,7 +360,7 @@
                                 <tr>
                                     <td>VISITE</td>
                                     <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite'][$i]['nama_dokter'] }}</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite'][$i]['jumlah_jp'] }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['visite'][$i]['jumlah_jp'],2,",",".") }}</td>
                                 </tr>
                             @endfor
                         @else
@@ -404,19 +404,19 @@
                     <tfoot>
                         <tr>
                             <th colspan="2">Total</th>
-                            <th>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['total'] }}</th>
+                            <th>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['total'],2,",",".") }}</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>ADM</td>
                             <td>ADM</td>
-                            <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['adm']['adm'] }}</td>
+                            <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['adm']['adm'],2,",",".") }}</td>
                         </tr>
                         <tr>
                             <td>GIZI</td>
                             <td>GIZI</td>
-                            <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['gizi']['gizi'] }}</td>
+                            <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['gizi']['gizi'],2,",",".") }}</td>
                         </tr>
                         
                         @foreach($data_ruangans as $ruangan)
@@ -428,7 +428,7 @@
                                     $index = 'perawat_' . $ruangan->nama_ruangan;
                                 @endphp
                                 @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index]))
-                                    {{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index] }}
+                                    {{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index],2,",",".") }}
                                 @else
                                     -
                                 @endif
@@ -440,7 +440,7 @@
                             <tr>
                                 <td>KATEGORI TINDAKAN</td>
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$i]['nama_kategori'] }}</td>
-                                <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$i]['jumlah_jp'] }}</td>
+                                <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$i]['jumlah_jp'],2,",",".") }}</td>
                             </tr>
                         @endfor
                        @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter']))
@@ -448,7 +448,7 @@
                                 <tr>
                                     <td>DOKTER</td>
                                     <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['nama_dokter'] }}</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['jumlah_jp'] }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['dokter'][$i]['jumlah_jp'],2,",",".") }}</td>
                                 </tr>
                             @endfor
                         @else
@@ -463,7 +463,7 @@
                                 <tr>
                                     <td>VISITE</td>
                                     <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite'][$i]['nama_dokter'] }}</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite'][$i]['jumlah_jp'] }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['visite'][$i]['jumlah_jp'],2,",",".") }}</td>
                                 </tr>
                             @endfor
                         @else

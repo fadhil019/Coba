@@ -87,12 +87,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['adm']['adm'] }}
+                                    {{ number_format($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['adm']['adm'],2,",",".") }}
                                 </td>
                                 @foreach($data_kategori_tindakans as $row)
                                 <td>
                                     @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan]))
-                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan] }}
+                                        {{ number_format($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$row->id_kategori_tindakan],2,",",".") }}
                                     @else
                                         -
                                     @endif
@@ -101,7 +101,7 @@
                                 @foreach($data_dokters as $row)
                                 <td>
                                     @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['dokter'][$row->id_dokter]))
-                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['dokter'][$row->id_dokter] }}
+                                        {{ number_format($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['dokter'][$row->id_dokter],2,",",".")}}
                                     @else
                                         -
                                     @endif
@@ -113,7 +113,7 @@
                                         $index = 'perawat_' . $row->nama_ruangan;
                                     @endphp
                                     @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index]))
-                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index] }}
+                                        {{ number_format($hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index],2,",",".") }}
                                     @else
                                         -
                                     @endif
@@ -122,17 +122,17 @@
                                 @foreach($data_dokters as $row)
                                 <td>
                                     @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['visite'][$row->id_dokter]))
-                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['visite'][$row->id_dokter] }}
+                                        {{ number_format($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['visite'][$row->id_dokter],2,",",".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 @endforeach
                                 <td> 
-                                    {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['gizi']['gizi'] }}
+                                    {{ number_format($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['gizi']['gizi'],2,",",".")}}
                                 </td>
                                 <td>
-                                    {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['total'] }}
+                                    {{ number_format($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['total'],2,",",".")}}
                                 </td>
                                 <td>
                                     <a href="{{ url('show_detail_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan.'/'.$row_data_pasiens->id_transaksi )}}"  class="btn btn-success"><i class="fa fa-bars" aria-hidden="true"></i> Detail</a>
