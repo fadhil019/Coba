@@ -344,9 +344,9 @@ class ProsesJPPerawatController extends Controller
 
         foreach($hasil1_final as $row) {
             $proses_hitung_jp_perawat = new ProsesJPPerawat();
-            $proses_hitung_jp_perawat->iku = $hasil1_final[$row['ID']]['UANG IKU'];
-            $proses_hitung_jp_perawat->iki = $hasil1_final[$row['ID']]['UANG IKI'];
-            $proses_hitung_jp_perawat->pm = $hasil1_final[$row['ID']]['UANG PM'];
+            $proses_hitung_jp_perawat->iku = round($hasil1_final[$row['ID']]['UANG IKU']);
+            $proses_hitung_jp_perawat->iki = round($hasil1_final[$row['ID']]['UANG IKI']);
+            $proses_hitung_jp_perawat->pm = round($hasil1_final[$row['ID']]['UANG PM']);
             $proses_hitung_jp_perawat->tahapan = 1;
             $proses_hitung_jp_perawat->id_periode = $id_periode;
             $proses_hitung_jp_perawat->id_ruangan = $hasil1_final[$row['ID']]['ID_RUANG'];
@@ -357,9 +357,9 @@ class ProsesJPPerawatController extends Controller
         }
         foreach($hasil2_final as $row) {
             $proses_hitung_jp_perawat = new ProsesJPPerawat();
-            $proses_hitung_jp_perawat->iku = $hasil2_final[$row['ID']]['UANG IKU'];
-            $proses_hitung_jp_perawat->iki = $hasil2_final[$row['ID']]['UANG IKI'];
-            $proses_hitung_jp_perawat->pm = $hasil2_final[$row['ID']]['UANG PM'];
+            $proses_hitung_jp_perawat->iku = round($hasil2_final[$row['ID']]['UANG IKU']);
+            $proses_hitung_jp_perawat->iki = round($hasil2_final[$row['ID']]['UANG IKI']);
+            $proses_hitung_jp_perawat->pm = round($hasil2_final[$row['ID']]['UANG PM']);
             $proses_hitung_jp_perawat->tahapan = 2;
             $proses_hitung_jp_perawat->id_periode = $id_periode;
             $proses_hitung_jp_perawat->id_ruangan = $hasil2_final[$row['ID']]['ID_RUANG'];
@@ -385,10 +385,21 @@ class ProsesJPPerawatController extends Controller
         $data_periode = new Periode();
         $data_periodes = $data_periode->ShowPeriode($id_periode);
 
-        $data_upah_perawat = new ProsesJPPerawat();
+        $cekproses = DB::table('proses_jp_perawat')
+        ->where('id_periode', '=', $id_periode)
+        ->first();
+        //dd($cekproses);
+        if($cekproses != null)
+        {
+               $data_upah_perawat = new ProsesJPPerawat();
         $data_upah_perawats = $data_upah_perawat->SelectDaftarUpahPerawat($id_periode);
+            return view('karyawan_perawat.upah.upah', compact('data_upah_perawats', 'data_periodes'));
+        }
+        else
+        {
+            return back()->with('alert-failed', 'Data Belum Ada');
+        }
 
-        return view('karyawan_perawat.upah.upah', compact('data_upah_perawats', 'data_periodes'));
     }
 
     public function detail_upah_karyawan_perawat($id_periode, $id_karyawan_perawat)

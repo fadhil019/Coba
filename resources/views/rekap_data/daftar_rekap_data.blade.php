@@ -71,7 +71,7 @@
                             <tr>
                                 <td>{{ $i+1 }}</td>
                                 <td><a href="{{ url('detail_rekap_data_dokter/'. $data_periodes->id_periode . '/' . $rekap_data_dokters[$i]['id_dokter']) }}" class="text-dark">{{ $rekap_data_dokters[$i]['nama_dokter'] }}</a></td>
-                                <td>{{ $rekap_data_dokters[$i]['upah_jasa'] }}</td>
+                                <td>Rp. {{ number_format($rekap_data_dokters[$i]['upah_jasa'],2,",",".") }}</td>
                             </tr>
                         @endfor
                     </tbody> 
@@ -126,9 +126,9 @@
                                 <td><a href="{{ url('detail_rekap_data_kategoritindakan/'. $data_periodes->id_periode . '/' . $rekap_data_kategori_tindakans[$i]['id_kategori_tindakan'] . '/' . $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan']) }}" class="text-dark">{{ $rekap_data_kategori_tindakans[$i]['nama_kategori_tindakan'] }}</a></td>
                                 <td>{{ $rekap_data_kategori_tindakans[$i]['bagian_kategori_tindakan'] }}</td>
                                 @if($rekap_data_kategori_tindakans[$i]['upah_jasa'] == 0)
-                                    <td>{{ $rekap_data_kategori_tindakans[$i]['upah_jasa'] }}</td>
+                                    <td>Rp. {{ number_format($rekap_data_kategori_tindakans[$i]['upah_jasa'],2,",",".") }}</td>
                                 @else
-                                    <td>{{ round($rekap_data_kategori_tindakans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']) }}</td>
+                                    <td>Rp. {{ number_format(round($rekap_data_kategori_tindakans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</td>
                                 @endif
                             </tr>
                         @endfor
@@ -183,9 +183,9 @@
                                 <td><a href="{{ url('detail_rekap_data_ruangan/'. $data_periodes->id_periode . '/' . $rekap_data_ruangans[$i]['id_ruangan']) }}" class="text-dark">{{ $rekap_data_ruangans[$i]['nama_ruangan'] }}</a></td>
                                 <td>{{ $rekap_data_ruangans[$i]['bagian'] }}</td>
                                 @if($rekap_data_ruangans[$i]['upah_jasa'] == 0)
-                                    <td>{{ $rekap_data_ruangans[$i]['upah_jasa'] }}</td>
+                                    <td>Rp. {{ number_format($rekap_data_ruangans[$i]['upah_jasa'],2,",",".") }}</td>
                                 @else
-                                    <td>{{ round($rekap_data_ruangans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']) }}</td>
+                                    <td>Rp. {{ number_format(round($rekap_data_ruangans[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</td>
                                 @endif
                             </tr>
                         @endfor
@@ -241,14 +241,14 @@
                                 <td>
                                     <a href="{{ url('detail_rekap_data_admin/'. $data_periodes->id_periode) . '/' . $rekap_data_admin_remus[$i]['nama_kategori'] }}" class="text-dark">{{ $rekap_data_admin_remus[$i]['nama_kategori'] }}</a></td>
                                 <td>{{ $rekap_data_admin_remus[$i]['bagian'] }}</td>
-                                <td>{{ $rekap_data_admin_remus[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                                <td>Rp. {{ number_format(round($rekap_data_admin_remus[$i]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</td>
                             </tr>
                         @endfor
                         <tr>
                             <td>{{ $i+1 }}</td>
                             <td>{{ $rekap_data_jtls['JTL'][0]['nama_kategori'] }}</td>
                             <td>{{ $rekap_data_jtls['JTL'][0]['bagian'] }}</td>
-                            <td>{{ $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                            <td>Rp. {{ number_format(round($rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</td>
                         </tr>
                     </tbody> 
                 </table>

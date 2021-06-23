@@ -49,16 +49,17 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Kreed</th>
+                            <!-- <th>Kreed</th>
                             <th>Unit</th>
                             <th>Posisi</th>
                             <th>Performa</th>
                             <th>Disiplin</th>
                             <th>Komplain</th>
-                            <th>PM</th>
+                            <th>PM</th> -->
                             <th>IKU</th>
                             <th>IKI</th>
-                            <th>PM AKHIR</th>
+                            <th>PM</th>
+                            <th>Total Upah Jasa Pelayanan</th>
                             <!-- <th>Tindakan</th> -->
                         </tr>
                     </thead>
@@ -66,16 +67,17 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Kreed</th>
+                            <!-- <th>Kreed</th>
                             <th>Unit</th>
                             <th>Posisi</th>
                             <th>Performa</th>
                             <th>Disiplin</th>
                             <th>Komplain</th>
-                            <th>PM</th>
+                            <th>PM</th> -->
                             <th>IKU</th>
                             <th>IKI</th>
                             <th>PM AKHIR</th>
+                            <th>Total Upah Jasa Pelayanan</th>
                             <!-- <th>Tindakan</th> -->
                         </tr>
                     </tfoot>
@@ -84,16 +86,17 @@
                             <tr>
                                 <td>{{ ($i+1) }}</td>
                                 <td><a href="{{ url('detail_upah_karyawan_penunjang/'. $data_periodes->id_periode . '/' . $data_upah_penunjangs[$i]['id_karyawan_penunjang']) }}" class="text-dark">{{ $data_upah_penunjangs[$i]['nama'] }}</a></td>
-                                <td>{{ $data_upah_penunjangs[$i]['kredential'] }}</td>
+                                <!-- <td>{{ $data_upah_penunjangs[$i]['kredential'] }}</td>
                                 <td>{{ $data_upah_penunjangs[$i]['unit'] }}</td>
                                 <td>{{ $data_upah_penunjangs[$i]['posisi'] }}</td>
                                 <td>{{ $data_upah_penunjangs[$i]['performa'] }}</td>
                                 <td>{{ $data_upah_penunjangs[$i]['disiplin'] }}</td>
                                 <td>{{ $data_upah_penunjangs[$i]['komplain'] }}</td>
-                                <td>{{ $data_upah_penunjangs[$i]['pm'] }}</td>
-                                <td>{{ $data_upah_penunjangs[$i]['iku'] }}</td>
-                                <td>{{ $data_upah_penunjangs[$i]['iki'] }}</td>
-                                <td>{{ $data_upah_penunjangs[$i]['pm_proses'] }}</td>
+                                <td>{{ $data_upah_penunjangs[$i]['pm'] }}</td> -->
+                                <td>Rp. {{ number_format($data_upah_penunjangs[$i]['iku'],2,",",".") }}</td>
+                                <td>Rp. {{ number_format($data_upah_penunjangs[$i]['iki'],2,",",".") }}</td>
+                                <td>Rp. {{ number_format($data_upah_penunjangs[$i]['pm_proses'],2,",",".") }}</td>
+                                <td>Rp. {{ number_format($data_upah_penunjangs[$i]['iku'] + $data_upah_penunjangs[$i]['iki'] +$data_upah_penunjangs[$i]['pm_proses'],2,",",".") }}</td>
                                 <!-- <td>
                                     <a href="#"  class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Ubah</a>
                                 </td> -->

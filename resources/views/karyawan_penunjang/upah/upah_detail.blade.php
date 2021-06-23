@@ -59,21 +59,21 @@
                         <tfoot>
                             <tr>
                                 <th>Total</th>
-                                <th>{{ $data_upah_penunjangs[0]['upah_jasa'] }}</th>
+                                <th>Rp. {{ number_format($data_upah_penunjangs[0]['upah_jasa'],2,",",".") }}</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             <tr>
                                 <td>IKU</td>
-                                <td>{{ $data_upah_penunjangs[0]['iku'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_penunjangs[0]['iku'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>IKI</td>
-                                <td>{{ $data_upah_penunjangs[0]['iki'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_penunjangs[0]['iki'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>PM</td>
-                                <td>{{ $data_upah_penunjangs[0]['pm_proses'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_penunjangs[0]['pm_proses'],2,",",".") }}</td>
                             </tr>
                         </tbody> 
                     </table>

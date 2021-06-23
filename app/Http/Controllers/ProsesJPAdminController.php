@@ -305,9 +305,9 @@ class ProsesJPAdminController extends Controller
 
         foreach($hasil_final as $row) {
             $proses_hitung_jp_admin = new ProsesJPAdmin();
-            $proses_hitung_jp_admin->iku = $hasil_final[$row['ID']]['UANG IKU'];
-            $proses_hitung_jp_admin->iki = $hasil_final[$row['ID']]['UANG IKI'];
-            $proses_hitung_jp_admin->pm = $hasil_final[$row['ID']]['UANG PM'];
+            $proses_hitung_jp_admin->iku = round($hasil_final[$row['ID']]['UANG IKU']);
+            $proses_hitung_jp_admin->iki = round($hasil_final[$row['ID']]['UANG IKI']);
+            $proses_hitung_jp_admin->pm = round($hasil_final[$row['ID']]['UANG PM']);
             $proses_hitung_jp_admin->id_periode = $id_periode;
             $proses_hitung_jp_admin->id_karyawan_admin = $hasil_final[$row['ID']]['ID'];
             $proses_hitung_jp_admin->created_at = now();
@@ -332,10 +332,21 @@ class ProsesJPAdminController extends Controller
         $data_periode = new Periode();
         $data_periodes = $data_periode->ShowPeriode($id_periode);
 
-        $data_upah_admin = new ProsesJPadmin();
-        $data_upah_admins = $data_upah_admin->SelectDaftarUpahadmin($id_periode);
+        $cekproses = DB::table('proses_jp_admin')
+        ->where('id_periode', '=', $id_periode)
+        ->first();
 
-        return view('karyawan_admin.upah.upah', compact('data_upah_admins', 'data_periodes'));
+        if($cekproses != null)
+        {
+            $data_upah_admin = new ProsesJPadmin();
+            $data_upah_admins = $data_upah_admin->SelectDaftarUpahadmin($id_periode);
+            return view('karyawan_admin.upah.upah', compact('data_upah_admins', 'data_periodes'));
+        }
+        else
+        {
+            return back()->with('alert-failed', 'Data Belum Ada');
+        }
+        
     }
 
     public function detail_upah_karyawan_admin($id_periode, $id_karyawan_admin)

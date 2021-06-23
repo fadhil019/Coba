@@ -184,9 +184,9 @@ class ProsesJPPenunjangController extends Controller
 
         foreach($hasil_final as $row) {
             $proses_hitung_jp_penunjang = new ProsesJPPenunjang();
-            $proses_hitung_jp_penunjang->iku = $hasil_final[$row['ID']]['UANG IKU'];
-            $proses_hitung_jp_penunjang->iki = $hasil_final[$row['ID']]['UANG IKI'];
-            $proses_hitung_jp_penunjang->pm = $hasil_final[$row['ID']]['UANG PM'];
+            $proses_hitung_jp_penunjang->iku = round($hasil_final[$row['ID']]['UANG IKU']);
+            $proses_hitung_jp_penunjang->iki = round($hasil_final[$row['ID']]['UANG IKI']);
+            $proses_hitung_jp_penunjang->pm = round($hasil_final[$row['ID']]['UANG PM']);
             $proses_hitung_jp_penunjang->id_periode = $id_periode;
             $proses_hitung_jp_penunjang->id_kategori_tindakan = $hasil_final[$row['ID']]['ID_KATEGORI'];
             $proses_hitung_jp_penunjang->id_karyawan_penunjang = $hasil_final[$row['ID']]['ID'];
@@ -213,10 +213,22 @@ class ProsesJPPenunjangController extends Controller
         $data_periode = new Periode();
         $data_periodes = $data_periode->ShowPeriode($id_periode);
 
-        $data_upah_penunjang = new ProsesJPPenunjang();
-        $data_upah_penunjangs = $data_upah_penunjang->SelectDaftarUpahPenunjang($id_periode);
+        $cekproses = DB::table('proses_jp_penunjang')
+        ->where('id_periode', '=', $id_periode)
+        ->first();
 
-        return view('karyawan_penunjang.upah.upah', compact('data_upah_penunjangs', 'data_periodes'));
+        if($cekproses != null)
+        {
+            $data_upah_penunjang = new ProsesJPPenunjang();
+            $data_upah_penunjangs = $data_upah_penunjang->SelectDaftarUpahPenunjang($id_periode);
+            return view('karyawan_penunjang.upah.upah', compact('data_upah_penunjangs', 'data_periodes'));
+        }
+        else
+        {
+            return back()->with('alert-failed', 'Data Belum Ada');
+        }
+
+        
     }
 
     public function detail_upah_karyawan_penunjang($id_periode, $id_karyawan_penunjang)

@@ -59,33 +59,33 @@
                         <tfoot>
                             <tr>
                                 <th>Total</th>
-                                <th>{{ $data_upah_perawats[0]['upah_jasa'] }}</th>
+                                <th>Rp. {{ number_format($data_upah_perawats[0]['upah_jasa'],2,",",".") }}</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             <tr>
                                 <td>IKU 1</td>
-                                <td>{{ $data_upah_perawats[0]['iku_1'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['iku_1'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>IKI 1</td>
-                                <td>{{ $data_upah_perawats[0]['iki_1'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['iki_1'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>PM 1</td>
-                                <td>{{ $data_upah_perawats[0]['pm_proses_1'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['pm_proses_1'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>IKU 2</td>
-                                <td>{{ $data_upah_perawats[0]['iku_1'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['iku_1'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>IKI 2</td>
-                                <td>{{ $data_upah_perawats[0]['iki_1'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['iki_1'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>PM 2</td>
-                                <td>{{ $data_upah_perawats[0]['pm_proses_1'] }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['pm_proses_1'],2,",",".") }}</td>
                             </tr>
                         </tbody>
                     </table>
