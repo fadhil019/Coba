@@ -94,7 +94,8 @@ Route::post('buat_data_visite_pasien','ProsesPerhitunganController@create_data_v
 Route::put('ubah_data_visite_pasien/{id}','ProsesPerhitunganController@update_data_visite_pasien');
 Route::delete('hapus_data_visite_pasien/{id}','ProsesPerhitunganController@delete_data_visite_pasien');
 
-Route::get('proses_perhitungan_rawat_inap/{id_periode}/{id_ruangan}','ProsesPerhitunganController@proses_perhitungan_rawat_inap');
+Route::get('proses_perhitungan_rawat_inap/{id_periode}/{id_ruangan}','ProsesPerhitunganController@cek_proses_perhitungan_rawat_inap');
+
 Route::get('show_proses_perhitungan_rawat_inap/{id_periode}/{id_ruangan}','ProsesPerhitunganController@show_proses_perhitungan_rawat_inap');
 Route::get('show_detail_proses_perhitungan_rawat_inap/{id_periode}/{id_ruangan}/{id_data_pasien}','ProsesPerhitunganController@show_detail_proses_perhitungan_rawat_inap');
 
@@ -119,3 +120,7 @@ Route::post('dashboard_pilih_tahun','DashboardController@dashboard_pilih_tahun')
 
 // Rumus
 Route::get('daftar_rumus_kategori/{id}','VariableRumusController@daftar_rumus_kategori');
+
+
+//cetak pdf
+Route::get('cetak_pdf/{id}','RekapDataController@cetak_pdf');

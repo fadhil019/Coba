@@ -44,6 +44,10 @@ class ProsesPerhitungan extends Model
             $data_kategori_gizi = DB::table('kategori_tindakan')
             ->where('nama', '=', 'GIZI')
             ->first();
+            $data_pasien_id  = DB::table('transaksi')
+            ->where('id_transaksi', '=', $request->id_transaksi)
+            ->first();
+
             if(isset($data_kategori_gizi))
             {
                 $data_gizi_pasien = DB::table('proses_perhitungan')
@@ -52,7 +56,7 @@ class ProsesPerhitungan extends Model
                 ->where('id_kategori_tindakan', '=', $data_kategori_gizi->id_kategori_tindakan)
                 ->where('proses', '=', 'Ke 1')
                 ->first();
-                // dd($data_gizi_pasien);
+                //dd($data_gizi_pasien);
                 if(isset($data_gizi_pasien))
                 {
                     $update_data_gizi_pasien = ProsesPerhitungan::find($data_gizi_pasien->id_proses_perhitungan);
@@ -65,7 +69,7 @@ class ProsesPerhitungan extends Model
                     $this->ket_kategori = 'GIZI';
                     $this->proses = 'Ke 1';
                     $this->jumlah_jp = $request->jumlah_jp;
-                    // $this->id_data_pasien = $request->id_data_pasien;
+                    $this->id_data_pasien = $data_pasien_id->id_data_pasien;
                     $this->id_transaksi = $request->id_transaksi;
                     $this->id_ruangan = $request->id_ruangan;
                     $this->id_kategori_tindakan = $data_kategori_gizi->id_kategori_tindakan;
@@ -104,6 +108,9 @@ class ProsesPerhitungan extends Model
             ->where('ket_kategori', '=', 'ADM')
             ->where('proses', '=', 'Ke 1')
             ->first();
+            $data_pasien_id  = DB::table('transaksi')
+            ->where('id_transaksi', '=', $request->id_transaksi)
+            ->first();
             // dd($data_adm_pasien);
             if(isset($data_adm_pasien))
             {
@@ -117,7 +124,7 @@ class ProsesPerhitungan extends Model
                 $this->ket_kategori = 'ADM';
                 $this->proses = 'Ke 1';
                 $this->jumlah_jp = $request->jumlah_jp;
-                $this->id_data_pasien = $request->id_data_pasien;
+                $this->id_data_pasien = $data_pasien_id->id_data_pasien;
                 $this->id_transaksi = $request->id_transaksi;
                 $this->id_ruangan = $request->id_ruangan;
                 $this->created_at = now();

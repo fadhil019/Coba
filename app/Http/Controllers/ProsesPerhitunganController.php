@@ -210,6 +210,40 @@ class ProsesPerhitunganController extends Controller
         }
     }
 
+    public function cek_proses_perhitungan_rawat_inap($id_periode, $id_ruangan) {
+        try {
+            $data_pasien = new DataPasien();
+            $data_pasiens = $data_pasien->SelectDataPasienRawatInap($id_periode, $id_ruangan);
+
+            foreach($data_pasiens as $row) {
+                $cek_data_proses_perhitungan = DB::table('proses_perhitungan')
+                ->where('id_transaksi', '=', $row->id_transaksi)
+                ->where('id_ruangan', '=', '$id_ruangan')
+                ->get();
+                if (isset($cek_data_proses_perhitungan)) {
+
+                    $proses1 = DB::delete('delete from proses_perhitungan where id_ruangan = '.$id_ruangan.' and id_transaksi = '.$row->id_transaksi.' and ket_kategori not in ("gizi", "adm", "visite") ');
+
+                    $proses2 = DB::delete('delete from proses_perhitungan where id_ruangan = '.$id_ruangan.' and id_transaksi = '.$row->id_transaksi.' and proses not in ("ke 1") ');
+                }
+                else
+                {
+                }
+        } 
+
+        $hasil = $this->proses_perhitungan_rawat_inap($id_periode, $id_ruangan);  
+        if ($hasil = "sukses") {
+            return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!'); 
+        }
+        
+            
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+    }
+
+
     public function proses_perhitungan_rawat_inap($id_periode, $id_ruangan) {
         try {
             $data_kategori_tindakan = new KategoriTindakan();
@@ -226,6 +260,7 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan = new ProsesPerhitungan;
 
             foreach($data_pasiens as $row) {
+
                 $biaya_adm = $proses_perhitungan->ShowAdmPasien($row->id_transaksi);
                 if($biaya_adm == null) {
                     $hasil[$row->id_transaksi]['Ke 1']['adm']['adm'] = 0;
@@ -311,30 +346,35 @@ class ProsesPerhitunganController extends Controller
                     $hasil[$row->id_transaksi]['Ke 1']['visite'][$row_visite->id_dokter] = $row_visite->jumlah_jp;
                     $hasil[$row->id_transaksi]['Ke 1']['total'] += $hasil[$row->id_transaksi]['Ke 1']['visite'][$row_visite->id_dokter];
                 }
-                //dd($hasil);
+                
+
+
+
+
+                // PENYIMPANAN DATA
                 // proses ke 1
                 $tmp_total_ke_1 = 0;
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'ADM';
-                $proses_perhitungan->proses = 'Ke 1';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1']['adm']['adm'];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_transaksi = $row->id_transaksi;
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
+                // $proses_perhitungan = new ProsesPerhitungan();
+                // $proses_perhitungan->ket_kategori = 'ADM';
+                // $proses_perhitungan->proses = 'Ke 1';
+                // $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1']['adm']['adm'];
+                // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                // $proses_perhitungan->id_transaksi = $row->id_transaksi;
+                // $proses_perhitungan->id_ruangan = $id_ruangan;
+                // $proses_perhitungan->created_at = now();
+                // $proses_perhitungan->updated_at = now();
+                // $proses_perhitungan->save();
 
-                $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'GIZI';
-                $proses_perhitungan->proses = 'Ke 1';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1']['gizi']['gizi'];
-                $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
-                $proses_perhitungan->id_transaksi = $row->id_transaksi;
-                $proses_perhitungan->id_ruangan = $id_ruangan;
-                $proses_perhitungan->created_at = now();
-                $proses_perhitungan->updated_at = now();
-                $proses_perhitungan->save();
+                // $proses_perhitungan = new ProsesPerhitungan();
+                // $proses_perhitungan->ket_kategori = 'GIZI';
+                // $proses_perhitungan->proses = 'Ke 1';
+                // $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1']['gizi']['gizi'];
+                // $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+                // $proses_perhitungan->id_transaksi = $row->id_transaksi;
+                // $proses_perhitungan->id_ruangan = $id_ruangan;
+                // $proses_perhitungan->created_at = now();
+                // $proses_perhitungan->updated_at = now();
+                // $proses_perhitungan->save();
 
                 foreach($ruangans as $ruangan) {
                     $index = 'perawat_' . $ruangan->nama_ruangan;
@@ -851,7 +891,8 @@ class ProsesPerhitunganController extends Controller
                 $hasil[$row->id_transaksi]['Ke 4']['total'] = $tmp_total_ke_4;
             }
             
-            return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');               
+            //return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');   
+            return "sukses";            
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -945,7 +986,18 @@ class ProsesPerhitunganController extends Controller
         $id_periode = $id_periode;
         $id_ruangan = $id_ruangan;
 
-        return view('proses_perhitungan.proses_perhitungan_rawat_inap', compact('hasil', 'data_pasiens', 'data_dokters', 'data_ruangans', 'data_kategori_tindakans', 'id_periode','id_ruangan'));
+        $cekproses = DB::table('proses_perhitungan')
+        ->where('id_ruangan', '=', $id_ruangan)
+        ->first();
+
+        if($cekproses != null)
+        {
+            return view('proses_perhitungan.proses_perhitungan_rawat_inap', compact('hasil', 'data_pasiens', 'data_dokters', 'data_ruangans', 'data_kategori_tindakans', 'id_periode','id_ruangan'));  
+        }
+        else
+        {
+           return back()->with('alert-failed', 'Periode ini belum dilakukan proses perhitungan');
+        }
     }
 
     public function show_detail_proses_perhitungan_rawat_inap($id_periode, $id_ruangan, $id_data_pasien) {
@@ -1372,7 +1424,20 @@ class ProsesPerhitunganController extends Controller
         $id_periode = $id_periode;
         $id_ruangan = $id_ruangan;
 
-        return view('proses_perhitungan.proses_perhitungan_rawat_jalan', compact('hasil', 'data_pasiens', 'data_dokters', 'data_kategori_tindakans', 'id_periode','id_ruangan'));
+        $cekproses = DB::table('proses_perhitungan')
+        ->where('id_ruangan', '=', $id_ruangan)
+        ->first();
+
+        if($cekproses != null)
+        {
+            return view('proses_perhitungan.proses_perhitungan_rawat_jalan', compact('hasil', 'data_pasiens', 'data_dokters', 'data_kategori_tindakans', 'id_periode','id_ruangan')); 
+        }
+        else
+        {
+           return back()->with('alert-failed', 'Periode ini belum dilakukan proses perhitungan');
+        }
+
+        
     }
 
     public function show_detail_proses_perhitungan_rawat_jalan($id_periode, $id_ruangan, $id_data_pasien) {

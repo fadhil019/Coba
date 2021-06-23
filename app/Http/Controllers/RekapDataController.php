@@ -174,4 +174,9 @@ class RekapDataController extends Controller
 
         return view('rekap_data.detail_rekap_data_admin', compact('data_periodes', 'rekap_data_admin_remus', 'nama_kategori' , 'rekap_data_jtls'));
     }
+
+    public function cetak_pdf($id_periode, $nama_kategori)
+    {
+        
+    }
 }
