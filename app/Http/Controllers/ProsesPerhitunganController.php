@@ -594,7 +594,8 @@ class ProsesPerhitunganController extends Controller
                         $hasil[$row->id_transaksi]['Ke 2']['visite'][ucfirst($hasil_1)] = $hasil[$row->id_transaksi]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_transaksi]['Ke 1']['total'];
                         $tmp_total_ke_2 += $hasil[$row->id_transaksi]['Ke 1']['visite'][ucfirst($hasil_1)] / $hasil[$row->id_transaksi]['Ke 1']['total'];
                         $proses_perhitungan = new ProsesPerhitungan();
-                        $proses_perhitungan->ket_kategori = 'visite';
+                        // $proses_perhitungan->ket_kategori = 'visite';
+                        $proses_perhitungan->ket_kategori = 'VISITE';
                         $proses_perhitungan->proses = 'Ke 2';
                         $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['visite'][ucfirst($hasil_1)],6);
                         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
@@ -888,11 +889,22 @@ class ProsesPerhitunganController extends Controller
                     $proses_perhitungan->updated_at = now();
                     $proses_perhitungan->save();
                 }
+                
                 $hasil[$row->id_transaksi]['Ke 4']['total'] = $tmp_total_ke_4;
+                // INI DIL PENGECEKANE -- Logikanya itu jadi nanti dia cek.. apakah pada transaksi seng ini proses ke 3 mbek 4.e sama ndak.. kalo ndak.. dia akan ngehapus semua.e kecuali ADM, GIZI sama VISITE selain proses ke 1, trus nanti dia akan ngasi alert error seoerti biasanya
+                if($hasil[$row->id_transaksi]['Ke 4']['total'] != $hasil[$row->id_transaksi]['Ke 3']['total']){
+                    $data_pasien_rj = DB::table('data_pasien')
+                    ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
+                    ->where('transaksi.id_transaksi', '=', $row->id_transaksi)
+                    ->get();
+                    $delete_proses_part_1 = DB::select("DELETE FROM `proses_perhitungan` WHERE ket_kategori <> 'GIZI' AND ket_kategori <> 'ADM' AND ket_kategori <> 'VISITE'");
+                    $delete_proses_part_2 = DB::select("DELETE FROM `proses_perhitungan` WHERE proses <> 'Ke 1'");
+                    return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-error', 'Proses perhitungan gagal, karena ada ketidak samaan antara perhitungan ke 3 dan ke 4 pada pasien " '.$data_pasien_rj[0]->nama_pasien.' "!');
+                }
             }
             
-            //return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');   
-            return "sukses";            
+            return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');   
+            // return "sukses";            
         } catch (Exception $e) {
             return $e->getMessage();
         }
