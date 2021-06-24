@@ -85,19 +85,26 @@ class KaryawanAdmin extends Model
 
             foreach($data_karyawan_admin as $val)
             {
-                $generate = new PointKaryawan();
-                $generate->kredential = 0;
-                $generate->unit = 0;
-                $generate->posisi = 0;
-                $generate->performa = 0;
-                $generate->disiplin = 0;
-                $generate->komplain = 0;
-                $generate->pm = 0;
-                $generate->id_periode = $id;
-                $generate->id_karyawan_admin = $val->id_karyawan_admin;
-                $generate->created_at = now();
-                $generate->updated_at = now();
-                $generate->save();
+                $cek_karyawan = DB::table('point_karyawan')
+                ->where('id_periode', '=', $id)
+                ->where('id_karyawan_admin', '=', $val->id_karyawan_admin)
+                ->get();
+                if(count($cek_karyawan) == 0){
+
+                    $generate = new PointKaryawan();
+                    $generate->kredential = 0;
+                    $generate->unit = 0;
+                    $generate->posisi = 0;
+                    $generate->performa = 0;
+                    $generate->disiplin = 0;
+                    $generate->komplain = 0;
+                    $generate->pm = 0;
+                    $generate->id_periode = $id;
+                    $generate->id_karyawan_admin = $val->id_karyawan_admin;
+                    $generate->created_at = now();
+                    $generate->updated_at = now();
+                    $generate->save();
+                }
             }
 
             return 'success';
