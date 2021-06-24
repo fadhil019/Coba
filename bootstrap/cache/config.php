@@ -177,7 +177,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\framework/cache/data',
+        'path' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -227,7 +227,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'remunerasi',
+        'database' => 'oke_lah',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -237,7 +237,7 @@
         'url' => NULL,
         'host' => 'localhost',
         'port' => '3306',
-        'database' => 'remunerasi',
+        'database' => 'oke_lah',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -257,7 +257,7 @@
         'url' => NULL,
         'host' => 'localhost',
         'port' => '3306',
-        'database' => 'remunerasi',
+        'database' => 'oke_lah',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -272,7 +272,7 @@
         'url' => NULL,
         'host' => 'localhost',
         'port' => '3306',
-        'database' => 'remunerasi',
+        'database' => 'oke_lah',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -407,7 +407,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\framework/laravel-excel',
+      'local_path' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\framework/laravel-excel',
       'remote_disk' => NULL,
       'remote_prefix' => NULL,
       'force_resync_remote' => NULL,
@@ -422,12 +422,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\app',
+        'root' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\app/public',
+        'root' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -473,13 +473,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\logs/laravel.log',
+        'path' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\logs/laravel.log',
+        'path' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -529,7 +529,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\logs/laravel.log',
+        'path' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -552,7 +552,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\FADHIL-TA\\resources\\views/vendor/mail',
+        0 => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\resources\\views/vendor/mail',
       ),
     ),
     'log_channel' => NULL,
@@ -631,7 +631,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\framework/sessions',
+    'files' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -651,9 +651,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\FADHIL-TA\\resources\\views',
+      0 => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\resources\\views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\FADHIL-TA\\storage\\framework\\views',
+    'compiled' => 'D:\\PROJECT\\KERJAAN\\JOKI\\FADHIL\\TA-FADHIL-NEW\\storage\\framework\\views',
   ),
   'flare' => 
   array (

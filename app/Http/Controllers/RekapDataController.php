@@ -167,7 +167,7 @@ class RekapDataController extends Controller
         $data_periodes = $data_periode->ShowPeriode($id_periode);
 
         $rekap_data_admin_remu = new RekapData();
-        $rekap_data_admin_remus = $rekap_data_admin_remu->SelectRekapDataAdminRemuPerPeriode($id_periode);
+        $rekap_data_admin_remus = $rekap_data_admin_remu->DetailRekapDataAdminPerPeriode($id_periode, $nama_kategori);
 
         $rekap_data_jtl = new RekapData();
         $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
