@@ -19,7 +19,11 @@
         <div class="card-header">
             <div class="row pt-2 mb-2">
                 <div class="col">
-                    <h1>Rekap data admin " {{ $nama_kategori }} " periode " {{ $data_periodes->bulan }} - {{ $data_periodes->tahun }} "</h1>
+                    @if ( $nama_kategori == 'Admin rekam medis' )
+                    <h1>Rekap data " {{ $rekap_data_admin_remus[0]['nama_kategori_adm'] }} " periode " {{ $data_periodes->bulan }} - {{ $data_periodes->tahun }} "</h1>
+                    @else
+                    <h1>Rekap data " {{ $nama_kategori }} " periode " {{ $data_periodes->bulan }} - {{ $data_periodes->tahun }} "</h1>
+                    @endif
                 </div>
                 <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -52,39 +56,91 @@
                     <table id="dataTable_pdf_kategori" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>SEP</th>
-                                <th>Nama Pasien</th>
-                                <th>Upah jasa pelayanan</th>
+
+                                @if ( $nama_kategori == 'Admin rekam medis' )
+                                    <th>SEP</th>
+                                    <th>Nama Pasien</th>
+                                    <th>Ruangan</th>
+                                    <th>Upah Jasa Pelayanan</th>
+                                @else
+                                    <th>Kategori</th>
+                                    <th>Upah jasa pelayanan</th>    
+                                @endif
+
+                                
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Total</th>
+
+                                @if ( $nama_kategori == 'Admin rekam medis' )
+                                    <th>Total</th>
+                                    @if(isset($rekap_data_admin_remus[0]['sep_pasien_adm']))
+                                    <th></th>
+                                    <th></th>
+                                    <th>Rp. {{ number_format(round($rekap_data_admin_remus[0]['jumlah_jp_adm'] + $rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</th>
+                                    @else
+                                    <th></th>
+                                    <th></th>
+                                    <th>0</th>
+                                    @endif
+                                @else
+                                    <th>Total</th>
+                                    @if(isset($rekap_data_admin_remus[0]['upah_jasa']))
+                                    <th>Rp. {{ number_format(round($rekap_data_admin_remus[0]['upah_jasa'] + $rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</th>
+                                    @else
+                                    <th>0</th>
+                                    @endif
+                                @endif
+
+                                <!-- <th>Total</th>
                                 @if(isset($rekap_data_admin_remus[0]['sep_pasien_adm']))
                                 <td>
-                                <th>{{ $rekap_data_admin_remus[0]['jumlah_jp_adm'] + $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</th>
+                                <th>Rp. {{ number_format(round($rekap_data_admin_remus[0]['jumlah_jp_adm'] + $rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</th>
                                 @else
                                 <td></td>
                                 <th>0</th>
-                                @endif
+                                @endif -->
                             </tr>
                         </tfoot>
                         <tbody>
+
+                            @if ( $nama_kategori == 'Admin rekam medis' )
                                 @if(isset($rekap_data_admin_remus[0]['sep_pasien_adm']))
                                     @for ($i=0; $i < count($rekap_data_admin_remus); $i++)
                                         <tr>
-                                            <td>{{ $rekap_data_admin_remus[$i]['sep_pasien_adm'] }}</td>  
+                                            <td>{{ $rekap_data_admin_remus[$i]['sep_pasien_adm'] }}</td> 
                                             <td>{{ $rekap_data_admin_remus[$i]['nama_pasien_adm'] }}</td>  
-                                            <td>{{ $rekap_data_admin_remus[$i]['nominal_adm'] }}</td>
+                                            <td>{{ $rekap_data_admin_remus[$i]['ruangan_adm'] }}</td>  
+                                            <td>Rp. {{ number_format($rekap_data_admin_remus[$i]['nominal_adm'],2,",",".") }}</td>
                                         </tr>
                                     @endfor
                                     <tr>
                                         <td>JTL</td>
-                                        <td></td>                           
-                                        <td>{{ $rekap_data_jtls['JTL'][0]['upah_jasa'] }}</td>
+                                        <td></td>  
+                                        <td></td>                         
+                                        <td>Rp. {{ number_format(round($rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</td>
                                     </tr>
-                                    @else
+                                @else
                                 @endif
+                            @else
+                                 @if(isset($rekap_data_admin_remus[0]['upah_jasa']))
+                                    @for ($i=0; $i < count($rekap_data_admin_remus); $i++)
+                                        <tr>
+                                            <td>{{ $rekap_data_admin_remus[$i]['nama_kategori'] }}</td>  
+                                            <td>Rp. {{ number_format($rekap_data_admin_remus[$i]['upah_jasa'],2,",",".") }}</td>
+                                        </tr>
+                                    @endfor
+                                    <tr>
+                                        <td>JTL</td>                   
+                                        <td>Rp. {{ number_format(round($rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</td>
+                                    </tr>
+                                 @else
+                                 @endif
+                            @endif    
+
+
+                                
                                 
                         </tbody> 
                     </table>

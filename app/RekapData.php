@@ -165,10 +165,11 @@ class RekapData extends Model
             ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', '=', 'proses_perhitungan.id_kategori_tindakan')
             ->join('ruangan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
             ->where('transaksi.id_periode', '=', $id)
-            ->where('proses_perhitungan.id_kategori_tindakan', '=', $id_kt)
+            ->where('proses_perhitungan.id_kategori_tindakan', '=', 29)
             ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
         $tmp_total =0;
+        //dd($id);
         foreach ($data_proses_perhitungan_id_kategori_tindakan as $row) {
             $hasil[$i]['ruangan']=$row->nama_ruangan;
             $hasil[$i]['sep_pasien']=$row->no_sep;
@@ -267,58 +268,43 @@ class RekapData extends Model
         else
         {
             $hasil[$index]['nama_kategori'] = $nama_kategori;
-            $hasil[$index]['bagian'] = $nama_kategori;
-            $i = 0;
-            $data_proses_perhitungan_jtl = DB::table('data_keuangan_pasien')
-            ->where('id_periode', '=', $id)
-            ->get();
+                $hasil[$index]['bagian'] = $nama_kategori;
+                $i = 0;
+                $data_proses_perhitungan_jtl = DB::table('data_keuangan_pasien')
+                ->where('id_periode', '=', $id)
+                ->get();
 
-            if (count($data_proses_perhitungan_jtl) == 0) {
-                
-                $hasil[$i]['tmp_jtl'] = 0;
-            }
-            else{
-                $index_pasien = 0;
-                foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
-                    $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_data_keuangan_pasien] = $row_perhitungan_jtl->nominal_uang;
-                    $data_pasien_adm = DB::table('data_pasien')
-                    ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
-                    ->where('transaksi.no_sep', '=', $row_perhitungan_jtl->no_sep_keuangan_pasien)
-                    ->get();
+                if (count($data_proses_perhitungan_jtl) == 0) {
                     
-                    foreach($data_pasien_adm as $row_data_pasien_adm) {
-                        $hasil[$index_pasien]['sep_pasien_adm'] = $row_data_pasien_adm->no_sep;
-                        $hasil[$index_pasien]['nama_pasien_adm'] = $row_data_pasien_adm->nama_pasien;
-                        $hasil[$index_pasien]['nominal_adm'] = $row_perhitungan_jtl->nominal_uang;
-                        $hasil[$index_pasien]['nama_kategori_adm'] = $nama_kategori;
-                        $index_pasien++;
+                    $hasil[$i]['tmp_jtl'] = 0;
+                }
+                else{
+                    foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                        //$hasil[$i]['sep_pasien']=$row_perhitungan_jtl->no_sep_keuangan_pasien;
+                        $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_data_keuangan_pasien] = $row_perhitungan_jtl->nominal_uang;
                     }
-                    
                 }
-            }
-            $tmp_jasa_jtl = 0;
-            if($hasil[$i]['tmp_jtl'] == 0)
-            {
                 $tmp_jasa_jtl = 0;
-            }
-            else
-            {
-                foreach($hasil[$i]['tmp_jtl'] as $row) {
-                    $tmp_jasa_jtl += $row;
+                if($hasil[$i]['tmp_jtl'] == 0)
+                {
+                    $tmp_jasa_jtl = 0;
                 }
-            }
-            
-            $i++;
-            if($nama_kategori == "Struktural")
-            {
-                $hasil[0]['jumlah_jp_adm']= $tmp_jasa_jtl * 0.1;
-                $hasil[$index]['upah_jasa'] = $tmp_jasa_jtl * 0.1;
-            }
-            else
-            {
-                $hasil[0]['jumlah_jp_adm']= $tmp_jasa_jtl * 0.05;
-                $hasil[$index]['upah_jasa'] = $tmp_jasa_jtl * 0.05;
-            }
+                else
+                {
+                    foreach($hasil[$i]['tmp_jtl'] as $row) {
+                        $tmp_jasa_jtl += $row;
+                    }
+                }
+                
+                $i++;
+                if($nama_kategori == "Struktural")
+                {
+                    $hasil[$index]['upah_jasa'] = $tmp_jasa_jtl * 0.1;
+                }
+                else
+                {
+                    $hasil[$index]['upah_jasa'] = $tmp_jasa_jtl * 0.05;
+                }
         }
         // dd($hasil);
         return $hasil;
@@ -499,6 +485,7 @@ class RekapData extends Model
                 }
                 else{
                     foreach($data_proses_perhitungan_jtl as $row_perhitungan_jtl){
+                        //$hasil[$i]['sep_pasien']=$row_perhitungan_jtl->no_sep_keuangan_pasien;
                         $hasil[$i]['tmp_jtl'][$row_perhitungan_jtl->id_data_keuangan_pasien] = $row_perhitungan_jtl->nominal_uang;
                     }
                 }

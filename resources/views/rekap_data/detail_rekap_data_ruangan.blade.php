@@ -64,7 +64,7 @@
                                 @if(isset($rekap_data_ruangans[0]['sep_pasien']) && $rekap_data_ruangans[0]['total_jp'] != 0)
                                 <td></td>
                                 <td></td>
-                                <th>{{ round($rekap_data_ruangans[0]['total_jp'] + $rekap_data_jtls['JTL'][0]['upah_jasa']) }}</th>
+                                <th>Rp. {{ number_format(round($rekap_data_ruangans[0]['total_jp'] + $rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</th>
                                 @else
                                 <td></td>
                                 <td></td>
@@ -79,14 +79,14 @@
                                         <td>{{ $rekap_data_ruangans[$i]['sep_pasien'] }}</td>  
                                         <td>{{ $rekap_data_ruangans[$i]['nama_pasien'] }}</td>                          
                                         <td>{{ $rekap_data_ruangans[$i]['ruangan'] }}</td>
-                                        <td>{{ $rekap_data_ruangans[$i]['nominal'] }}</td>
+                                        <td>Rp. {{ number_format($rekap_data_ruangans[$i]['nominal'],2,",",".") }}</td>
                                     </tr>
                                 @endfor
                                 <tr>
                                         <td>JTL</td>
                                         <td></td>           
                                         <td></td>                 
-                                        <td>{{ round($rekap_data_jtls['JTL'][0]['upah_jasa']) }}</td>
+                                        <td>Rp. {{ number_format(round($rekap_data_jtls['JTL'][0]['upah_jasa']),2,",",".") }}</td>
                                 </tr>
                                 @else
                                 @endif

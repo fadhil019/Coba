@@ -60,6 +60,7 @@
                         <tfoot>
                             <tr>
                                 <th>Total</th>
+                                <th></th>
                                 <th>{{ $rekap_data_dokters[0]['upah_jasa_total'] }}</th>
                             </tr>
                         </tfoot>
@@ -70,7 +71,7 @@
                                         <td>{{ $row }}</td> 
                                         @foreach($val as $val1 => $val2)                            
                                         <td>{{ $val1 }}</td>
-                                        <td>{{ $val2 }}</td>
+                                        <td>Rp. {{ number_format($val2,2,",",".") }}</td>
                                         @endforeach
                                     </tr>
                                 @endforeach
@@ -79,7 +80,7 @@
                                 <tr>
                                     <td>{{ $rekap_data_dokters[0]['nama_kategori_tindakan'] }}</td>
                                     <td>{{ $rekap_data_dokters[0]['keterangankhusus'] }}</td>
-                                    <td>{{ $rekap_data_dokters[0]['upah_jasa_kategori'] }}</td>
+                                    <td>Rp. {{ number_format($rekap_data_dokters[0]['upah_jasa_kategori'],2,",",".") }}</td>
                                 </tr>
                             @endif
                             

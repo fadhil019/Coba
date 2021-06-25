@@ -143,7 +143,7 @@ class RekapDataController extends Controller
 
         $rekap_data_jtl = new RekapData();
         $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
-
+        //dd($rekap_data_kategori_tindakans);
         return view('rekap_data.detail_rekap_data_kategori_tindakan', compact('data_periodes', 'rekap_data_kategori_tindakans', 'nama_kategori', 'rekap_data_jtls'));
     }
 
@@ -171,7 +171,7 @@ class RekapDataController extends Controller
 
         $rekap_data_jtl = new RekapData();
         $rekap_data_jtls = $rekap_data_jtl->tampungJTL($id_periode);
-
+        //dd($rekap_data_admin_remus);
         return view('rekap_data.detail_rekap_data_admin', compact('data_periodes', 'rekap_data_admin_remus', 'nama_kategori' , 'rekap_data_jtls'));
     }
 
