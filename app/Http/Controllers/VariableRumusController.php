@@ -78,6 +78,10 @@ class VariableRumusController extends Controller
         {
             return back()->with('alert-success','Variable rumus berhasil disimpan!');
         }
+        if($create_variable_rumuss == 'false')
+        {
+            return back()->with('alert-failed','Tidak boleh ada operator yang berdampingan!');
+        }
         else
         {
             return back()->with('alert-failed', 'Variable rumus tidak berhasil disimpan. Silahkan hubungi admin sistem!');

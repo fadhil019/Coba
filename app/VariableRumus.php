@@ -33,6 +33,16 @@ class VariableRumus extends Model
 
     public function CreateUpdateVariableRumus(Request $request) {
         try {
+            $rumus = $request->rumus;
+            $rumus = str_replace(" ", "", $rumus);
+            $operasi = "*/+-";
+            for($i = 0; $i < strlen($rumus) - 1; $i++) {
+                if(strpos($operasi, $rumus[$i]) !== false && strpos($operasi, $rumus[$i+1])  !== false) {
+                    // dd("kena kau");
+                    return 'false';
+                }
+            }
+
             $data_variable_rumus = DB::table('variable_rumus')
             ->where('nama_variabel', '=', $request->nama_variabel)
             ->first();
