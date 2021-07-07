@@ -29,7 +29,7 @@
                             <th style="background-color: white;">No</th>
                             <th style="background-color: white;">Pasien</th>
                             <th style="background-color: red;">ADM</th>
-                            <th style="background-color: pink;">TINDAKAN</th>
+                            <th style="background-color: pink;">Tindakan<br>Perawat {{ $data_ruangan_pasien->nama_ruangan }}</th>
                             @foreach($data_kategori_tindakans as $row)
                             <th style="background-color: green;">{{ $row->nama }}</th>
                             @endforeach
@@ -44,8 +44,8 @@
                         <tr>
                             <th style="background-color: white;">No</th>
                             <th style="background-color: white;">Pasien</th>
-                            <th style="background-color: red;">ADM</th>
-                            <th style="background-color: pink;">TINDAKAN</th>
+                            <th style="background-color: red;">ADM</th>                            
+                            <th style="background-color: pink;">Tindakan<br>Perawat {{ $data_ruangan_pasien->nama_ruangan }}</th>
                             @foreach($data_kategori_tindakans as $row)
                             <th style="background-color: green;">{{ $row->nama }}</th>
                             @endforeach
@@ -73,8 +73,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_tindakan']))
-                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1']['hasil_tindakan'] }}
+                                    @php
+                                        $index = 'PERAWAT ' . $data_ruangan_pasien->nama_ruangan;
+                                    @endphp
+                                    @if(isset($hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index]))
+                                        {{ $hasil[$row_data_pasiens->id_transaksi]['Ke 1'][$index] }}
                                     @else
                                         -
                                     @endif

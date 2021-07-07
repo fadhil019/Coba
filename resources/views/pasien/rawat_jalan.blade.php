@@ -23,13 +23,9 @@
                 </div>
                 <div class="col-sm-6">
                     @if(count($data_pasien_rawat_jalans) > 0)
-                        @if($hasil == null)
+                        @if($hasil == null || $hasil != null)
                             <ol class="breadcrumb float-sm-right">
                                 <li class="mr-2"><a href="{{ url('proses_perhitungan_rawat_jalan/' . $show_periodes->id_periode . '/' . $show_ruangans->id_ruangan) }}" class="btn btn-primary"><i class="fas fa-sync-alt" aria-hidden="true"></i> Proses</a></li>
-                            </ol>
-                        @else
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="mr-2"><a href="#" class="btn btn-success"><i class="fas fa-sync-alt" aria-hidden="true"></i> Telah Proses</a></li>
                             </ol>
                         @endif
                     @else
@@ -51,7 +47,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="Name">Berkas</label><br>
-                                        <input type="file" name="excel_data_pasien" autofocus required>
+                                        <input type="file" name="excel_data_pasien" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" autofocus required>
                                     </div>
                                     <input type="hidden" name="id_periode" value="{{ $show_periodes->id_periode }}">
                                     <input type="hidden" name="id_ruangan" value="{{ $show_ruangans->id_ruangan }}">

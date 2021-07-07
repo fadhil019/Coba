@@ -129,7 +129,7 @@ class RekapDataController extends Controller
 
         $rekap_data_dokter = new RekapData();
         $rekap_data_dokters = $rekap_data_dokter->DetailRekapDataDokterPerPeriode($id_periode, $id_karyawan);
-
+        //dd($rekap_data_dokters);
         return view('rekap_data.detail_rekap_data_dokter', compact('data_periodes', 'rekap_data_dokters'));
     }
 

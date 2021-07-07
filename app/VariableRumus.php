@@ -35,6 +35,7 @@ class VariableRumus extends Model
         try {
             $rumus = $request->rumus;
             $rumus = str_replace(" ", "", $rumus);
+            //dd($rumus);
             $operasi = "*/+-";
             for($i = 0; $i < strlen($rumus) - 1; $i++) {
                 if(strpos($operasi, $rumus[$i]) !== false && strpos($operasi, $rumus[$i+1])  !== false) {

@@ -54,7 +54,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="Name">Berkas</label><br>
-                                        <input type="file" name="excel_data_pasien" autofocus required>
+                                        <input type="file" name="excel_data_pasien" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" autofocus required>
                                     </div>
                                     <input type="hidden" name="id_periode" value="{{ $show_periodes->id_periode }}">
                                     <input type="hidden" name="id_ruangan" value="{{ $show_ruangans->id_ruangan }}">

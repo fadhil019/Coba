@@ -9,6 +9,10 @@ use App\DataKeuanganPasien;
 use App\Imports\ImportDataKeuanganPasien;
 use Maatwebsite\Excel\Facades\Excel;
 
+use File;
+use Response;
+use Illuminate\Support\Facades\Storage;
+
 use Session;
 
 class DataKeuanganPasienController extends Controller
@@ -70,25 +74,35 @@ class DataKeuanganPasienController extends Controller
      */
     public function import(Request $request)
     {
-        session(['id_periode' => $request->id_periode]);
-
-        $file = $request->file('excel_data_keuangan_pasien');
- 
-        $nama_file = rand() . "_" . $file->getClientOriginalName();
- 
-        $file->move('excel',$nama_file);
-
-        Excel::import(new ImportDataKeuanganPasien, public_path('excel/'.$nama_file));
-
-        $import_data_keuangan_pasiens = 'success';
-        if($import_data_keuangan_pasiens == 'success')
-        {
-            return back()->with('alert-success','Data keuangan pasien berhasil diunggah!');
+        $periode = $request->id_periode;
+        if ($periode == null) {
+            return back()->with('alert-failed', 'Periode belum ada');
         }
         else
         {
-            return back()->with('alert-failed', 'Data keuangan pasien tidak berhasil diunggah. Silahkan hubungi admin sistem!');
+            session(['id_periode' => $request->id_periode]);
+
+            $file = $request->file('excel_data_keuangan_pasien');
+        
+            $nama_file = rand() . "_" . $file->getClientOriginalName();
+ 
+            $file->move('excel',$nama_file);
+
+       
+
+            $import_data_keuangan_pasiens =  Excel::import(new ImportDataKeuanganPasien, public_path('excel/'.$nama_file));
+            //dd($import_data_keuangan_pasiens);
+            //$import_data_keuangan_pasiens = 'success';
+            if($import_data_keuangan_pasiens == 'success')
+            {
+                return back()->with('alert-success','Terimakasih');
+            }
+            else
+            {
+                return back()->with('alert-failed', 'Data ada yang tidak tersimpan atau format excel salah');
+            }
         }
+        
     }
 
     /**
@@ -152,5 +166,18 @@ class DataKeuanganPasienController extends Controller
         {
             return back()->with('alert-failed', 'Data keuangan pasien tidak berhasil dihapus. Silahkan hubungi admin sistem!');
         }
+    }
+
+     public function downloadformat()
+    {
+       // $file = "FORMAT_EXCEL_KEUANGAN.xlsx";
+        // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        //     $writer->save('FORMAT_EXCEL_KEUANGAN.xlsx');
+        //     header('Content-Type: application/vnd.ms-excel');
+        //     header('Content-Disposition: attachment; filename="FORMAT_EXCEL_KEUANGAN.xlsx"');
+        //     $writer->save("php://output");
+        //     exit;
+        $file="FORMAT_EXCEL_KEUANGAN.xlsx";
+        return Response::download($file);
     }
 }

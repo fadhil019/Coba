@@ -77,15 +77,15 @@
                             </tr>
                             <tr>
                                 <td>IKU 2</td>
-                                <td>Rp. {{ number_format($data_upah_perawats[0]['iku_1'],2,",",".") }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['iku_2'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>IKI 2</td>
-                                <td>Rp. {{ number_format($data_upah_perawats[0]['iki_1'],2,",",".") }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['iki_2'],2,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>PM 2</td>
-                                <td>Rp. {{ number_format($data_upah_perawats[0]['pm_proses_1'],2,",",".") }}</td>
+                                <td>Rp. {{ number_format($data_upah_perawats[0]['pm_proses_2'],2,",",".") }}</td>
                             </tr>
                         </tbody>
                     </table>

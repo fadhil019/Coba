@@ -20,6 +20,7 @@
             <div class="row pt-2 mb-2">
                 <div class="col-sm-6">
                     <h1>Daftar keuangan pasien</h1>
+                    <p>Untuk contoh format excel yang dapat diproses sistem dapat didownload : <u><a href="{{ url('download_format') }}" id="downloadexcel">Format Excel</a></u></p>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -80,7 +81,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="Name">Berkas</label><br>
-                                        <input type="file" name="excel_data_keuangan_pasien" autofocus required>
+                                        <input type="file" name="excel_data_keuangan_pasien" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" autofocus required>
                                     </div>
                                     <div class="form-group">
                                         <label for="Nama">Periode</label>

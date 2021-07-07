@@ -28,7 +28,7 @@ class DokterController extends Controller
         $data_ruangans = $data_ruangan->SelectRuangan();
 
         $data_kategori_tindakan = new KategoriTindakan();
-        $data_kategori_tindakans = $data_kategori_tindakan->SelectKategoriTindakan();
+        $data_kategori_tindakans = $data_kategori_tindakan->SelectKategoriTindakanDokter();
 
         $data_bagians = ['Umum', 'Spesialis'];
         return view('dokter.index', compact('data_dokters', 'data_ruangans', 'data_bagians', 'data_kategori_tindakans'));

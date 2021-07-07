@@ -47,7 +47,8 @@
                                             @foreach($data_kategori_datas as $data_kategori_data)
                                                 <option value="{{ $data_kategori_data}}" >{{ $data_kategori_data }}</option>
                                             @endforeach
-                                        </select>                                
+                                        </select>     
+                                        <!-- <input type="hidden" class="form-control" name="kategori_data" value="Penunjang" > -->                           
                                     </div>
                                     <div class="form-group">
                                         <label for="Nama">Proses</label>

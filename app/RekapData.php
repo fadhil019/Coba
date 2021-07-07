@@ -104,14 +104,14 @@ class RekapData extends Model
             ->where('proses_perhitungan.id_dokter', '=', $row->id_dokter)
             ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
-
-            
+            //dd($data_proses_perhitungan_id_dokter);
+            $j=0;
             foreach($data_proses_perhitungan_id_dokter as $row_perhitungan){
                 $ruangan = Ruangan::find($row_perhitungan->id_ruangan);
                 $hasil[$i]['tmp_ruangan'][$row_perhitungan->id_proses_perhitungan]= $row_perhitungan->jumlah_jp;
-                $hasil[$i]['ruangan'][$ruangan->nama_ruangan][$row_perhitungan->ket_kategori] = $row_perhitungan->jumlah_jp;
+                $hasil[$i]['ruangan'][$row_perhitungan->id_proses_perhitungan][$ruangan->nama_ruangan][$row_perhitungan->ket_kategori] = $row_perhitungan->jumlah_jp;
             }
-
+            //dd();
             if(isset($row->id_kategori_tindakan))
             {
                 $data_proses_perhitungan_id_kat_dokter = DB::table('proses_perhitungan')
@@ -165,7 +165,7 @@ class RekapData extends Model
             ->join('kategori_tindakan', 'kategori_tindakan.id_kategori_tindakan', '=', 'proses_perhitungan.id_kategori_tindakan')
             ->join('ruangan', 'ruangan.id_ruangan', '=', 'proses_perhitungan.id_ruangan')
             ->where('transaksi.id_periode', '=', $id)
-            ->where('proses_perhitungan.id_kategori_tindakan', '=', 29)
+            ->where('proses_perhitungan.id_kategori_tindakan', '=', $id_kt)
             ->where('proses_perhitungan.proses', '=', 'Ke 4')
             ->get();
         $tmp_total =0;
@@ -513,7 +513,7 @@ class RekapData extends Model
             }
             $index++;
         }
-        // dd($hasil);
+        //dd($hasil);
         // admin rekam medis = adm proses k4
         // admin umum = (sum(data_keuangan) * 0.05)
         // admin stuktural = (sum(data_keuangan) * 0.1)

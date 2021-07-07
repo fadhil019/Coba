@@ -67,13 +67,15 @@
                         <tbody>
                             @if(isset($rekap_data_dokters[0]['ruangan']))
                                 @foreach($rekap_data_dokters[0]['ruangan'] as $row => $val)
+                                @foreach($val as $val1 => $val2)
+                                @foreach($val2 as $val3 => $val4)
                                     <tr>
-                                        <td>{{ $row }}</td> 
-                                        @foreach($val as $val1 => $val2)                            
-                                        <td>{{ $val1 }}</td>
-                                        <td>Rp. {{ number_format($val2,2,",",".") }}</td>
-                                        @endforeach
+                                        <td>{{ $val1 }}</td> 
+                                        <td>{{ $val3 }}</td>
+                                        <td>Rp.{{ number_format($val4,2,",",".") }}</td>
                                     </tr>
+                                @endforeach
+                                @endforeach
                                 @endforeach
                             @endif
                             @if(isset($rekap_data_dokters[0]['nama_kategori_tindakan']))

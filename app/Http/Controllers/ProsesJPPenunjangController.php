@@ -93,6 +93,7 @@ class ProsesJPPenunjangController extends Controller
     {
         $hasil = [];
         // $id_periode = 14;
+        $proses1 = DB::delete('delete from proses_jp_penunjang where id_periode = '.$id_periode);
         $rekap_data = new RekapData();
         $rekap_datas = $rekap_data->tampungJTL($id_periode);
         $data_penunjangs = DB::table('proses_perhitungan')
@@ -108,17 +109,17 @@ class ProsesJPPenunjangController extends Controller
             ->get();
 
         foreach($data_penunjangs as $row) {
-            if($row->id_kategori_tindakan == null) {
-                $hasil['JASPEL']['GIZI'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
-                $hasil['PM']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.15;
-                $hasil['IKU']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.55;
-                $hasil['IKI']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.3;
-            } else {
+            // if($row->id_kategori_tindakan == null) {
+            //     $hasil['JASPEL']['GIZI'] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
+            //     $hasil['PM']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.15;
+            //     $hasil['IKU']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.55;
+            //     $hasil['IKI']['GIZI'] = $hasil['JASPEL']['GIZI'] * 0.3;
+            // } else {
                 $hasil['JASPEL'][$row->id_kategori_tindakan] = $row->total + $rekap_datas['JTL'][0]['upah_jasa'];
                 $hasil['PM'][$row->id_kategori_tindakan] = $hasil['JASPEL'][$row->id_kategori_tindakan] * 0.15;
                 $hasil['IKU'][$row->id_kategori_tindakan] = $hasil['JASPEL'][$row->id_kategori_tindakan] * 0.55;
                 $hasil['IKI'][$row->id_kategori_tindakan] = $hasil['JASPEL'][$row->id_kategori_tindakan] * 0.3;
-            }
+            // }
         }
         //dd($hasil);
 
@@ -158,14 +159,14 @@ class ProsesJPPenunjangController extends Controller
                 ->first();
 
             if($karyawan_penunjangs->nama_kategori_tindakan == "GIZI") {
-                $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil['IKU']['GIZI'];
-                $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil['IKI']['GIZI'];
+                $hasil_final[$row['ID']]['UANG IKU'] = $row['IKU'] / $total_iku * $hasil['IKU'][$karyawan_penunjangs->id_kategori_tindakan];
+                $hasil_final[$row['ID']]['UANG IKI'] = $row['IKI'] / $total_iki * $hasil['IKI'][$karyawan_penunjangs->id_kategori_tindakan];
                 if($row['PM'] == 0)
                 {
                     $hasil_final[$row['ID']]['UANG PM'] =0;
                 }
                 else{
-                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM']['GIZI'];       
+                $hasil_final[$row['ID']]['UANG PM'] = $row['PM'] / $total_pm * $hasil['PM'][$karyawan_penunjangs->id_kategori_tindakan];      
                 }
             } else {
                 $hasil_final[$row['ID']]['UANG IKU'] = ($row['IKU'] / $total_iku) * $hasil['IKU'][$karyawan_penunjangs->id_kategori_tindakan];

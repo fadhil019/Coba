@@ -20,7 +20,7 @@ class VariableRumusController extends Controller
     public function index()
     {
         $data_kategori_tindakan = new KategoriTindakan();
-        $data_kategori_tindakans = $data_kategori_tindakan->SelectKategoriTindakan();
+        $data_kategori_tindakans = $data_kategori_tindakan->SelectKategoriTindakanRumus();
 
         $show_varieble_rumus = new VariableRumus();
         $show_varieble_rumuss = $show_varieble_rumus->SelectVariableRumus();

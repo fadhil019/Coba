@@ -207,6 +207,7 @@ class ProsesJPAdminController extends Controller
 
         $hasil = [];
         // $id_periode = 14;
+        $proses1 = DB::delete('delete from proses_jp_admin where id_periode = '.$id_periode);
         $rekap_data = new RekapData();
         $rekap_datas = $rekap_data->tampungJTL($id_periode);
 
@@ -225,7 +226,31 @@ class ProsesJPAdminController extends Controller
             $hasil['ADM']['IKU'] = $hasil['ADM']['JASPEL'] * 0.5;
             $hasil['ADM']['IKI'] = $hasil['ADM']['JASPEL'] * 0.4;
         }
-
+        //dd($hasil);
+        // $rekap_data_admin_remu = new RekapData();
+        // $rekap_data_admin_remus = $rekap_data_admin_remu->SelectRekapDataAdminRemuPerPeriode($id_periode);
+        // dd($rekap_data_admin_remus);
+        // for ($i=0; $i < count($rekap_data_admin_remus); $i++){
+        //     if ($rekap_data_admin_remus[$i]['nama_kategori'] == "Admin umum") {
+        //         $hasil['UMUM']['JASPEL'] = $rekap_data_admin_remus[$i]['upah_jasa'] * 0.05 + $rekap_datas['JTL'][0]['upah_jasa'];
+        //         $hasil['UMUM']['PM'] = $hasil['UMUM']['JASPEL'] * 0.1;
+        //         $hasil['UMUM']['IKU'] = $hasil['UMUM']['JASPEL'] * 0.5;
+        //         $hasil['UMUM']['IKI'] = $hasil['UMUM']['JASPEL'] * 0.4;
+        //     }
+        //     elseif ($rekap_data_admin_remus[$i]['nama_kategori'] == "Struktural") {
+        //         $hasil['STRUKTURAL']['JASPEL'] = $rekap_data_admin_remus[$i]['upah_jasa'] * 0.1 + $rekap_datas['JTL'][0]['upah_jasa'];
+        //         $hasil['STRUKTURAL']['PM'] = $hasil['STRUKTURAL']['JASPEL'] * 0.1;
+        //         $hasil['STRUKTURAL']['IKU'] = $hasil['STRUKTURAL']['JASPEL'] * 0.5;
+        //         $hasil['STRUKTURAL']['IKI'] = $hasil['STRUKTURAL']['JASPEL'] * 0.4;
+        //     }
+        //     else{
+        //         $hasil['REKAM']['JASPEL'] = $rekap_data_admin_remus[$i]['upah_jasa'] * 0.1 + $rekap_datas['JTL'][0]['upah_jasa'];
+        //         $hasil['REKAM']['PM'] = $hasil['REKAM']['JASPEL'] * 0.1;
+        //         $hasil['REKAM']['IKU'] = $hasil['REKAM']['JASPEL'] * 0.5;
+        //         $hasil['REKAM']['IKI'] = $hasil['REKAM']['JASPEL'] * 0.4;
+        //     }
+        // }
+        
         $data_keuangan_pasien = DB::table('data_keuangan_pasien')
             ->where('id_periode', $id_periode)
             ->select('*', DB::raw('SUM(nominal_uang) as total'))
@@ -245,7 +270,7 @@ class ProsesJPAdminController extends Controller
             $hasil['UMUM']['IKU'] = $hasil['UMUM']['JASPEL'] * 0.5;
             $hasil['UMUM']['IKI'] = $hasil['UMUM']['JASPEL'] * 0.4;
         }
-
+        //dd($hasil);
         $hasil_final = [];
         $admins = DB::table('karyawan_admin')
             ->join('point_karyawan', 'point_karyawan.id_karyawan_admin', 'karyawan_admin.id_karyawan_admin')
@@ -273,11 +298,17 @@ class ProsesJPAdminController extends Controller
             $total_iki += $hasil_final[$row->id_karyawan_admin]['IKI'];
             $total_pm += $hasil_final[$row->id_karyawan_admin]['PM'];
         }
-
+        //dd($hasil_final);
         foreach($hasil_final as $row) {
-            $index = "ADM";
-            if($row['BAGIAN'] == "Struktural") {
+            
+             if($row['BAGIAN'] == "Struktural") {
                 $index = "STRUKTURAL";
+            }
+            elseif ($row['BAGIAN'] == "Admin rekam medis") {
+                $index = "ADM";
+            }
+            else{
+                $index = "UMUM";
             }
 
             if($row['IKU'] != 0) {
@@ -302,7 +333,7 @@ class ProsesJPAdminController extends Controller
             }
             
         }
-
+        //dd($hasil_final);
         foreach($hasil_final as $row) {
             $proses_hitung_jp_admin = new ProsesJPAdmin();
             $proses_hitung_jp_admin->iku = round($hasil_final[$row['ID']]['UANG IKU']);
@@ -315,7 +346,7 @@ class ProsesJPAdminController extends Controller
             $proses_hitung_jp_admin->save();
         }
 
-        // dd($hasil_final);
+        
         return redirect('daftar_upah_karyawan_admin/'.$id_periode)->with('alert-success', 'Proses perhitungan telah berhasil!');
     }
 

@@ -218,7 +218,7 @@ class ProsesPerhitunganController extends Controller
             foreach($data_pasiens as $row) {
                 $cek_data_proses_perhitungan = DB::table('proses_perhitungan')
                 ->where('id_transaksi', '=', $row->id_transaksi)
-                ->where('id_ruangan', '=', '$id_ruangan')
+                ->where('id_ruangan', '=', $id_ruangan)
                 ->get();
                 if (isset($cek_data_proses_perhitungan)) {
 
@@ -231,9 +231,34 @@ class ProsesPerhitunganController extends Controller
                 }
         } 
 
-        $hasil = $this->proses_perhitungan_rawat_inap($id_periode, $id_ruangan);  
-        if ($hasil = "sukses") {
+        $hasil = $this->proses_perhitungan_rawat_inap($id_periode, $id_ruangan); 
+
+        if ($hasil == "sukses") {
+
             return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!'); 
+        }
+        else
+        {
+            foreach($data_pasiens as $row) {
+                $cek_data_proses_perhitungan = DB::table('proses_perhitungan')
+                ->where('id_transaksi', '=', $row->id_transaksi)
+                ->where('id_ruangan', '=', $id_ruangan)
+                ->get();
+                if (isset($cek_data_proses_perhitungan)) {
+
+                    $proses1 = DB::delete('delete from proses_perhitungan where id_ruangan = '.$id_ruangan.' and id_transaksi = '.$row->id_transaksi.' and ket_kategori not in ("gizi", "adm", "visite") ');
+
+                    $proses2 = DB::delete('delete from proses_perhitungan where id_ruangan = '.$id_ruangan.' and id_transaksi = '.$row->id_transaksi.' and proses not in ("ke 1") ');
+                }
+                else
+                {
+
+                }
+            } 
+            // dd('tidak');
+            // return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-error', 'Proses perhitungan gagal, karena ada ketidak samaan antara perhitungan ke 3 dan ke 4 pada pasien " '.$data_pasien_rj[0]->nama_pasien.' "!');
+
+            return back()->with('alert-failed', 'MAAF PROSES PERHITUNGAN TIDAK DAPAT DI PROSES. PERMASALAHAN BERADA PADA RUMUS YANG DIPAKAI TIDAK BENAR');
         }
         
             
@@ -241,6 +266,65 @@ class ProsesPerhitunganController extends Controller
             return $e->getMessage();
         }
 
+    }
+
+    public function cek_proses_perhitungan_rawat_jalan($id_periode, $id_ruangan) {
+        try {
+            $data_pasien = new DataPasien();
+            $data_pasiens = $data_pasien->SelectDataPasienRawatJalan($id_periode, $id_ruangan);
+
+            foreach($data_pasiens as $row) {
+                $cek_data_proses_perhitungan = DB::table('proses_perhitungan')
+                ->where('id_transaksi', '=', $row->id_transaksi)
+                ->where('id_ruangan', '=', $id_ruangan)
+                ->get();
+
+                if (isset($cek_data_proses_perhitungan)) {
+
+                    $proses1 = DB::delete('delete from proses_perhitungan where id_ruangan = '.$id_ruangan.' and id_transaksi = '.$row->id_transaksi);
+                }
+                else
+                {
+                }
+            } 
+        $hasil = $this->proses_perhitungan_rawat_jalan($id_periode, $id_ruangan);  
+
+
+        if ($hasil == "sukses") {
+
+            return redirect('show_proses_perhitungan_rawat_jalan/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');
+        }
+        else
+        {
+            foreach($data_pasiens as $row) {
+                 $cek_data_proses_perhitungan = DB::table('proses_perhitungan')
+                ->where('id_transaksi', '=', $row->id_transaksi)
+                ->where('id_ruangan', '=', $id_ruangan)
+                ->get();
+
+                if (isset($cek_data_proses_perhitungan)) {
+
+                    $proses1 = DB::delete('delete from proses_perhitungan where id_ruangan = '.$id_ruangan.' and id_transaksi = '.$row->id_transaksi);
+                }
+                else
+                {
+                }
+            } 
+            // dd('tidak');
+            // return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-error', 'Proses perhitungan gagal, karena ada ketidak samaan antara perhitungan ke 3 dan ke 4 pada pasien " '.$data_pasien_rj[0]->nama_pasien.' "!');
+
+            return back()->with('alert-failed', 'MAAF PROSES PERHITUNGAN TIDAK DAPAT DI PROSES. PERMASALAHAN BERADA PADA RUMUS YANG DIPAKAI TIDAK BENAR');
+        }
+
+        
+        if ($hasil = "sukses") {
+            
+        }
+        
+            
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
 
@@ -259,6 +343,8 @@ class ProsesPerhitunganController extends Controller
 
             $proses_perhitungan = new ProsesPerhitungan;
 
+            $flags=0;
+
             foreach($data_pasiens as $row) {
 
                 $biaya_adm = $proses_perhitungan->ShowAdmPasien($row->id_transaksi);
@@ -271,7 +357,7 @@ class ProsesPerhitunganController extends Controller
 
                 $data_tindakan_pasien = new DataTindakanPasien();
                 $data_tindakan_pasiens = $data_tindakan_pasien->SelectDataTindakanPasien($row->id_transaksi);
-                
+                //dd($data_tindakan_pasiens);
                 foreach ($data_tindakan_pasiens as $row_dtp) {
                     if($row_dtp->deskripsi_tindakan == "Administrasi Pasien IGD") {
                         $dokter = DB::table('dokter')->where('nama_dokter', '=', $row_dtp->nama_dokter_perawat)->first();
@@ -285,7 +371,7 @@ class ProsesPerhitunganController extends Controller
                             ->join('ruangan', 'karyawan_perawat.id_ruangan', '=', 'ruangan.id_ruangan')
                             ->where('karyawan_perawat.nama', '=', $row_dtp->nama_dokter_perawat)
                             ->first();
-                        
+                        //dd($row_dtp->id_kategori_tindakan);
                         if($karyawan_perawats == null) {
                             // kategori tindakan lainnya
                             // $hasil[$row->id_transaksi]['Ke 1']['detail_kategori_tindakan'][$row_dtp->id_kategori_tindakan] = $row_dtp->jp;
@@ -317,8 +403,20 @@ class ProsesPerhitunganController extends Controller
                         }
                     }
                 }
+                $coba=[];
+                $kategori_buangan = DB::table('kategori_tindakan')->get();
+                $jj=0;
+                foreach ($kategori_buangan as $valuess) {
+                    if (!isset($hasil[$row->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$valuess->id_kategori_tindakan]) && $valuess->nama != "GIZI") {
+                         $hasil[$row->id_transaksi]['Ke 1']['hasil_kategori_tindakan'][$valuess->id_kategori_tindakan] = 0;
+                    }
+                }
                 
-                $ruangans = DB::table('ruangan')->get();
+                //dd($hasil);
+                $ruangans = DB::table('ruangan')
+                    ->where('kategori_ruangan', '=', 'Rawat Inap' )
+                    ->orwhere('kategori_ruangan', '=', 'IGD' )
+                    ->get();
 
                 foreach($ruangans as $ruangan) {
                     $index = 'perawat_' . $ruangan->nama_ruangan;
@@ -396,6 +494,7 @@ class ProsesPerhitunganController extends Controller
                         if(ucfirst($hasil_1) != null && ucfirst($hasil_1) != "")
                         {
                             $k_tindakan = DB::table('kategori_tindakan')->where('id_kategori_tindakan', ucfirst($hasil_1))->first();
+
                             if($k_tindakan->tahapan_proses == "Semua" || $k_tindakan->tahapan_proses == "Proses 3") {
                                 $proses_perhitungan = new ProsesPerhitungan();
                                 $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
@@ -409,6 +508,7 @@ class ProsesPerhitunganController extends Controller
                                 $proses_perhitungan->updated_at = now();
                                 $proses_perhitungan->save();
                             }
+
                         } else {
                             $proses_perhitungan = new ProsesPerhitungan();
                             $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
@@ -609,12 +709,13 @@ class ProsesPerhitunganController extends Controller
                 }
                 
                 $hasil[$row->id_transaksi]['Ke 2']['total'] = $tmp_total_ke_2;
-
                 // proses ke 3
                 $data_value_keuangan = DB::table('data_keuangan_pasien')
                 ->where('no_sep_keuangan_pasien', '=', $row->no_sep)
                 ->first();
                 $tmp_total_ke_3 = 0;
+                //$hasil[$row->id_transaksi]['Ke 3']['total_nominal']=$data_value_keuangan->nominal_uang;
+                //dd($hasil[$row->id_transaksi]['Ke 3']['nominal_keuangan']);
                 $hasil[$row->id_transaksi]['Ke 3']['adm']['adm'] = $hasil[$row->id_transaksi]['Ke 2']['adm']['adm'] * $data_value_keuangan->nominal_uang;
                 $tmp_total_ke_3 += $hasil[$row->id_transaksi]['Ke 2']['adm']['adm'] * $data_value_keuangan->nominal_uang;
                 $proses_perhitungan = new ProsesPerhitungan();
@@ -743,20 +844,42 @@ class ProsesPerhitunganController extends Controller
                 $list_variable['ADM'][] = "adm|adm";
                 $list_variable['GIZI'][] = "gizi|gizi";
 
-                $ruangans = DB::table('ruangan')->get();
+                $ruangans = DB::table('ruangan')
+                    ->where('kategori_ruangan', '=', 'Rawat Inap' )
+                    ->orwhere('kategori_ruangan', '=', 'IGD' )
+                    ->get();
+
                 foreach($ruangans as $ruangan) {
                     $list_variable['PERAWAT ' . strtoupper($ruangan->nama_ruangan)][] = "perawat_" . $ruangan->nama_ruangan;
                 }
                 
-                foreach($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                
+                // foreach($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                //     $data_kategori_tindakan = new KategoriTindakan();
+                //     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
+
+                //     if($data_kategori_tindakans != null) {
+                //         $list_variable[$data_kategori_tindakans->nama][] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
+                //     }
+                // }
+
+                $kat_semua = DB::table('kategori_tindakan')
+                    ->whereNotIn('nama',  ['GIZI'])
+                    ->where('tahapan_proses', '=', 'Semua')
+                    ->orwhere('tahapan_proses', '=', 'Proses 4')
+                    ->get();
+
+                // $kat_semua = DB::table('select * FROM kategori_tindakan where tahapan_proses in ("Semua","Proses 4") and nama not in ("gizi") ')->get();
+                //dd($kat_semua);
+                foreach($kat_semua as $hasil_1) {
                     $data_kategori_tindakan = new KategoriTindakan();
-                    $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
+                    $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan($hasil_1->id_kategori_tindakan);
 
                     if($data_kategori_tindakans != null) {
                         $list_variable[$data_kategori_tindakans->nama][] = "hasil_kategori_tindakan|" . $data_kategori_tindakans->nama;
                     }
                 }
-                
+                //dd($list_variable);
                 if(isset($hasil[$row->id_transaksi]['Ke 3']['dokter'])) {
                     foreach($hasil[$row->id_transaksi]['Ke 3']['dokter'] as $hasil_1 => $val) {
                         $list_variable["DOKTER IGD"][] = "dokter|" . $hasil_1;
@@ -836,21 +959,21 @@ class ProsesPerhitunganController extends Controller
                 //     $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4']['detail_kategori_tindakan'][ucfirst($hasil_1)];
                 // }
 
-                foreach($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
+                foreach($kat_semua as $hasil_1) {
                     $data_kategori_tindakan = new KategoriTindakan();
-                    $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan(ucfirst($hasil_1));
+                    $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan($hasil_1->id_kategori_tindakan);
 
                     if($data_kategori_tindakans != null) {
                         if($data_kategori_tindakans->tahapan_proses != "Proses 3") {
-                            $hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, $data_kategori_tindakans->nama);
-                            $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)];
+                            $hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$hasil_1->id_kategori_tindakan] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, $data_kategori_tindakans->nama);
+                            $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$hasil_1->id_kategori_tindakan];
                             $proses_perhitungan = new ProsesPerhitungan();
                             $proses_perhitungan->ket_kategori = 'KATEGORI TINDAKAN';
                             $proses_perhitungan->proses = 'Ke 4';
-                            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][ucfirst($hasil_1)]);
+                            $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['hasil_kategori_tindakan'][$hasil_1->id_kategori_tindakan]);
                             $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                             $proses_perhitungan->id_transaksi = $row->id_transaksi;
-                            $proses_perhitungan->id_kategori_tindakan = ucfirst($hasil_1);
+                            $proses_perhitungan->id_kategori_tindakan = $hasil_1->id_kategori_tindakan;
                             $proses_perhitungan->id_ruangan = $id_ruangan;
                             $proses_perhitungan->created_at = now();
                             $proses_perhitungan->updated_at = now();
@@ -906,25 +1029,44 @@ class ProsesPerhitunganController extends Controller
                 //     $delete_proses_part_2 = DB::select("DELETE FROM `proses_perhitungan` WHERE proses <> 'Ke 1'");
                 //     return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-error', 'Proses perhitungan gagal, karena ada ketidak samaan antara perhitungan ke 3 dan ke 4 pada pasien " '.$data_pasien_rj[0]->nama_pasien.' "!');
                 // }
+                // dd($hasil[$row->id_transaksi]['Ke 3']['total']);
+                if(round($hasil[$row->id_transaksi]['Ke 4']['total']) != round($hasil[$row->id_transaksi]['Ke 3']['total']) ){
+                    $flags = 1;
+                }
+                else{
+                    $flags = 0;
+                }
+
+            }
+            //dd($hasil);
+
+            if($flags == 0)
+            {
+                return "sukses";
+            }
+            else
+            {
+                return "tidak sukses";
             }
             
-            return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');   
-            // return "sukses";            
+            // return redirect('show_proses_perhitungan_rawat_inap/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');   
+            //return "sukses";            
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
     public function hitung_rumus($hasil, $list_variable, $variable_kategori) {
-        //cari terlebih dahulu rumusdaru variabel yang akan dilakukan proses perhitungna ke 4
+        try {
+            //cari terlebih dahulu rumusdaru variabel yang akan dilakukan proses perhitungna ke 4
         $rumus = DB::table('variable_rumus')->where("nama_variabel", "=", $variable_kategori)->first();
+        //dd($rumus);
         if($rumus == null) {
             $hasil_perhitungan = 0;
         } else {
 
             //mengambil data rumus saya
-            $rumus = $rumus->rumus;
-
+            $rumus = $rumus->rumus;   
             //menghapus kurung kurng awal misal {{ LAB }} * 50% jadi LAB * 50%
             $rumus = str_replace("{{", "", $rumus);
             $rumus = str_replace("}}", "", $rumus);
@@ -963,12 +1105,14 @@ class ProsesPerhitunganController extends Controller
                         }
                     }
                 }
+                //dd($nama_variable);
             }
 
             foreach($list_variable as $nama_variable => $value) {
                 $rumus = str_replace(" " . $nama_variable . " ", "0", $rumus);
             }
-            
+
+            //dd($rumus);
             //ini proses penjumlahan
             $rumus = str_replace(" ", "", $rumus);
             $rumus = str_replace("*", " * ", $rumus);
@@ -979,9 +1123,14 @@ class ProsesPerhitunganController extends Controller
 
             //ini langsung memproses data yang ada di rumus
             $hasil_perhitungan = eval("return " . $rumus . ";");
+            //dd($hasil_perhitungan);
         }
 
         return $hasil_perhitungan;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        
     }
 
     public function show_proses_perhitungan_rawat_inap($id_periode, $id_ruangan) {
@@ -1005,6 +1154,7 @@ class ProsesPerhitunganController extends Controller
 
         $cekproses = DB::table('proses_perhitungan')
         ->where('id_ruangan', '=', $id_ruangan)
+        ->where('proses', '=', 'Ke 4')
         ->first();
 
         if($cekproses != null)
@@ -1045,7 +1195,7 @@ class ProsesPerhitunganController extends Controller
         $data_pasiens = $data_pasien->SelectDataPasienRawatJalan($id_periode, $id_ruangan);
 
         $hasil = [];
-
+        $flags=0;
         $proses_perhitungan = new ProsesPerhitungan;
 
         foreach($data_pasiens as $row) {
@@ -1059,6 +1209,11 @@ class ProsesPerhitunganController extends Controller
 
             $data_tindakan_pasien = new DataTindakanPasien();
             $data_tindakan_pasiens = $data_tindakan_pasien->SelectDataTindakanPasien($row->id_transaksi);
+
+            $data_ruangan_pasien = DB::table('ruangan')
+                ->where('id_ruangan', '=', $id_ruangan)
+                ->first();
+            $index = 'perawat_' . $data_ruangan_pasien->nama_ruangan;
 
             foreach ($data_tindakan_pasiens as $row_dtp) {
                 $hasil[$row->id_transaksi]['Ke 1']['detail_tindakan'][$row_dtp->id_data_tindakan_pasien] = $row_dtp->jp;
@@ -1088,18 +1243,18 @@ class ProsesPerhitunganController extends Controller
                                 }
                                 else
                                 {
-                                    if(!isset($hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'])) {
-                                    $hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'] = $row_dtp->jp;
+                                    if(!isset($hasil[$row->id_transaksi]['Ke 1'][$index])) {
+                                    $hasil[$row->id_transaksi]['Ke 1'][$index] = $row_dtp->jp;
                                     $hasil[$row->id_transaksi]['Ke 1']['total'] += $row_dtp->jp;
                                     } else {
-                                        $hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'] += $row_dtp->jp;
+                                        $hasil[$row->id_transaksi]['Ke 1'][$index] += $row_dtp->jp;
                                         $hasil[$row->id_transaksi]['Ke 1']['total'] += $row_dtp->jp;
                                     }
                                 }
                             } else {
                             }
                         } else {
-                            $hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'] = 0;
+                            $hasil[$row->id_transaksi]['Ke 1'][$index] = 0;
                             $hasil[$row->id_transaksi]['Ke 1']['total'] += 0;
                         }
                     }
@@ -1119,11 +1274,31 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->updated_at = now();
             $proses_perhitungan->save();
 
-            if(isset($hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'])) {
+            // foreach($ruangans as $ruangan) {
+            //         $index = 'perawat_' . $ruangan->nama_ruangan;
+
+            //         $proses_perhitungan = new ProsesPerhitungan();
+            //         $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
+            //         $proses_perhitungan->proses = 'Ke 1';
+            //         $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1'][$index];
+            //         $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
+            //         $proses_perhitungan->id_transaksi = $row->id_transaksi;
+            //         $proses_perhitungan->id_ruangan = $id_ruangan;
+            //         $proses_perhitungan->created_at = now();
+            //         $proses_perhitungan->updated_at = now();
+            //         $proses_perhitungan->save();
+            // }
+
+            $data_ruangan_pasien = DB::table('ruangan')
+                ->where('id_ruangan', '=', $id_ruangan)
+                ->first();
+            $index = 'perawat_' . $data_ruangan_pasien->nama_ruangan;
+            //dd($data_ruangan_pasien->nama_ruangan);
+            if(isset($hasil[$row->id_transaksi]['Ke 1'][$index])) {
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'TINDAKAN';
+                $proses_perhitungan->ket_kategori = 'PERAWAT '.$data_ruangan_pasien->nama_ruangan;
                 $proses_perhitungan->proses = 'Ke 1';
-                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'];
+                $proses_perhitungan->jumlah_jp = $hasil[$row->id_transaksi]['Ke 1'][$index];
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1184,13 +1359,15 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->updated_at = now();
             $proses_perhitungan->save();
 
-            if(isset($hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'])) {
-                $hasil[$row->id_transaksi]['Ke 2']['hasil_tindakan'] = $hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'] / $hasil[$row->id_transaksi]['Ke 1']['total'];
-                $tmp_total_ke_2 += $hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'] / $hasil[$row->id_transaksi]['Ke 1']['total'];
+
+
+            if(isset($hasil[$row->id_transaksi]['Ke 1'][$index])) {
+                $hasil[$row->id_transaksi]['Ke 2'][$index] = $hasil[$row->id_transaksi]['Ke 1'][$index] / $hasil[$row->id_transaksi]['Ke 1']['total'];
+                $tmp_total_ke_2 += $hasil[$row->id_transaksi]['Ke 1'][$index] / $hasil[$row->id_transaksi]['Ke 1']['total'];
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'TINDAKAN';
+                $proses_perhitungan->ket_kategori = 'PERAWAT '.$data_ruangan_pasien->nama_ruangan;
                 $proses_perhitungan->proses = 'Ke 2';
-                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2']['hasil_tindakan'],6);
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 2'][$index],6);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1266,13 +1443,13 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->updated_at = now();
             $proses_perhitungan->save();
 
-            if(isset($hasil[$row->id_transaksi]['Ke 1']['hasil_tindakan'])) {
-                $hasil[$row->id_transaksi]['Ke 3']['hasil_tindakan'] = $hasil[$row->id_transaksi]['Ke 2']['hasil_tindakan'] * $data_value_keuangan->nominal_uang;
-                $tmp_total_ke_3 += $hasil[$row->id_transaksi]['Ke 2']['hasil_tindakan'] * $data_value_keuangan->nominal_uang;
+            if(isset($hasil[$row->id_transaksi]['Ke 1'][$index])) {
+                $hasil[$row->id_transaksi]['Ke 3'][$index] = $hasil[$row->id_transaksi]['Ke 2'][$index] * $data_value_keuangan->nominal_uang;
+                $tmp_total_ke_3 += $hasil[$row->id_transaksi]['Ke 2'][$index] * $data_value_keuangan->nominal_uang;
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'TINDAKAN';
+                $proses_perhitungan->ket_kategori = 'PERAWAT '.$data_ruangan_pasien->nama_ruangan;
                 $proses_perhitungan->proses = 'Ke 3';
-                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3']['hasil_tindakan']);
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 3'][$index]);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1324,7 +1501,7 @@ class ProsesPerhitunganController extends Controller
 
             // list variable rumus 
             $list_variable['ADM'][] = "adm|adm";
-            $list_variable['HASIL TINDAKAN'][] = "hasil_tindakan|hasil_tindakan";
+            $list_variable['PERAWAT ' .$data_ruangan_pasien->nama_ruangan][]  = "perawat_" .$data_ruangan_pasien->nama_ruangan;
             if(isset($hasil[$row->id_transaksi]['Ke 1']['hasil_kategori_tindakan'])) {
                 foreach($hasil[$row->id_transaksi]['Ke 3']['hasil_kategori_tindakan'] as $hasil_1 => $val) {
                     $data_kategori_tindakan = new KategoriTindakan();
@@ -1343,6 +1520,7 @@ class ProsesPerhitunganController extends Controller
             }
 
             // proses ke 4
+            $index2='PERAWAT ' .$data_ruangan_pasien->nama_ruangan;
             $tmp_total_ke_4 = 0;
             $hasil[$row->id_transaksi]['Ke 4']['adm']['adm'] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, "ADM");
             $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4']['adm']['adm'];
@@ -1356,14 +1534,14 @@ class ProsesPerhitunganController extends Controller
             $proses_perhitungan->created_at = now();
             $proses_perhitungan->updated_at = now();
             $proses_perhitungan->save();
-
-            if(isset($hasil[$row->id_transaksi]['Ke 3']['hasil_tindakan'])) {
-                $hasil[$row->id_transaksi]['Ke 4']['hasil_tindakan'] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, "HASIL TINDAKAN");
-                $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4']['hasil_tindakan'];
+            
+            if(isset($hasil[$row->id_transaksi]['Ke 3'][$index])) {
+                $hasil[$row->id_transaksi]['Ke 4'][$index] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, $index2);
+                $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4'][$index];
                 $proses_perhitungan = new ProsesPerhitungan();
-                $proses_perhitungan->ket_kategori = 'TINDAKAN';
+                $proses_perhitungan->ket_kategori = 'PERAWAT '.$data_ruangan_pasien->nama_ruangan;
                 $proses_perhitungan->proses = 'Ke 4';
-                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4']['hasil_tindakan']);
+                $proses_perhitungan->jumlah_jp = round($hasil[$row->id_transaksi]['Ke 4'][$index]);
                 $proses_perhitungan->id_data_pasien = $row->id_data_pasien;
                 $proses_perhitungan->id_transaksi = $row->id_transaksi;
                 $proses_perhitungan->id_ruangan = $id_ruangan;
@@ -1417,12 +1595,27 @@ class ProsesPerhitunganController extends Controller
             }           
             
             $hasil[$row->id_transaksi]['Ke 4']['total'] = $tmp_total_ke_4;
+            if(round($hasil[$row->id_transaksi]['Ke 4']['total']) != round($hasil[$row->id_transaksi]['Ke 3']['total']) ){
+                $flags = 1;
+            }
+            else{
+                $flags = 0;
+            }
              
         }
 
+        if($flags == 0)
+            {
+                return "sukses";
+            }
+            else
+            {
+                return "tidak sukses";
+            }
+
         // dd($hasil);
 
-        return redirect('show_proses_perhitungan_rawat_jalan/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');
+        //return redirect('show_proses_perhitungan_rawat_jalan/'.$id_periode.'/'.$id_ruangan)->with('alert-success', 'Proses perhitungan telah berhasil!');
     }
 
     public function show_proses_perhitungan_rawat_jalan($id_periode, $id_ruangan) {
@@ -1434,12 +1627,16 @@ class ProsesPerhitunganController extends Controller
 
         $hasi = new ProsesPerhitungan();
         $hasil = $hasi->ShowProsesPerhitunganRawatJalan($id_periode, $id_ruangan); 
-        // dd($hasil);
+        //dd($hasil);
         $data_pasien = new DataPasien();
         $data_pasiens = $data_pasien->SelectDataPasienRawatJalan($id_periode, $id_ruangan);
         
         $id_periode = $id_periode;
         $id_ruangan = $id_ruangan;
+
+        $data_ruangan_pasien = DB::table('ruangan')
+        ->where('id_ruangan', '=', $id_ruangan)
+        ->first();
 
         $cekproses = DB::table('proses_perhitungan')
         ->where('id_ruangan', '=', $id_ruangan)
@@ -1447,7 +1644,7 @@ class ProsesPerhitunganController extends Controller
 
         if($cekproses != null)
         {
-            return view('proses_perhitungan.proses_perhitungan_rawat_jalan', compact('hasil', 'data_pasiens', 'data_dokters', 'data_kategori_tindakans', 'id_periode','id_ruangan')); 
+            return view('proses_perhitungan.proses_perhitungan_rawat_jalan', compact('hasil', 'data_pasiens', 'data_dokters', 'data_kategori_tindakans', 'id_periode','id_ruangan','data_ruangan_pasien')); 
         }
         else
         {
@@ -1467,6 +1664,11 @@ class ProsesPerhitunganController extends Controller
         $id_periode = $id_periode;
         $id_ruangan = $id_ruangan;
 
-        return view('proses_perhitungan.show_proses_perhitungan_rawat_jalan', compact('hasil', 'data_pasiens', 'id_periode','id_ruangan'));
+        $data_ruangan_pasien = DB::table('ruangan')
+        ->where('id_ruangan', '=', $id_ruangan)
+        ->first();
+        // $index = 'PERAWAT ' . $data_ruangan_pasien->nama_ruangan;
+        // dd($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index]);
+        return view('proses_perhitungan.show_proses_perhitungan_rawat_jalan', compact('hasil', 'data_pasiens', 'id_periode','id_ruangan','data_ruangan_pasien'));
     }
 }

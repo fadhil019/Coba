@@ -152,6 +152,7 @@ class ProsesJPPerawatController extends Controller
     // public function proses_upah_perawat($id_periode, $kategori_ruangan)
     public function proses_upah_perawat($id_periode)
     {
+        $proses1 = DB::delete('delete from proses_jp_perawat where id_periode = '.$id_periode);
         $hasil1 = [];
         $hasil2 = [];
         $rekap_data = new RekapData();
@@ -219,7 +220,7 @@ class ProsesJPPerawatController extends Controller
             }
             
         }}
-
+        //dd($hasil2);
         $hasil1_final = [];
         $hasil2_final = [];
         $perawats = DB::table('karyawan_perawat')
@@ -368,7 +369,7 @@ class ProsesJPPerawatController extends Controller
             $proses_hitung_jp_perawat->updated_at = now();
             $proses_hitung_jp_perawat->save();
         }
-        // dd($hasil1_final);
+        //dd($hasil2_final);
         return redirect('daftar_upah_karyawan_perawat/'.$id_periode)->with('alert-success', 'Proses perhitungan telah berhasil!'); 
     }
 

@@ -46,6 +46,7 @@
                             <th>Rumus</th>
                             <th>Keterangan</th>
                         </tr>
+                        <p>*Keterangan : Kolom nama dengan isi "DOKTER" merupakan untuk menambahkan rumus untuk dokter di bagian rawat jalan</p>
                     </tfoot>
                     <tbody>
                     @foreach($variable_kategori as $row)

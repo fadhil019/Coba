@@ -31,11 +31,12 @@
             <input type="hidden" value="{{ $no = 1 }}">
             <div class="card">
                 <div class="card-header">
-                    <div class="row pt-2 mb-2">
-                        <div class="col-sm-6">
-                            <h4>Proses perhitungan ke 1</h4>
-                        </div>
-                    </div>
+                    <!-- <div class="row pt-2 mb-2">
+                    <div class="col-sm-6"> -->
+                        <h3>Proses Perhitungan Penjumlahan Jasa Pelayanan Setaip Kategori</h3>
+                        <p>*Ketetangan : Proses perhitungan untuk mendapatkan jumlah upah jasa pelayanan <br>dari nominal tindakan yang termasuk pada setiap kategori tindakan.</p>
+                 <!--    </div>
+                </div> -->
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -59,11 +60,14 @@
                                 <td>ADM</td>
                                 <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['adm']['adm'],2,",",".") }}</td>
                             </tr>
-                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_tindakan']))
+                                    @php
+                                        $index = 'PERAWAT ' . $data_ruangan_pasien->nama_ruangan;
+                                    @endphp
+                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index]))
                                 <tr>
-                                    <td>TINDAKAN</td>
-                                    <td>TINDAKAN</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_tindakan'] }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 1'][$index],2,",",".") }}</td>
                                 </tr>
                             @endif
                             @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 1']['hasil_kategori_tindakan']))
@@ -95,11 +99,12 @@
             <input type="hidden" value="{{ $no = 1 }}">
             <div class="card">
                 <div class="card-header">
-                    <div class="row pt-2 mb-2">
-                        <div class="col-sm-6">
-                            <h4>Proses perhitungan ke 2</h4>
-                        </div>
-                    </div>
+                     <!-- <div class="row pt-2 mb-2">
+                    <div class="col-sm-6"> -->
+                        <h3>Proses Menghitunga Persentase Kontribusi Setiap Kategori atau Variabel</h3>
+                        <p>*Ketetangan : Proses perhitungan untuk mencari persentase dari setiap kategori atau variabel, <br>Variabel yang dipakai dalam perhitungan yaitu nominal dibagi dengna total. Contoh :  'nominal ADM / Total' </p>
+                   <!--  </div>
+                </div> -->
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -114,7 +119,7 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2">Total</th>
-                                <th>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['total'] }}</th>
+                                <th>{{ round($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['total']) * 100 }}%</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -123,11 +128,14 @@
                                 <td>ADM</td>
                                 <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['adm']['adm'] }}</td>
                             </tr>
-                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['hasil_tindakan']))
+                                    @php
+                                        $index = 'PERAWAT ' . $data_ruangan_pasien->nama_ruangan;
+                                    @endphp
+                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2'][$index]))
                                 <tr>
-                                    <td>TINDAKAN</td>
-                                    <td>TINDAKAN</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['hasil_tindakan'] }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 2'][$index],2,",",".") }}</td>
                                 </tr>
                             @endif
                             @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 2']['hasil_kategori_tindakan']))
@@ -159,11 +167,13 @@
             <input type="hidden" value="{{ $no = 1 }}">
             <div class="card">
                 <div class="card-header">
-                    <div class="row pt-2 mb-2">
-                        <div class="col-sm-6">
-                            <h4>Proses perhitungan ke 3</h4>
-                        </div>
-                    </div>
+                    <!-- <div class="row pt-2 mb-2">
+                    <div class="col-sm-6"> -->
+                       <h3>Proses Menghitung Nominal Rupiah Setiap Kategori.</h3>
+                       <p>*Keterangan : Pada proses ini akan mengguankan nominal pada setiap proses sebelumnya dikali dengan nominal keuangan pasien BPJS tersebut.
+                       <br>Pada pasien ini nominal keuangan BPJS adalah : Rp. {{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['total'],2,",",".") }}</p>
+                    <!-- </div>
+                </div> -->
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -187,11 +197,14 @@
                                 <td>ADM</td>
                                 <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['adm']['adm'],2,",",".") }}</td>
                             </tr>
-                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_tindakan']))
+                                    @php
+                                        $index = 'PERAWAT ' . $data_ruangan_pasien->nama_ruangan;
+                                    @endphp
+                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index]))
                                 <tr>
-                                    <td>TINDAKAN</td>
-                                    <td>TINDAKAN</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_tindakan'] }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 3'][$index],2,",",".") }}</td>
                                 </tr>
                             @endif
                             @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 3']['hasil_kategori_tindakan']))
@@ -224,11 +237,12 @@
             <input type="hidden" value="{{ $no = 1 }}">
             <div class="card">
                 <div class="card-header">
-                    <div class="row pt-2 mb-2">
-                        <div class="col-sm-6">
-                            <h4>Proses perhitungan ke 4</h4>
-                        </div>
-                    </div>
+                    <!-- <div class="row pt-2 mb-2">
+                    <div class="col-sm-6"> -->
+                        <h3>Proses Menghitung Upah Jasa Pelayanan Setiap Variabel atau Kategori</h3>
+                        <p>*Keterangan : Pada proses ini akan memproses perhitungan berdasarkan rumus yang telah ditambah oleh karaywan pada menu "Rumus-rumus".</p>
+                    <!-- </div>
+                </div> -->
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -252,11 +266,14 @@
                                 <td>ADM</td>
                                 <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['adm']['adm'],2,",",".") }}</td>
                             </tr>
-                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_tindakan']))
+                                    @php
+                                        $index = 'PERAWAT ' . $data_ruangan_pasien->nama_ruangan;
+                                    @endphp
+                            @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index]))
                                 <tr>
-                                    <td>TINDAKAN</td>
-                                    <td>TINDAKAN</td>
-                                    <td>{{ $hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_tindakan'] }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>PERAWAT {{ $data_ruangan_pasien->nama_ruangan }}</td>
+                                    <td>{{ number_format($hasil[$data_pasiens[0]->id_transaksi]['Ke 4'][$index],2,",",".") }}</td>
                                 </tr>
                             @endif
                             @if(isset($hasil[$data_pasiens[0]->id_transaksi]['Ke 4']['hasil_kategori_tindakan']))

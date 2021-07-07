@@ -27,7 +27,7 @@ class DataTindakanPasien extends Model
         ->select('*', 'data_tindakan_pasien.jp as jp', 'data_tindakan_pasien.nama_dokter_perawat as nama_dokter_perawat')
         ->orderby('data_tindakan_pasien.id_data_tindakan_pasien', 'ASC')
         ->get();
-        // dd($data_data_tindakan_pasien);
+        //dd($data_data_tindakan_pasien);
         return $data_data_tindakan_pasien;
     }
 

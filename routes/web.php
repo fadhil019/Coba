@@ -99,7 +99,8 @@ Route::get('proses_perhitungan_rawat_inap/{id_periode}/{id_ruangan}','ProsesPerh
 Route::get('show_proses_perhitungan_rawat_inap/{id_periode}/{id_ruangan}','ProsesPerhitunganController@show_proses_perhitungan_rawat_inap');
 Route::get('show_detail_proses_perhitungan_rawat_inap/{id_periode}/{id_ruangan}/{id_data_pasien}','ProsesPerhitunganController@show_detail_proses_perhitungan_rawat_inap');
 
-Route::get('proses_perhitungan_rawat_jalan/{id_periode}/{id_ruangan}','ProsesPerhitunganController@proses_perhitungan_rawat_jalan');
+Route::get('proses_perhitungan_rawat_jalan/{id_periode}/{id_ruangan}','ProsesPerhitunganController@cek_proses_perhitungan_rawat_jalan');
+
 Route::get('show_proses_perhitungan_rawat_jalan/{id_periode}/{id_ruangan}','ProsesPerhitunganController@show_proses_perhitungan_rawat_jalan');
 Route::get('show_detail_proses_perhitungan_rawat_jalan/{id_periode}/{id_ruangan}/{id_data_pasien}','ProsesPerhitunganController@show_detail_proses_perhitungan_rawat_jalan');
 
@@ -124,3 +125,6 @@ Route::get('daftar_rumus_kategori/{id}','VariableRumusController@daftar_rumus_ka
 
 //cetak pdf
 Route::get('cetak_pdf/{id}','RekapDataController@cetak_pdf');
+
+//download excel
+Route::get('download_format','DataKeuanganPasienController@downloadformat');

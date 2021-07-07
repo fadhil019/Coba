@@ -42,13 +42,31 @@ class Dashboard extends Model
                 }  
             }
 
+            $kategori_tindakan_dokter = DB::table('kategori_tindakan')
+            ->where('kategori_tindakan.kategori_data', '=', 'Tindakan khusus dokter')
+            ->orderby('kategori_tindakan.id_kategori_tindakan', 'ASC')
+            ->get();
+            foreach($kategori_tindakan_dokter as $row_dokter_kat){
+                $data_proses_perhitungan_ket_dokter = DB::table('proses_perhitungan')
+                ->join('data_pasien', 'data_pasien.id_data_pasien', '=', 'proses_perhitungan.id_data_pasien')
+                ->join('transaksi', 'transaksi.id_data_pasien', '=', 'data_pasien.id_data_pasien')
+                ->where('proses_perhitungan.id_kategori_tindakan', '=', $row_dokter_kat->id_kategori_tindakan)
+                ->where('transaksi.id_periode', '=', $row->id_periode)
+                ->where('proses_perhitungan.proses', '=', 'Ke 4')
+                ->get();
+                foreach($data_proses_perhitungan_ket_dokter as $row_perhitungan_kat_dokter){
+                    $tmp_total_pendapatan_dokter += $row_perhitungan_kat_dokter->jumlah_jp;
+                }  
+            }
+
+
+
             // ADMIN
             $data_keuangan_pasien = DB::table('data_keuangan_pasien')
                 ->where('id_periode', '=', $row->id_periode)
                 ->get();
 
             $tmp_total_pendapatan_admin = 0;
-            //INI YANG DIPAKAI UNTUK AMBIL DATA STRUKTURAL DAN ADMIN UMUM TAPI EROR KALAU DITAMBAH INI
             $rekap_data_admin_remu = new RekapData();
             $rekap_data_admin_remus = $rekap_data_admin_remu->SelectRekapDataAdminRemuPerPeriode($row->id_periode);
             for($index_admin=0; $index_admin < count($rekap_data_admin_remus); $index_admin++){
@@ -69,8 +87,10 @@ class Dashboard extends Model
 
             // PENUNJANG
             $kategori_tindakan = DB::table('kategori_tindakan')
+            ->where('kategori_tindakan.kategori_data', '=', 'Penunjang')
             ->orderby('kategori_tindakan.id_kategori_tindakan', 'ASC')
             ->get();
+            //dd($kategori_tindakan);
             $tmp_total_pendapatan_penunjang = 0;
             foreach($kategori_tindakan as $row_kategori_tindakan){
                 $data_proses_perhitungan_penunjang = DB::table('proses_perhitungan')
@@ -113,7 +133,7 @@ class Dashboard extends Model
                     $tmp_total_pendapatan_perawat += $row_perhitungan_perawat_ruangan->jumlah_jp;
                 }
             }
-
+            //dd($rekap_datas['JTL'][0]['upah_jasa']);
             $hasil['dokter'][$i] = $tmp_total_pendapatan_dokter;
             $hasil['admin'][$i] = $tmp_total_pendapatan_admin + $rekap_datas['JTL'][0]['upah_jasa'];
             $hasil['penunjang'][$i] = $tmp_total_pendapatan_penunjang;
