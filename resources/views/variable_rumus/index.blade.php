@@ -84,7 +84,7 @@
                                                 @foreach($variable_kategori as $row_ket)
                                                     {{ $row_ket }}<br>
                                                 @endforeach
-                                                @foreach($data_kategori_tindakans as $data_kategori_tindakan_ket)
+                                                @foreach($data_kategori_tindakan_detail as $data_kategori_tindakan_ket)
                                                     {{ $data_kategori_tindakan_ket->nama }}<br>
                                                 @endforeach
                                             </p>
@@ -177,7 +177,7 @@
                                                     @foreach($variable_kategori as $row)
                                                         {{ $row }}<br>
                                                     @endforeach
-                                                    @foreach($data_kategori_tindakans as $data_kategori_tindakan_ket)
+                                                    @foreach($data_kategori_tindakan_detail as $data_kategori_tindakan_ket)
                                                         {{ $data_kategori_tindakan_ket->nama }}<br>
                                                     @endforeach
                                                 </p>

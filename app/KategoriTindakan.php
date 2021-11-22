@@ -44,6 +44,16 @@ class KategoriTindakan extends Model
         return $kategori_tindakan;
     }
 
+    public function SelectKategoriTindakanDetail(){
+        $kategori_tindakan = DB::table('kategori_tindakan')
+        ->join('users', 'users.id_users', '=', 'kategori_tindakan.id_users')
+        ->where('kategori_tindakan.tahapan_proses', '=', 'Semua')
+        ->orwhere('kategori_tindakan.tahapan_proses', '=', 'Proses 3')
+        ->orderby('kategori_tindakan.id_kategori_tindakan', 'ASC')
+        ->get();
+        return $kategori_tindakan;
+    }
+
     public function ShowKategoriTindakan($id){
         $kategori_tindakan = DB::table('kategori_tindakan')
         ->join('users', 'users.id_users', '=', 'kategori_tindakan.id_users')

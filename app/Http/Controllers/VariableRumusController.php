@@ -21,6 +21,7 @@ class VariableRumusController extends Controller
     {
         $data_kategori_tindakan = new KategoriTindakan();
         $data_kategori_tindakans = $data_kategori_tindakan->SelectKategoriTindakanRumus();
+        $data_kategori_tindakan_detail = $data_kategori_tindakan->SelectKategoriTindakanDetail();
 
         $show_varieble_rumus = new VariableRumus();
         $show_varieble_rumuss = $show_varieble_rumus->SelectVariableRumus();
@@ -34,7 +35,7 @@ class VariableRumusController extends Controller
             $variable_kategori[] = "PERAWAT " . $row->nama_ruangan;
         }
 
-        return view('variable_rumus.index', compact('data_kategori_tindakans', 'show_varieble_rumuss', 'variable_kategori'));
+        return view('variable_rumus.index', compact('data_kategori_tindakans', 'show_varieble_rumuss', 'variable_kategori', 'data_kategori_tindakan_detail'));
     }
 
     public function daftar_rumus_kategori($id)

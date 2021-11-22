@@ -42,12 +42,12 @@
             </form>
             <!-- /.social-auth-links -->
 
-                <p class="mb-1">
+                <!-- <p class="mb-1">
                     Lupa Password?<a href="{{ url('/') }}"> klik disini</a>
                 </p>
                 <p class="mb-0">
                     Belum punya akun?<a href="{{ url('/') }}" class="text-center"> klik disini</a>
-                </p>
+                </p> -->
             </div>
             <!-- /.login-card-body -->
         </div>

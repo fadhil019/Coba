@@ -901,7 +901,7 @@ class ProsesPerhitunganController extends Controller
                 $tmp_total_ke_4 = 0;
 
                 $hasil[$row->id_transaksi]['Ke 4']['adm']['adm'] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, "ADM");
-                $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 3']['adm']['adm'];
+                $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4']['adm']['adm'];
                 
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'ADM';
@@ -919,7 +919,7 @@ class ProsesPerhitunganController extends Controller
                 ->first();
 
                 $hasil[$row->id_transaksi]['Ke 4']['gizi']['gizi'] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, "GIZI");
-                $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 3']['gizi']['gizi'];
+                $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4']['gizi']['gizi'];
                 $proses_perhitungan = new ProsesPerhitungan();
                 $proses_perhitungan->ket_kategori = 'GIZI';
                 $proses_perhitungan->proses = 'Ke 4';
@@ -937,7 +937,7 @@ class ProsesPerhitunganController extends Controller
                     $index2 = 'PERAWAT '.$ruangan->nama_ruangan;
 
                     $hasil[$row->id_transaksi]['Ke 4'][$index] = $this->hitung_rumus($hasil[$row->id_transaksi]['Ke 3'], $list_variable, $index2);
-                    $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 3'][$index];
+                    $tmp_total_ke_4 += $hasil[$row->id_transaksi]['Ke 4'][$index];
 
                     $proses_perhitungan = new ProsesPerhitungan();
                     $proses_perhitungan->ket_kategori = 'PERAWAT ' . $ruangan->nama_ruangan;
@@ -962,6 +962,7 @@ class ProsesPerhitunganController extends Controller
                 foreach($kat_semua as $hasil_1) {
                     $data_kategori_tindakan = new KategoriTindakan();
                     $data_kategori_tindakans = $data_kategori_tindakan->ShowKategoriTindakan($hasil_1->id_kategori_tindakan);
+                   
 
                     if($data_kategori_tindakans != null) {
                         if($data_kategori_tindakans->tahapan_proses != "Proses 3") {
@@ -978,6 +979,9 @@ class ProsesPerhitunganController extends Controller
                             $proses_perhitungan->created_at = now();
                             $proses_perhitungan->updated_at = now();
                             $proses_perhitungan->save();
+                            
+                        }
+                        else{
                         }
                     }
                 }
